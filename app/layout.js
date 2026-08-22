@@ -5,6 +5,13 @@ import Footer from '@/components/Footer';
 export const metadata = {
   title: 'McLoud Construction | Kansas City Remodeling & Commercial Buildouts',
   description: 'Quality work, honest communication. McLoud Construction serves homeowners and commercial clients across the Kansas City metro, including Missouri and Kansas.',
+  icons: {
+    icon: [
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
 };
 
 export default function RootLayout({ children }) {
