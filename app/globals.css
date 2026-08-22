@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Big Shoulders', sans-serif;
+  --font-body: 'Work Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #EDE7DA;
+  color: #1C1B19;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+::selection {
+  background: #9B773D;
+  color: #EDE7DA;
+}
+
+/* Visible keyboard focus everywhere */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #A8471F;
+  outline-offset: 3px;
+}
+
+/* Signature element: the field stamp — a rotated, slightly imperfect
+   inspection-stamp badge used sparingly at real trust moments. */
+.field-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  border: 1.5px solid currentColor;
+  border-radius: 9999px;
+  padding: 0.35em 0.9em;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+}
+
+/* Measurement tick rule — a dimension-line motif used as a section divider */
+.tick-rule {
+  position: relative;
+  height: 1px;
+  background: #8B8578;
+  opacity: 0.4;
+}
+.tick-rule::before,
+.tick-rule::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  width: 1px;
+  height: 9px;
+  background: #8B8578;
+}
+.tick-rule::before { left: 0; }
+.tick-rule::after { right: 0; }
+
+/* Subtle grid-paper texture, used only within bounded zones, not globally */
+.grid-paper {
+  background-image:
+    linear-gradient(rgba(28,27,25,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28,27,25,0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
