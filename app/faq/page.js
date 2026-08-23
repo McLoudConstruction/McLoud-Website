@@ -1,6 +1,19 @@
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
 
+export const metadata = {
+  title: 'Remodeling FAQ | McLoud Construction Kansas City',
+  description:
+    'Answers to common questions about McLoud Construction\u2019s service area, process, timelines, and licensing for Kansas City remodeling and buildout projects.',
+  alternates: { canonical: '/faq' },
+  openGraph: {
+    title: 'Remodeling FAQ | McLoud Construction Kansas City',
+    description:
+      'Answers to common questions about McLoud Construction\u2019s service area, process, timelines, and licensing for Kansas City remodeling and buildout projects.',
+    url: '/faq',
+  },
+};
+
 const FAQS = [
   {
     q: 'What areas do you serve?',

@@ -1,6 +1,19 @@
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
 
+export const metadata = {
+  title: 'Commercial Buildouts & Capital Improvements | McLoud',
+  description:
+    'Exterior repaints, retail and office buildouts, and multifamily amenity renovations for commercial property owners across the Kansas City metro.',
+  alternates: { canonical: '/commercial' },
+  openGraph: {
+    title: 'Commercial Buildouts & Capital Improvements | McLoud',
+    description:
+      'Exterior repaints, retail and office buildouts, and multifamily amenity renovations for commercial property owners across the Kansas City metro.',
+    url: '/commercial',
+  },
+};
+
 const GROUPS = [
   {
     label: 'Exteriors',

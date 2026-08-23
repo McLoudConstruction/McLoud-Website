@@ -1,6 +1,19 @@
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
 
+export const metadata = {
+  title: 'Kitchen & Bath Remodeling in Kansas City | McLoud',
+  description:
+    'Kitchen, bathroom, and whole-home remodeling for Kansas City metro homeowners, with hands-on craftsmanship and honest communication at every step.',
+  alternates: { canonical: '/residential' },
+  openGraph: {
+    title: 'Kitchen & Bath Remodeling in Kansas City | McLoud',
+    description:
+      'Kitchen, bathroom, and whole-home remodeling for Kansas City metro homeowners, with hands-on craftsmanship and honest communication at every step.',
+    url: '/residential',
+  },
+};
+
 const SERVICES = [
   {
     title: 'Kitchen Remodeling',

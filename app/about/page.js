@@ -2,6 +2,19 @@ import Image from 'next/image';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
 
+export const metadata = {
+  title: 'About McLoud Construction | Kansas City, MO & KS',
+  description:
+    'Locally owned and operated by Stachys and Isabelle McLoud, serving the Kansas City metro with honest communication and hands-on craftsmanship.',
+  alternates: { canonical: '/about' },
+  openGraph: {
+    title: 'About McLoud Construction | Kansas City, MO & KS',
+    description:
+      'Locally owned and operated by Stachys and Isabelle McLoud, serving the Kansas City metro with honest communication and hands-on craftsmanship.',
+    url: '/about',
+  },
+};
+
 export default function AboutPage() {
   return (
     <>

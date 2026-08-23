@@ -8,6 +8,12 @@
   --font-mono: 'IBM Plex Mono', monospace;
 }
 
+:root {
+  --font-display: 'Big Shoulders', sans-serif;
+  --font-body: 'Work Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
 html {
   scroll-behavior: smooth;
 }

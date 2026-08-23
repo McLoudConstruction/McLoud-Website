@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import ObfuscatedEmail from './ObfuscatedEmail';
 
 export default function Footer() {
   return (
@@ -26,7 +27,7 @@ export default function Footer() {
           <div>
             <div className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-brass">Get in Touch</div>
             <ul className="mt-4 space-y-2 font-body text-sm text-paper/80">
-              <li><a href="mailto:info@mcloudconstruction.com" className="hover:text-brass">info@mcloudconstruction.com</a></li>
+              <li><ObfuscatedEmail user="info" domain="mcloudconstruction.com" className="hover:text-brass" /></li>
               <li><Link href="/consultation" className="hover:text-brass">Schedule a Consultation</Link></li>
               <li className="text-paper/50">Monday to Friday, 8am to 5pm</li>
             </ul>

@@ -1,6 +1,19 @@
 import PageHero from '@/components/PageHero';
 import ConsultationForm from '@/components/ConsultationForm';
 
+export const metadata = {
+  title: 'Free Remodeling Estimate | McLoud Construction KC',
+  description:
+    'Schedule a free consultation with McLoud Construction. Tell us about your residential remodel or commercial buildout across the Kansas City metro.',
+  alternates: { canonical: '/consultation' },
+  openGraph: {
+    title: 'Free Remodeling Estimate | McLoud Construction KC',
+    description:
+      'Schedule a free consultation with McLoud Construction. Tell us about your residential remodel or commercial buildout across the Kansas City metro.',
+    url: '/consultation',
+  },
+};
+
 export default function ConsultationPage() {
   return (
     <>
