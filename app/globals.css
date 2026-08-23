@@ -349,29 +349,6 @@ input:focus, textarea:focus, select:focus{ outline: none; border-color: var(--ru
   .calendar-bar{ font-size: 10px; padding: 4px 6px; }
 }
 
-.payment-option{
-  width: 100%; display: flex; justify-content: space-between; align-items: center;
-  padding: 18px 20px; border-radius: 8px; margin-bottom: 12px;
-  cursor: pointer; text-align: left; font-family: inherit;
-  transition: transform 0.1s ease;
-}
-.payment-option:disabled{ opacity: 0.6; cursor: default; }
-.payment-option:not(:disabled):hover{ transform: translateY(-1px); }
-.payment-option-ach{
-  background: var(--accent); color: #fff; border: 2px solid var(--accent);
-}
-.payment-option-card{
-  background: var(--card-bg); color: var(--ink); border: 1.5px solid var(--panel-line);
-}
-.payment-option-title{ font-size: 15px; font-weight: 700; }
-.payment-option-sub{ font-size: 12px; opacity: 0.85; margin-top: 2px; }
-.payment-option-right{ display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-.payment-option-amount{ font-size: 17px; font-weight: 700; }
-.payment-nofee-badge{
-  background: #fff; color: var(--accent); font-size: 10px; font-weight: 800;
-  text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 10px;
-}
-
 .overview-thirds{ display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; align-items: start; }
 @media (max-width: 1000px){ .overview-thirds{ grid-template-columns: 1fr; } }
 
