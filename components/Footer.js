@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="bg-ink text-paper">
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-10 md:grid-cols-3 lg:grid-cols-5">
+        <div className="grid gap-10 md:grid-cols-3 lg:grid-cols-6">
           <div>
             <Image src="/logo.png" alt="McLoud Construction" width={185} height={80} className="h-16 w-auto" />
             <p className="mt-4 max-w-xs font-body text-sm leading-relaxed text-paper/70">
@@ -38,6 +38,14 @@ export default function Footer() {
             <ul className="mt-4 space-y-2 font-body text-sm text-paper/80">
               <li><a href="https://jobs.mcloudconstruction.com/customerportal" className="hover:text-brass">Client Portal Login</a></li>
               <li className="text-paper/50">Track your project, documents, and invoices</li>
+            </ul>
+          </div>
+
+          <div>
+            <div className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-brass">Subcontractors</div>
+            <ul className="mt-4 space-y-2 font-body text-sm text-paper/80">
+              <li><a href="https://jobs.mcloudconstruction.com/subcontractor-apply" className="hover:text-brass">Apply to Work With Us</a></li>
+              <li className="text-paper/50">Join our network of trade partners</li>
             </ul>
           </div>
 

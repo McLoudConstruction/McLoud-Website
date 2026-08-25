@@ -131,6 +131,27 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Subcontractors */}
+      <section className="border-t border-ink/10 bg-paper">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 py-16 text-center md:flex-row md:justify-between md:text-left">
+          <div>
+            <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Are You a Subcontractor?</div>
+            <h2 className="mt-2 font-display text-3xl font-extrabold uppercase tracking-tight text-ink md:text-4xl">
+              Work With McLoud Construction
+            </h2>
+            <p className="mt-2 max-w-md font-body text-ink/70">
+              We&rsquo;re always looking to grow our network of reliable trade partners across the Kansas City metro. Apply below to get started.
+            </p>
+          </div>
+          <a
+            href="https://jobs.mcloudconstruction.com/subcontractor-apply"
+            className="shrink-0 border border-brass px-7 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-colors hover:bg-brass"
+          >
+            Apply as a Subcontractor →
+          </a>
+        </div>
+      </section>
+
       {/* Service area + final CTA */}
       <section className="grid-paper border-t border-ink/10 bg-paper">
         <div className="mx-auto max-w-7xl px-6 py-24 text-center">
