@@ -18,7 +18,7 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <>
-      <PageHero eyebrow="Locally Owned & Operated" title="About McLoud" />
+      <PageHero eyebrow="Locally Owned & Operated" title="About McLoud Construction" />
 
       {/* Owners intro, photo paired with copy */}
       <section className="mx-auto max-w-5xl px-6 py-20">
