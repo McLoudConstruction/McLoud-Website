@@ -1,6 +1,5 @@
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
-import FinancingBanner from '@/components/FinancingBanner';
 
 export const metadata = {
   title: 'Commercial Buildouts & Capital Improvements | McLoud',
@@ -52,8 +51,6 @@ export default function CommercialPage() {
         title="Commercial Buildouts & Renovations"
         body="From full exterior renovations to interior buildouts, we work with property managers and owners who need a contractor that shows up, communicates clearly, and finishes on schedule."
       />
-
-      <FinancingBanner />
 
       <section className="mx-auto max-w-7xl px-6 py-20">
         {GROUPS.map(group => (

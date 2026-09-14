@@ -4,14 +4,14 @@ import CtaBanner from '@/components/CtaBanner';
 const ACORN_APPLY_URL = 'https://www.acornfinance.com/pre-qualify/?d=D8WDE&utm_medium=user_pre_qual_link';
 
 export const metadata = {
-  title: 'Project Financing | McLoud Construction Kansas City',
+  title: 'Kitchen & Bath Remodel Financing | McLoud Construction Kansas City',
   description:
-    'Check your rate for remodel financing in minutes with no impact to your credit score, through a network of vetted lenders arranged by Acorn Finance.',
+    'Check your rate for kitchen, bathroom, and whole-home remodel financing in minutes with no impact to your credit score, through a network of vetted lenders arranged by Acorn Finance.',
   alternates: { canonical: '/financing' },
   openGraph: {
-    title: 'Project Financing | McLoud Construction Kansas City',
+    title: 'Kitchen & Bath Remodel Financing | McLoud Construction Kansas City',
     description:
-      'Check your rate for remodel financing in minutes with no impact to your credit score, through a network of vetted lenders arranged by Acorn Finance.',
+      'Check your rate for kitchen, bathroom, and whole-home remodel financing in minutes with no impact to your credit score, through a network of vetted lenders arranged by Acorn Finance.',
     url: '/financing',
   },
 };
@@ -41,9 +41,9 @@ export default function FinancingPage() {
   return (
     <>
       <PageHero
-        eyebrow="Make It Affordable"
-        title="Project Financing"
-        body="Spread the cost of your remodel over time with financing options from a network of vetted lenders, arranged through Acorn Finance."
+        eyebrow="For Homeowners"
+        title="Remodel Financing"
+        body="Spread the cost of your kitchen, bathroom, or whole-home remodel over time with financing options from a network of vetted lenders, arranged through Acorn Finance."
       />
 
       <section className="mx-auto max-w-5xl px-6 py-20 text-center">
