@@ -1,5 +1,6 @@
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
+import FinancingBanner from '@/components/FinancingBanner';
 
 export const metadata = {
   title: 'Kitchen & Bath Remodeling in Kansas City | McLoud',
@@ -40,6 +41,8 @@ export default function ResidentialPage() {
         title="Residential Remodeling"
         body="Kitchens, bathrooms, and whole-home projects, built around how you actually live, with honest communication from your first walkthrough to the final punch list."
       />
+
+      <FinancingBanner />
 
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="space-y-16">

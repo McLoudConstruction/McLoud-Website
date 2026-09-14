@@ -8,6 +8,7 @@ const NAV = [
   { href: '/commercial', label: 'Commercial' },
   { href: '/about', label: 'About' },
   { href: '/faq', label: 'FAQ' },
+  { href: '/financing', label: 'Financing' },
 ];
 
 export default function Header() {
