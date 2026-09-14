@@ -100,7 +100,7 @@ export default function Home() {
       </section>
 
       {/* Existing clients */}
-      <section className="bg-blueprint text-paper">
+      <section className="border-t border-paper/10 bg-ink text-paper">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 py-16 text-center md:flex-row md:justify-between md:text-left">
           <div>
             <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Already Working With Us?</div>
