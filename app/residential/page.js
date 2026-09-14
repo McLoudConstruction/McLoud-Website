@@ -83,7 +83,7 @@ export default function ResidentialPage() {
               <div key={step}>
                 <div className="font-mono text-2xl font-bold text-brass">{String(i + 1).padStart(2, '0')}</div>
                 <div className="tick-rule my-3" />
-                <div className="font-display text-sm font-bold uppercase leading-tight tracking-tight">{step}</div>
+                <div className="font-display text-base font-bold uppercase leading-tight tracking-tight md:text-lg">{step}</div>
               </div>
             ))}
           </div>
