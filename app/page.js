@@ -99,19 +99,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why homeowners choose us */}
-      <section className="mx-auto max-w-4xl px-6 py-24 text-center">
-        <p className="font-display text-2xl font-medium leading-snug text-ink md:text-3xl">
-          &ldquo;We take pride in getting the details right and treating every project like our
-          reputation depends on it &mdash; because it does.&rdquo;
-        </p>
-        <div className="mt-6 font-mono text-xs uppercase tracking-[0.15em] text-concrete">
-          Stachys &amp; Isabelle McLoud, Owners
-        </div>
-      </section>
-
       {/* Existing clients */}
-      <section className="bg-ink text-paper">
+      <section className="bg-blueprint text-paper">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 py-16 text-center md:flex-row md:justify-between md:text-left">
           <div>
             <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Already Working With Us?</div>
@@ -124,18 +113,29 @@ export default function Home() {
           </div>
           <a
             href="https://jobs.mcloudconstruction.com/customerportal"
-            className="shrink-0 border border-brass px-7 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-brass transition-colors hover:bg-brass hover:text-ink"
+            className="shrink-0 bg-brass px-7 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90"
           >
             Client Portal Login →
           </a>
         </div>
       </section>
 
+      {/* Why homeowners choose us */}
+      <section className="mx-auto max-w-4xl px-6 py-24 text-center">
+        <p className="font-display text-2xl font-medium leading-snug text-ink md:text-3xl">
+          &ldquo;We take pride in getting the details right and treating every project like our
+          reputation depends on it &mdash; because it does.&rdquo;
+        </p>
+        <div className="mt-6 font-mono text-xs uppercase tracking-[0.15em] text-concrete">
+          Stachys &amp; Isabelle McLoud, Owners
+        </div>
+      </section>
+
       {/* Subcontractors */}
-      <section className="border-t border-ink/10 bg-paper">
+      <section className="grid-paper border-t border-ink/10 bg-paper">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 py-16 text-center md:flex-row md:justify-between md:text-left">
           <div>
-            <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Are You a Subcontractor?</div>
+            <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Are You a Subcontractor?</div>
             <h2 className="mt-2 font-display text-3xl font-extrabold uppercase tracking-tight text-ink md:text-4xl">
               Work With McLoud Construction
             </h2>
@@ -145,7 +145,7 @@ export default function Home() {
           </div>
           <a
             href="https://jobs.mcloudconstruction.com/subcontractor-apply"
-            className="shrink-0 border border-brass px-7 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-colors hover:bg-brass"
+            className="shrink-0 border border-rust px-7 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-rust transition-colors hover:bg-rust hover:text-paper"
           >
             Apply as a Subcontractor →
           </a>
