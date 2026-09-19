@@ -1,25 +1,59 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 const API_URL = 'https://jobs.mcloudconstruction.com/api/public/consultation-request';
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function formatPhone(value) {
+  const digits = (value || '').replace(/\D/g, '').slice(0, 10);
+  if (digits.length < 4) return digits;
+  if (digits.length < 7) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+}
+
 export default function ConsultationForm() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', projectType: 'Residential', company: '', project: '', message: '', website: '' });
+  const [photos, setPhotos] = useState([]);
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error
+  const [fieldErrors, setFieldErrors] = useState({});
+  const fileInputRef = useRef(null);
 
   function update(field, value) {
     setForm(prev => ({ ...prev, [field]: value }));
   }
 
+  function updatePhone(value) {
+    update('phone', formatPhone(value));
+  }
+
+  function updatePhotos(fileList) {
+    setPhotos(Array.from(fileList || []));
+  }
+
+  function validate() {
+    const errors = {};
+    if (!form.name.trim()) errors.name = 'Name is required.';
+    const phoneDigits = form.phone.replace(/\D/g, '');
+    if (phoneDigits.length !== 10) errors.phone = 'Enter a valid 10-digit phone number.';
+    if (!EMAIL_PATTERN.test(form.email.trim())) errors.email = 'Enter a valid email address (e.g. name@example.com).';
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!validate()) return;
     setStatus('sending');
     try {
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
+      const data = new FormData();
+      Object.entries(form).forEach(([key, value]) => data.append(key, value));
+      photos.forEach(file => data.append('photos', file));
+
+      // No explicit Content-Type header — the browser sets the multipart
+      // boundary itself. Setting it manually here would break the parse
+      // on the receiving end.
+      const res = await fetch(API_URL, { method: 'POST', body: data });
       if (!res.ok) throw new Error();
       setStatus('sent');
     } catch {
@@ -30,6 +64,7 @@ export default function ConsultationForm() {
   const inputClass =
     'mt-1.5 w-full border border-ink/20 bg-transparent px-4 py-3 font-body text-ink placeholder:text-ink/30 focus:border-brass focus:outline-none';
   const labelClass = 'font-mono text-xs uppercase tracking-[0.15em] text-concrete';
+  const errorClass = 'mt-1.5 font-body text-xs text-rust';
 
   if (status === 'sent') {
     return (
@@ -53,16 +88,34 @@ export default function ConsultationForm() {
         <div>
           <label className={labelClass}>Name *</label>
           <input required className={inputClass} value={form.name} onChange={e => update('name', e.target.value)} />
+          {fieldErrors.name && <p className={errorClass}>{fieldErrors.name}</p>}
         </div>
         <div>
-          <label className={labelClass}>Phone</label>
-          <input className={inputClass} value={form.phone} onChange={e => update('phone', e.target.value)} />
+          <label className={labelClass}>Phone *</label>
+          <input
+            required
+            type="tel"
+            inputMode="numeric"
+            placeholder="(xxx) xxx-xxxx"
+            className={inputClass}
+            value={form.phone}
+            onChange={e => updatePhone(e.target.value)}
+          />
+          {fieldErrors.phone && <p className={errorClass}>{fieldErrors.phone}</p>}
         </div>
       </div>
 
       <div className="mt-6">
         <label className={labelClass}>Email *</label>
-        <input required type="email" className={inputClass} value={form.email} onChange={e => update('email', e.target.value)} />
+        <input
+          required
+          type="email"
+          pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+          className={inputClass}
+          value={form.email}
+          onChange={e => update('email', e.target.value)}
+        />
+        {fieldErrors.email && <p className={errorClass}>{fieldErrors.email}</p>}
       </div>
 
       <div className="mt-6">
@@ -88,6 +141,23 @@ export default function ConsultationForm() {
       <div className="mt-6">
         <label className={labelClass}>Tell Us About Your Project</label>
         <textarea rows={5} className={inputClass} value={form.message} onChange={e => update('message', e.target.value)} />
+      </div>
+
+      <div className="mt-6">
+        <label className={labelClass}>Upload Photos</label>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={e => updatePhotos(e.target.files)}
+          className="mt-1.5 w-full border border-ink/20 bg-transparent px-4 py-3 font-body text-sm text-ink file:mr-4 file:border-0 file:bg-brass file:px-4 file:py-2 file:font-mono file:text-xs file:uppercase file:tracking-[0.15em] file:text-ink"
+        />
+        {photos.length > 0 && (
+          <p className="mt-1.5 font-body text-xs text-ink/60">
+            {photos.length} photo{photos.length === 1 ? '' : 's'} selected
+          </p>
+        )}
       </div>
 
       {status === 'error' && (
