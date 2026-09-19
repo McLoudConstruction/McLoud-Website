@@ -15,12 +15,22 @@ function formatPhone(value) {
 export default function ConsultationForm() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', projectType: 'Residential', company: '', project: '', message: '', website: '' });
   const [photos, setPhotos] = useState([]);
-  const [status, setStatus] = useState('idle'); // idle | sending | sent | error
+  const [status, setStatus] = useState('idle'); // idle | sending | sent | error | invalid
   const [fieldErrors, setFieldErrors] = useState({});
   const fileInputRef = useRef(null);
 
   function update(field, value) {
     setForm(prev => ({ ...prev, [field]: value }));
+    // Clear that field's error (and the general banner) as soon as the
+    // visitor starts fixing it, rather than leaving stale errors up until
+    // the next submit attempt.
+    setFieldErrors(prev => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+    if (status === 'invalid') setStatus('idle');
   }
 
   function updatePhone(value) {
@@ -37,13 +47,24 @@ export default function ConsultationForm() {
     const phoneDigits = form.phone.replace(/\D/g, '');
     if (phoneDigits.length !== 10) errors.phone = 'Enter a valid 10-digit phone number.';
     if (!EMAIL_PATTERN.test(form.email.trim())) errors.email = 'Enter a valid email address (e.g. name@example.com).';
+    if (form.projectType === 'Commercial' && !form.company.trim()) errors.company = 'Company is required.';
+    if (!form.project.trim()) errors.project = 'This field is required.';
+    if (!form.message.trim()) errors.message = 'Please tell us a bit about your project.';
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!validate()) return;
+    if (!validate()) {
+      // Native HTML5 validation is turned off on this form (see noValidate
+      // below) so these styled, always-shown errors are what the visitor
+      // actually sees — the browser's own validation popup used to fire
+      // first and swallow the submit before this ran, so an invalid email
+      // never showed any message at all.
+      setStatus('invalid');
+      return;
+    }
     setStatus('sending');
     try {
       const data = new FormData();
@@ -78,7 +99,10 @@ export default function ConsultationForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="relative">
+    // noValidate turns off the browser's own popup-based validation —
+    // with it on, an invalid field silently blocked the submit and our
+    // own styled error messages below never got a chance to run.
+    <form onSubmit={handleSubmit} className="relative" noValidate>
       <div className="absolute left-[-9999px]" aria-hidden="true">
         <label htmlFor="website">Leave this field blank</label>
         <input id="website" tabIndex={-1} autoComplete="off" value={form.website} onChange={e => update('website', e.target.value)} />
@@ -87,13 +111,12 @@ export default function ConsultationForm() {
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
           <label className={labelClass}>Name *</label>
-          <input required className={inputClass} value={form.name} onChange={e => update('name', e.target.value)} />
+          <input className={inputClass} value={form.name} onChange={e => update('name', e.target.value)} />
           {fieldErrors.name && <p className={errorClass}>{fieldErrors.name}</p>}
         </div>
         <div>
           <label className={labelClass}>Phone *</label>
           <input
-            required
             type="tel"
             inputMode="numeric"
             placeholder="(xxx) xxx-xxxx"
@@ -108,9 +131,7 @@ export default function ConsultationForm() {
       <div className="mt-6">
         <label className={labelClass}>Email *</label>
         <input
-          required
           type="email"
-          pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
           className={inputClass}
           value={form.email}
           onChange={e => update('email', e.target.value)}
@@ -119,7 +140,7 @@ export default function ConsultationForm() {
       </div>
 
       <div className="mt-6">
-        <label className={labelClass}>Project Type</label>
+        <label className={labelClass}>Project Type *</label>
         <select className={inputClass} value={form.projectType} onChange={e => update('projectType', e.target.value)}>
           <option>Residential</option>
           <option>Commercial</option>
@@ -128,19 +149,22 @@ export default function ConsultationForm() {
 
       {form.projectType === 'Commercial' && (
         <div className="mt-6">
-          <label className={labelClass}>Company</label>
+          <label className={labelClass}>Company *</label>
           <input className={inputClass} value={form.company} onChange={e => update('company', e.target.value)} />
+          {fieldErrors.company && <p className={errorClass}>{fieldErrors.company}</p>}
         </div>
       )}
 
       <div className="mt-6">
-        <label className={labelClass}>Project (a few words)</label>
+        <label className={labelClass}>What Are You Working On? *</label>
         <input className={inputClass} placeholder="e.g. Kitchen remodel" value={form.project} onChange={e => update('project', e.target.value)} />
+        {fieldErrors.project && <p className={errorClass}>{fieldErrors.project}</p>}
       </div>
 
       <div className="mt-6">
-        <label className={labelClass}>Tell Us About Your Project</label>
+        <label className={labelClass}>Tell Us About Your Project *</label>
         <textarea rows={5} className={inputClass} value={form.message} onChange={e => update('message', e.target.value)} />
+        {fieldErrors.message && <p className={errorClass}>{fieldErrors.message}</p>}
       </div>
 
       <div className="mt-6">
@@ -159,6 +183,12 @@ export default function ConsultationForm() {
           </p>
         )}
       </div>
+
+      {status === 'invalid' && (
+        <p className="mt-4 font-body text-sm text-rust">
+          Please fix the highlighted fields above before sending.
+        </p>
+      )}
 
       {status === 'error' && (
         <p className="mt-4 font-body text-sm text-rust">
