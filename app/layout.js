@@ -2,6 +2,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Analytics } from '@vercel/analytics/react';
+import AttributionTracker from '@/components/AttributionTracker';
 
 const SITE_URL = 'https://mcloudconstruction.com';
 const SITE_NAME = 'McLoud Construction';
@@ -82,6 +83,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="font-body antialiased">
+        <AttributionTracker />
         <Header />
         {children}
         <Footer />

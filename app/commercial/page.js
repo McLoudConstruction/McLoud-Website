@@ -1,5 +1,7 @@
+import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
+import { VERTICALS } from '@/lib/verticals';
 
 export const metadata = {
   title: 'Commercial Buildouts & Capital Improvements | McLoud',
@@ -41,8 +43,6 @@ const GROUPS = [
   },
 ];
 
-const INDUSTRIES = ['Multi-Family', 'Hotel & Lodging', 'Office', 'Retail', 'Recreational Facilities', 'Churches'];
-
 export default function CommercialPage() {
   return (
     <>
@@ -73,10 +73,14 @@ export default function CommercialPage() {
         <div className="mx-auto max-w-7xl px-6 py-20">
           <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Industries We Serve</div>
           <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 md:grid-cols-3">
-            {INDUSTRIES.map(industry => (
-              <div key={industry} className="border-l-2 border-brass pl-4 font-display text-2xl font-bold uppercase tracking-tight">
-                {industry}
-              </div>
+            {VERTICALS.map(v => (
+              <Link
+                key={v.key}
+                href={`/commercial/${v.slug}`}
+                className="border-l-2 border-brass pl-4 font-display text-2xl font-bold uppercase tracking-tight transition-colors hover:text-brass"
+              >
+                {v.label}
+              </Link>
             ))}
           </div>
         </div>

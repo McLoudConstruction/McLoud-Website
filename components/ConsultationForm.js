@@ -1,5 +1,6 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { readAttribution } from '@/components/AttributionTracker';
 
 const API_URL = 'https://jobs.mcloudconstruction.com/api/public/consultation-request';
 
@@ -18,6 +19,16 @@ export default function ConsultationForm() {
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error | invalid
   const [fieldErrors, setFieldErrors] = useState({});
   const fileInputRef = useRef(null);
+
+  // A visitor who arrived from an industry page is almost certainly a
+  // commercial lead, so start the form on Commercial. Residential is the
+  // default for everyone else. Attribution itself is read again at submit.
+  useEffect(() => {
+    const { vertical } = readAttribution();
+    if (vertical && vertical !== 'residential') {
+      setForm(prev => (prev.projectType === 'Residential' ? { ...prev, projectType: 'Commercial' } : prev));
+    }
+  }, []);
 
   function update(field, value) {
     setForm(prev => ({ ...prev, [field]: value }));
@@ -69,6 +80,11 @@ export default function ConsultationForm() {
     try {
       const data = new FormData();
       Object.entries(form).forEach(([key, value]) => data.append(key, value));
+      // Where the lead came from. The jobs platform validates and stores these.
+      const attribution = readAttribution();
+      ['vertical', 'utm_source', 'utm_medium', 'utm_campaign', 'landing_path', 'referrer'].forEach(key => {
+        if (attribution[key]) data.append(key, attribution[key]);
+      });
       photos.forEach(file => data.append('photos', file));
 
       // No explicit Content-Type header — the browser sets the multipart
