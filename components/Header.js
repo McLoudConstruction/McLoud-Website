@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { VERTICALS } from '@/lib/verticals';
+import { phoneDisplay, phoneHref } from '@/lib/siteConfig';
 
 // `industries: true` gives that item a dropdown of the industry pages
 // (lib/verticals.js). The parent link still goes to its own page.
@@ -18,6 +19,8 @@ const linkClass = 'font-mono text-xs uppercase tracking-[0.15em] text-paper/80 t
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const phone = phoneDisplay();
+  const tel = phoneHref();
 
   return (
     <header className="sticky top-0 z-50 bg-ink text-paper">
@@ -66,6 +69,11 @@ export default function Header() {
                 {item.label}
               </Link>
             )
+          )}
+          {phone && (
+            <a href={tel} className="hidden font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:text-brass lg:inline">
+              {phone}
+            </a>
           )}
           <a
             href="https://jobs.mcloudconstruction.com/customerportal"
@@ -120,6 +128,11 @@ export default function Header() {
               )}
             </div>
           ))}
+          {phone && (
+            <a href={tel} className="py-3 font-mono text-xs uppercase tracking-[0.15em] text-paper">
+              Call {phone}
+            </a>
+          )}
           <a
             href="https://jobs.mcloudconstruction.com/customerportal"
             className="py-3 font-mono text-xs uppercase tracking-[0.15em] text-paper/60"

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
+import ObfuscatedEmail from '@/components/ObfuscatedEmail';
 import { VERTICALS } from '@/lib/verticals';
 
 export const metadata = {
@@ -40,6 +41,25 @@ const GROUPS = [
       { title: 'Clubhouse Remodels & Renovations', body: 'Full remodels for multi-family clubhouses and shared amenity spaces, built to handle real daily use.' },
       { title: 'Amenity Additions & Renovations', body: 'New amenity spaces and renovations to existing ones, planned around how residents actually use them.' },
     ],
+  },
+];
+
+const EXPECT = [
+  {
+    title: 'One point of contact',
+    body: 'You know who to call from the first estimate through the final walkthrough, with no getting bounced around.',
+  },
+  {
+    title: 'Schedules built around you',
+    body: 'We plan around your leasing calendar, lease dates, and occupied buildings, and tell you early if something threatens the schedule.',
+  },
+  {
+    title: 'Clear scope and cost',
+    body: 'A clear scope and a straight answer on cost before work starts. Change orders are written down.',
+  },
+  {
+    title: 'Vetted trades',
+    body: 'Every subcontractor is vetted before they ever set foot on your property.',
   },
 ];
 
@@ -84,6 +104,33 @@ export default function CommercialPage() {
             ))}
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-20">
+        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Working With Property Managers</div>
+        <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
+          What You Can Expect
+        </h2>
+        <div className="tick-rule mt-4 mb-8" />
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {EXPECT.map((item, i) => (
+            <div key={item.title}>
+              <div className="font-mono text-2xl font-bold text-brass">{String(i + 1).padStart(2, '0')}</div>
+              <h3 className="mt-2 font-display text-xl font-bold uppercase leading-tight tracking-tight">{item.title}</h3>
+              <p className="mt-2 font-body text-sm leading-relaxed text-ink/70">{item.body}</p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-10 max-w-2xl font-body text-sm text-ink/70">
+          Need a W-9 or a certificate of insurance for vendor onboarding? Ask and we&rsquo;ll send them over:{' '}
+          <ObfuscatedEmail
+            user="info"
+            domain="mcloudconstruction.com"
+            label="Email us"
+            className="text-rust underline hover:text-brass"
+          />
+          .
+        </p>
       </section>
 
       <CtaBanner

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { CREDENTIALS, SERVICE_AREAS } from '@/lib/siteConfig';
 
 export const metadata = {
   alternates: { canonical: '/' },
@@ -20,7 +21,7 @@ export default function Home() {
               <span className="text-brass">Told straight.</span>
             </h1>
             <p className="mt-6 max-w-md font-body text-lg leading-relaxed text-paper/80">
-              McLoud Construction brings honest craftsmanship to remodels and commercial buildouts
+              McLoud Construction handles commercial capital improvements and residential remodels
               across the Kansas City metro. You&rsquo;ll always know what&rsquo;s happening, what&rsquo;s next,
               and who to call.
             </p>
@@ -32,10 +33,16 @@ export default function Home() {
                 Get a Free Estimate
               </Link>
               <Link
+                href="/commercial"
+                className="border border-paper/30 px-7 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:border-brass hover:text-brass"
+              >
+                Commercial Services
+              </Link>
+              <Link
                 href="/residential"
                 className="border border-paper/30 px-7 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:border-brass hover:text-brass"
               >
-                Explore Our Services
+                Home Remodeling
               </Link>
             </div>
           </div>
@@ -48,6 +55,9 @@ export default function Home() {
       <section className="border-b border-ink/10 bg-paper">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-4 px-6 py-8 md:justify-between">
           <TrustStamp>Locally Owned</TrustStamp>
+          {CREDENTIALS.map(c => (
+            <TrustStamp key={c}>{c}</TrustStamp>
+          ))}
           <TrustStamp>Vetted Subcontractors</TrustStamp>
           <TrustStamp>Residential + Commercial</TrustStamp>
           <TrustStamp>Est. Kansas City</TrustStamp>
@@ -58,19 +68,19 @@ export default function Home() {
       <section className="mx-auto max-w-7xl px-6 py-24">
         <div className="grid gap-6 md:grid-cols-2">
           <ServiceCard
+            eyebrow="For Property Owners & Managers"
+            title="Commercial"
+            body="Exterior repaints, buildouts, and renovations for multi-family, hotel, retail, office, recreational, and church properties."
+            href="/commercial"
+            items={['Exterior Repaints & Repairs', 'Retail & Office Buildouts', 'Clubhouse & Amenity Remodels']}
+            dark
+          />
+          <ServiceCard
             eyebrow="For Homeowners"
             title="Residential"
             body="Kitchens, bathrooms, and whole-home remodeling, spaces built around how you actually live."
             href="/residential"
             items={['Kitchen Remodeling', 'Bathroom Remodeling', 'Whole Home Remodeling']}
-          />
-          <ServiceCard
-            eyebrow="For Property Owners"
-            title="Commercial"
-            body="Buildouts and renovations for multi-family, retail, office, and hospitality properties."
-            href="/commercial"
-            items={['Retail & Office Buildouts', 'Exterior Renovations', 'Clubhouse Remodels']}
-            dark
           />
         </div>
       </section>
@@ -162,6 +172,16 @@ export default function Home() {
           <p className="mx-auto mt-4 max-w-xl font-body text-ink/70">
             Homeowners and commercial clients throughout communities across both Missouri and Kansas.
           </p>
+          <div className="mx-auto mt-10 grid max-w-2xl gap-8 text-left sm:grid-cols-2">
+            {Object.entries(SERVICE_AREAS).map(([state, cities]) => (
+              <div key={state}>
+                <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">{state}</div>
+                <div className="tick-rule my-3" />
+                <p className="font-body text-sm leading-relaxed text-ink/70">{cities.join(' · ')}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 font-body text-xs text-ink/50">Don&rsquo;t see your community? Ask. We work throughout the metro.</p>
           <Link
             href="/consultation"
             className="mt-9 inline-block bg-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90"

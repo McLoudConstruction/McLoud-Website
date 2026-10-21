@@ -11,6 +11,7 @@ export default function sitemap() {
     ...VERTICALS.map(v => ({ path: `/commercial/${v.slug}`, priority: 0.8, changeFrequency: 'monthly' })),
     { path: '/about', priority: 0.7, changeFrequency: 'yearly' },
     { path: '/faq', priority: 0.6, changeFrequency: 'yearly' },
+    { path: '/financing', priority: 0.6, changeFrequency: 'yearly' },
     { path: '/consultation', priority: 0.8, changeFrequency: 'yearly' },
   ];
 

@@ -1,10 +1,17 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { readAttribution } from '@/components/AttributionTracker';
+import { VERTICALS, VERTICAL_BY_KEY } from '@/lib/verticals';
+import { phoneDisplay, phoneHref } from '@/lib/siteConfig';
 
 const API_URL = 'https://jobs.mcloudconstruction.com/api/public/consultation-request';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Commercial-only details. They are folded into the message text below, so the
+// jobs platform keeps receiving exactly the fields it already expects.
+const PROPERTY_TYPES = [...VERTICALS.map(v => v.label), 'Other'];
+const TIMELINES = ['As soon as possible', 'Within 3 months', '3 to 6 months', '6+ months / planning ahead', 'Not sure yet'];
 
 function formatPhone(value) {
   const digits = (value || '').replace(/\D/g, '').slice(0, 10);
@@ -14,19 +21,37 @@ function formatPhone(value) {
 }
 
 export default function ConsultationForm() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', projectType: 'Residential', company: '', project: '', message: '', website: '' });
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    projectType: 'Residential',
+    company: '',
+    propertyType: '',
+    size: '',
+    timeline: '',
+    project: '',
+    message: '',
+    website: '',
+  });
   const [photos, setPhotos] = useState([]);
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error | invalid
   const [fieldErrors, setFieldErrors] = useState({});
   const fileInputRef = useRef(null);
 
   // A visitor who arrived from an industry page is almost certainly a
-  // commercial lead, so start the form on Commercial. Residential is the
-  // default for everyone else. Attribution itself is read again at submit.
+  // commercial lead, so start the form on Commercial and preselect that
+  // industry. Residential is the default for everyone else. Attribution
+  // itself is read again at submit.
   useEffect(() => {
     const { vertical } = readAttribution();
     if (vertical && vertical !== 'residential') {
-      setForm(prev => (prev.projectType === 'Residential' ? { ...prev, projectType: 'Commercial' } : prev));
+      const label = VERTICAL_BY_KEY[vertical]?.label || '';
+      setForm(prev =>
+        prev.projectType === 'Residential'
+          ? { ...prev, projectType: 'Commercial', propertyType: prev.propertyType || label }
+          : prev
+      );
     }
   }, []);
 
@@ -78,8 +103,20 @@ export default function ConsultationForm() {
     }
     setStatus('sending');
     try {
+      // Commercial details ride along inside the message text.
+      let message = form.message.trim();
+      if (form.projectType === 'Commercial') {
+        const details = [
+          form.propertyType && `Property type: ${form.propertyType}`,
+          form.size.trim() && `Size / scale: ${form.size.trim()}`,
+          form.timeline && `Target timeline: ${form.timeline}`,
+        ].filter(Boolean);
+        if (details.length) message += `\n\n--- Property details ---\n${details.join('\n')}`;
+      }
+
+      const { propertyType, size, timeline, ...core } = form;
       const data = new FormData();
-      Object.entries(form).forEach(([key, value]) => data.append(key, value));
+      Object.entries({ ...core, message }).forEach(([key, value]) => data.append(key, value));
       // Where the lead came from. The jobs platform validates and stores these.
       const attribution = readAttribution();
       ['vertical', 'utm_source', 'utm_medium', 'utm_campaign', 'landing_path', 'referrer'].forEach(key => {
@@ -100,8 +137,10 @@ export default function ConsultationForm() {
 
   const inputClass =
     'mt-1.5 w-full border border-ink/20 bg-transparent px-4 py-3 font-body text-ink placeholder:text-ink/30 focus:border-brass focus:outline-none';
-  const labelClass = 'font-mono text-xs uppercase tracking-[0.15em] text-concrete';
+  const labelClass = 'block font-mono text-xs uppercase tracking-[0.15em] text-concrete';
   const errorClass = 'mt-1.5 font-body text-xs text-rust';
+  const isCommercial = form.projectType === 'Commercial';
+  const phone = phoneDisplay();
 
   if (status === 'sent') {
     return (
@@ -126,14 +165,16 @@ export default function ConsultationForm() {
 
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
-          <label className={labelClass}>Name *</label>
-          <input className={inputClass} value={form.name} onChange={e => update('name', e.target.value)} />
+          <label htmlFor="cf-name" className={labelClass}>Name *</label>
+          <input id="cf-name" autoComplete="name" className={inputClass} value={form.name} onChange={e => update('name', e.target.value)} />
           {fieldErrors.name && <p className={errorClass}>{fieldErrors.name}</p>}
         </div>
         <div>
-          <label className={labelClass}>Phone *</label>
+          <label htmlFor="cf-phone" className={labelClass}>Phone *</label>
           <input
+            id="cf-phone"
             type="tel"
+            autoComplete="tel"
             inputMode="numeric"
             placeholder="(xxx) xxx-xxxx"
             className={inputClass}
@@ -145,9 +186,11 @@ export default function ConsultationForm() {
       </div>
 
       <div className="mt-6">
-        <label className={labelClass}>Email *</label>
+        <label htmlFor="cf-email" className={labelClass}>Email *</label>
         <input
+          id="cf-email"
           type="email"
+          autoComplete="email"
           className={inputClass}
           value={form.email}
           onChange={e => update('email', e.target.value)}
@@ -156,36 +199,77 @@ export default function ConsultationForm() {
       </div>
 
       <div className="mt-6">
-        <label className={labelClass}>Project Type *</label>
-        <select className={inputClass} value={form.projectType} onChange={e => update('projectType', e.target.value)}>
+        <label htmlFor="cf-type" className={labelClass}>Project Type *</label>
+        <select id="cf-type" className={inputClass} value={form.projectType} onChange={e => update('projectType', e.target.value)}>
           <option>Residential</option>
           <option>Commercial</option>
         </select>
       </div>
 
-      {form.projectType === 'Commercial' && (
-        <div className="mt-6">
-          <label className={labelClass}>Company *</label>
-          <input className={inputClass} value={form.company} onChange={e => update('company', e.target.value)} />
-          {fieldErrors.company && <p className={errorClass}>{fieldErrors.company}</p>}
-        </div>
+      {isCommercial && (
+        <>
+          <div className="mt-6">
+            <label htmlFor="cf-company" className={labelClass}>Company *</label>
+            <input id="cf-company" autoComplete="organization" className={inputClass} value={form.company} onChange={e => update('company', e.target.value)} />
+            {fieldErrors.company && <p className={errorClass}>{fieldErrors.company}</p>}
+          </div>
+
+          <div className="mt-6 grid gap-6 sm:grid-cols-2">
+            <div>
+              <label htmlFor="cf-property" className={labelClass}>Property Type</label>
+              <select id="cf-property" className={inputClass} value={form.propertyType} onChange={e => update('propertyType', e.target.value)}>
+                <option value="">Select one</option>
+                {PROPERTY_TYPES.map(t => (
+                  <option key={t}>{t}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="cf-timeline" className={labelClass}>Target Timeline</label>
+              <select id="cf-timeline" className={inputClass} value={form.timeline} onChange={e => update('timeline', e.target.value)}>
+                <option value="">Select one</option>
+                {TIMELINES.map(t => (
+                  <option key={t}>{t}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <label htmlFor="cf-size" className={labelClass}>Size of Property or Scope</label>
+            <input
+              id="cf-size"
+              className={inputClass}
+              placeholder="e.g. 120 units, 4 buildings, or 8,000 sq ft"
+              value={form.size}
+              onChange={e => update('size', e.target.value)}
+            />
+          </div>
+        </>
       )}
 
       <div className="mt-6">
-        <label className={labelClass}>What Are You Working On? *</label>
-        <input className={inputClass} placeholder="e.g. Kitchen remodel" value={form.project} onChange={e => update('project', e.target.value)} />
+        <label htmlFor="cf-project" className={labelClass}>What Are You Working On? *</label>
+        <input
+          id="cf-project"
+          className={inputClass}
+          placeholder={isCommercial ? 'e.g. Exterior repaint and rot repair' : 'e.g. Kitchen remodel'}
+          value={form.project}
+          onChange={e => update('project', e.target.value)}
+        />
         {fieldErrors.project && <p className={errorClass}>{fieldErrors.project}</p>}
       </div>
 
       <div className="mt-6">
-        <label className={labelClass}>Tell Us About Your Project *</label>
-        <textarea rows={5} className={inputClass} value={form.message} onChange={e => update('message', e.target.value)} />
+        <label htmlFor="cf-message" className={labelClass}>Tell Us About Your Project *</label>
+        <textarea id="cf-message" rows={5} className={inputClass} value={form.message} onChange={e => update('message', e.target.value)} />
         {fieldErrors.message && <p className={errorClass}>{fieldErrors.message}</p>}
       </div>
 
       <div className="mt-6">
-        <label className={labelClass}>Upload Photos</label>
+        <label htmlFor="cf-photos" className={labelClass}>Upload Photos</label>
         <input
+          id="cf-photos"
           ref={fileInputRef}
           type="file"
           accept="image/*"
@@ -208,7 +292,14 @@ export default function ConsultationForm() {
 
       {status === 'error' && (
         <p className="mt-4 font-body text-sm text-rust">
-          Something went wrong sending your request. Please try again, or call us directly.
+          Something went wrong sending your request. Please try again
+          {phone ? (
+            <>
+              , or call us at <a href={phoneHref()} className="underline">{phone}</a>.
+            </>
+          ) : (
+            ', or email info@mcloudconstruction.com.'
+          )}
         </p>
       )}
 

@@ -3,12 +3,13 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Analytics } from '@vercel/analytics/react';
 import AttributionTracker from '@/components/AttributionTracker';
+import { PHONE, SERVICE_AREAS } from '@/lib/siteConfig';
 
 const SITE_URL = 'https://mcloudconstruction.com';
 const SITE_NAME = 'McLoud Construction';
-const DEFAULT_TITLE = 'McLoud Construction | Kansas City Remodeling & Buildouts';
+const DEFAULT_TITLE = 'McLoud Construction | Kansas City Commercial & Residential Contractor';
 const DEFAULT_DESCRIPTION =
-  'Quality work, honest communication. McLoud Construction serves homeowners and commercial clients across the Kansas City metro, including Missouri and Kansas.';
+  'Commercial capital improvements and residential remodeling across the Kansas City metro, Missouri and Kansas. Quality work, honest communication.';
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -61,9 +62,20 @@ const organizationSchema = {
   image: `${SITE_URL}/og-image.png`,
   description: DEFAULT_DESCRIPTION,
   areaServed: [
-    { '@type': 'City', name: 'Kansas City' },
     { '@type': 'AdministrativeArea', name: 'Kansas City Metro, MO & KS' },
+    ...Object.entries(SERVICE_AREAS).flatMap(([state, cities]) =>
+      cities.map(city => ({ '@type': 'City', name: city.includes(',') ? city : `${city}, ${state}` }))
+    ),
   ],
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '08:00',
+    closes: '17:00',
+  },
+  ...(PHONE && PHONE.replace(/\D/g, '').length === 10
+    ? { telephone: `+1${PHONE.replace(/\D/g, '')}` }
+    : {}),
   sameAs: ['https://www.instagram.com/mcloud.construction/'],
 };
 
