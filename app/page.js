@@ -12,7 +12,7 @@ export default function Home() {
           original technical elevation drawing, since that's the single most
           characteristic artifact in this subject's world: a marked-up plan. */}
       <section className="relative overflow-hidden bg-ink text-paper">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-20 md:grid-cols-2 md:py-32">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-20 md:grid-cols-2 md:py-32 lg:grid-cols-[1.15fr_0.85fr]">
           <div>
             <div className="field-stamp text-brass">Kansas City Metro · MO &amp; KS</div>
             <h1 className="mt-6 font-display text-[3.4rem] font-extrabold uppercase leading-[0.92] tracking-tight md:text-[4.6rem]">
@@ -25,24 +25,27 @@ export default function Home() {
               across the Kansas City metro. You&rsquo;ll always know what&rsquo;s happening, what&rsquo;s next,
               and who to call.
             </p>
-            <div className="mt-9 flex flex-wrap gap-4">
+            {/* One row on desktop. Below that, the estimate button gets its own
+                full-width row and the two audience buttons share the next one,
+                so nothing ever wraps raggedly. */}
+            <div className="mt-9 grid grid-cols-2 gap-3 lg:flex lg:flex-nowrap">
               <Link
                 href="/consultation"
-                className="bg-brass px-7 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90"
+                className="col-span-2 whitespace-nowrap bg-brass px-5 py-3.5 text-center font-mono text-xs uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90 lg:col-span-1"
               >
                 Get a Free Estimate
               </Link>
               <Link
                 href="/commercial"
-                className="border border-paper/30 px-7 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:border-brass hover:text-brass"
+                className="whitespace-nowrap border border-paper/30 px-5 py-3.5 text-center font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:border-brass hover:text-brass"
               >
-                Commercial Services
+                Commercial
               </Link>
               <Link
                 href="/residential"
-                className="border border-paper/30 px-7 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:border-brass hover:text-brass"
+                className="whitespace-nowrap border border-paper/30 px-5 py-3.5 text-center font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:border-brass hover:text-brass"
               >
-                Home Remodeling
+                Residential
               </Link>
             </div>
           </div>
