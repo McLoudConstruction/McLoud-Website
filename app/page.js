@@ -76,7 +76,7 @@ const EVERYDAY = [
 const WHY = [
   {
     title: 'A restoration background',
-    body: 'Stachys McLoud came to McLoud Construction from restoration, doing large demo-and-rebuild work for property management companies. We know how to open a room up and put it back together the right way.',
+    body: 'Stachys McLoud founded McLoud Construction after years in restoration, running large demo-and-rebuild projects for property management companies. We know how to open a room up and put it back together the right way.',
   },
   {
     title: 'Clean work in lived-in homes',

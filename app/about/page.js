@@ -43,8 +43,8 @@ export default function AboutPage() {
               who&rsquo;ll answer the phone six weeks into your project.
             </p>
             <p className="mt-4 font-body leading-relaxed text-ink/75">
-              Stachys came to McLoud Construction from restoration, doing large demo-and-rebuild work for
-              property management companies. That background shapes how we work today: we find water problems
+              Stachys founded McLoud Construction after years in restoration, running large demo-and-rebuild
+              projects for property management companies. That background shapes how we work today: we find water problems
               and hidden damage before we finish a room, we keep occupied homes and buildings clean and
               livable during the work, and we put every space back together the right way. McLoud Construction
               is insured, and every trade partner is vetted.
