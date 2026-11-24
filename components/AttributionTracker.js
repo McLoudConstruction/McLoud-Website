@@ -32,7 +32,7 @@ export function readAttribution() {
 }
 
 function verticalFromPath(pathname) {
-  if (pathname === '/residential') return RESIDENTIAL_KEY;
+  if (pathname === '/residential' || pathname.startsWith('/residential/')) return RESIDENTIAL_KEY;
   const match = pathname.match(/^\/commercial\/([^/]+)\/?$/);
   if (match && VERTICAL_BY_SLUG[match[1]]) return VERTICAL_BY_SLUG[match[1]].key;
   return null;

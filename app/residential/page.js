@@ -1,6 +1,8 @@
+import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
 import FinancingBanner from '@/components/FinancingBanner';
+import { RESIDENTIAL_SERVICES } from '@/lib/residentialServices';
 
 export const metadata = {
   title: 'Kitchen & Bath Remodeling in Kansas City | McLoud',
@@ -62,6 +64,30 @@ export default function ResidentialPage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="bg-paper">
+        <div className="mx-auto max-w-6xl px-6 py-20">
+          <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Specialized Services</div>
+          <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
+            More Ways We Can Help
+          </h2>
+          <div className="tick-rule mt-4 mb-10" />
+          <div className="grid gap-10 md:grid-cols-2">
+            {RESIDENTIAL_SERVICES.map(service => (
+              <div key={service.slug} className="border-l-2 border-brass pl-5">
+                <h3 className="font-display text-2xl font-bold uppercase tracking-tight">{service.name}</h3>
+                <p className="mt-3 font-body leading-relaxed text-ink/75">{service.cardBlurb}</p>
+                <Link
+                  href={`/residential/${service.slug}`}
+                  className="mt-4 inline-block font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
+                >
+                  {service.name} →
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

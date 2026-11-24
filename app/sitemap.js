@@ -1,4 +1,5 @@
 import { VERTICALS } from '@/lib/verticals';
+import { RESIDENTIAL_SERVICES } from '@/lib/residentialServices';
 
 export default function sitemap() {
   const baseUrl = 'https://mcloudconstruction.com';
@@ -7,6 +8,11 @@ export default function sitemap() {
   const routes = [
     { path: '', priority: 1.0, changeFrequency: 'monthly' },
     { path: '/residential', priority: 0.9, changeFrequency: 'monthly' },
+    ...RESIDENTIAL_SERVICES.map(service => ({
+      path: `/residential/${service.slug}`,
+      priority: 0.8,
+      changeFrequency: 'monthly',
+    })),
     { path: '/commercial', priority: 0.9, changeFrequency: 'monthly' },
     ...VERTICALS.map(v => ({ path: `/commercial/${v.slug}`, priority: 0.8, changeFrequency: 'monthly' })),
     { path: '/about', priority: 0.7, changeFrequency: 'yearly' },
