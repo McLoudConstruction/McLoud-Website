@@ -3,33 +3,32 @@ import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
 import FinancingBanner from '@/components/FinancingBanner';
 import { RESIDENTIAL_SERVICES } from '@/lib/residentialServices';
+import { estimateHref } from '@/lib/projectOptions';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata = {
-  title: 'Kitchen & Bath Remodeling in Kansas City | McLoud',
+export const metadata = pageMetadata({
+  title: 'Home Remodeling & Accessibility in Kansas City',
   description:
-    'Kitchen, bathroom, and whole-home remodeling for Kansas City metro homeowners, with hands-on craftsmanship and honest communication at every step.',
-  alternates: { canonical: '/residential' },
-  openGraph: {
-    title: 'Kitchen & Bath Remodeling in Kansas City | McLoud',
-    description:
-      'Kitchen, bathroom, and whole-home remodeling for Kansas City metro homeowners, with hands-on craftsmanship and honest communication at every step.',
-    url: '/residential',
-  },
-};
+    'Aging-in-place bathrooms, accessibility modifications, tub-to-shower conversions, basement finishing, and kitchen, bath, and whole-home remodels for Kansas City metro homeowners.',
+  path: '/residential',
+});
 
 const SERVICES = [
   {
+    id: 'kitchen-remodeling',
     title: 'Kitchen Remodeling',
     body: "The kitchen carries more daily use than any other room in the house, so it has to hold up to real life while still feeling like the heart of the home. We handle everything from cabinetry and countertops to layout changes, plumbing, and electrical, working through your options with you at every material and finish decision, not just handing you a spec sheet.",
     points: ['Cabinetry & countertops', 'Layout & structural changes', 'Plumbing & electrical', 'Flooring & lighting'],
   },
   {
+    id: 'bathroom-remodeling',
     title: 'Bathroom Remodeling',
     body: "Bathrooms are unforgiving of shortcuts. Waterproofing, ventilation, and fixture placement all have to be right the first time. Whether it's a full gut renovation or a focused update, we treat the parts you'll never see (moisture barriers, proper slope, solid blocking) with the same care as the tile you'll look at every morning.",
     points: ['Full gut renovations', 'Tile, showers & tubs', 'Vanities & fixtures', 'Ventilation & waterproofing'],
   },
   {
-    title: 'Whole Home Remodeling',
+    id: 'whole-home-remodeling',
+    title: 'Whole-Home Remodeling',
     body: "Some projects touch nearly every room: an open-concept conversion, a full interior overhaul, or a home that's simply outgrown its original layout. These jobs take real coordination across every trade, and that's exactly where a single point of contact and a clear schedule matter most.",
     points: ['Open-concept conversions', 'Multi-room renovations', 'Structural & layout changes', 'Full interior overhauls'],
   },
@@ -39,45 +38,26 @@ export default function ResidentialPage() {
   return (
     <>
       <PageHero
-        eyebrow="For Homeowners"
+        eyebrow="For Kansas City Homeowners"
         title="Residential Remodeling"
-        body="Kitchens, bathrooms, and whole-home projects, built around how you actually live, with honest communication from your first walkthrough to the final punch list."
+        body="Safer bathrooms, accessible homes, finished basements, and the kitchens and baths you use every day, built around how you actually live, with honest communication from your first walkthrough to the final punch list."
       />
-
-      <FinancingBanner />
-
-      <section className="mx-auto max-w-6xl px-6 py-20">
-        <div className="space-y-16">
-          {SERVICES.map((service, i) => (
-            <div key={service.title} className="grid gap-8 border-t border-ink/10 pt-12 first:border-t-0 first:pt-0 md:grid-cols-[auto_1fr]">
-              <span className="font-mono text-sm text-brass">{String(i + 1).padStart(2, '0')}</span>
-              <div>
-                <h2 className="font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
-                  {service.title}
-                </h2>
-                <p className="mt-4 max-w-2xl font-body leading-relaxed text-ink/75">{service.body}</p>
-                <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.1em] text-concrete">
-                  {service.points.map(point => (
-                    <li key={point}>• {point}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       <section className="bg-paper">
         <div className="mx-auto max-w-6xl px-6 py-20">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Specialized Services</div>
+          <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Our Specialties</div>
           <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
-            More Ways We Can Help
+            Remodeling for Every Stage of Life
           </h2>
           <div className="tick-rule mt-4 mb-10" />
           <div className="grid gap-10 md:grid-cols-2">
             {RESIDENTIAL_SERVICES.map(service => (
               <div key={service.slug} className="border-l-2 border-brass pl-5">
-                <h3 className="font-display text-2xl font-bold uppercase tracking-tight">{service.name}</h3>
+                <h3 className="font-display text-2xl font-bold uppercase tracking-tight">
+                  <Link href={`/residential/${service.slug}`} className="hover:text-brass">
+                    {service.name}
+                  </Link>
+                </h3>
                 <p className="mt-3 font-body leading-relaxed text-ink/75">{service.cardBlurb}</p>
                 <Link
                   href={`/residential/${service.slug}`}
@@ -88,8 +68,53 @@ export default function ResidentialPage() {
               </div>
             ))}
           </div>
+          <p className="mt-12 max-w-3xl font-body leading-relaxed text-ink/75">
+            Planning for yourself or for a parent?{' '}
+            <Link href="/residential/aging-in-place" className="text-rust underline hover:text-ink">
+              Start with our aging-in-place planning guide
+            </Link>
+            , a room-by-room look at what helps people stay safely in their own homes.
+          </p>
         </div>
       </section>
+
+      <section className="mx-auto max-w-6xl px-6 py-20">
+        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Kitchen, Bath &amp; Whole-Home</div>
+        <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
+          Remodels You&rsquo;ll Use Every Day
+        </h2>
+        <div className="tick-rule mt-4 mb-12" />
+        <div className="space-y-16">
+          {SERVICES.map((service, i) => (
+            <div
+              key={service.title}
+              id={service.id}
+              className="grid scroll-mt-28 gap-8 border-t border-ink/10 pt-12 first:border-t-0 first:pt-0 md:grid-cols-[auto_1fr]"
+            >
+              <span className="font-mono text-sm text-brass">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h3 className="font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
+                  {service.title}
+                </h3>
+                <p className="mt-4 max-w-2xl font-body leading-relaxed text-ink/75">{service.body}</p>
+                <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.1em] text-concrete">
+                  {service.points.map(point => (
+                    <li key={point}>• {point}</li>
+                  ))}
+                </ul>
+                <Link
+                  href={estimateHref(service.id)}
+                  className="mt-6 inline-block font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
+                >
+                  Request a Free Estimate →
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <FinancingBanner />
 
       <section className="bg-blueprint text-paper">
         <div className="mx-auto max-w-5xl px-6 py-20 text-center">
@@ -116,7 +141,10 @@ export default function ResidentialPage() {
         </div>
       </section>
 
-      <CtaBanner body="Tell us about your project and we'll schedule a free in-home consultation." />
+      <CtaBanner
+        body="Tell us about your project and we'll schedule a free in-home consultation."
+        href="/consultation?vertical=residential"
+      />
     </>
   );
 }

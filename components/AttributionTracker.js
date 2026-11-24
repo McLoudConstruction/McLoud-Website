@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { VERTICAL_BY_SLUG, ALL_VERTICAL_KEYS, RESIDENTIAL_KEY } from '@/lib/verticals';
+import { PROJECT_BY_VALUE } from '@/lib/projectOptions';
 
 // Remembers, for the length of one browser session, where a visitor came from
 // and which industry page they were last looking at, so the consultation form
@@ -38,6 +39,17 @@ function verticalFromPath(pathname) {
   return null;
 }
 
+// The specific service page a visitor last looked at, used only to preselect
+// "What's the project?" on the estimate form. It is not sent to the jobs
+// platform as its own field.
+export function serviceFromPath(pathname) {
+  if (pathname === '/commercial/accessible-units') return 'accessible-units';
+  const res = pathname.match(/^\/residential\/([^/]+)\/?$/);
+  if (res && PROJECT_BY_VALUE[res[1]]) return res[1];
+  if (/^\/commercial\/[^/]+\/?$/.test(pathname)) return 'commercial';
+  return null;
+}
+
 export default function AttributionTracker() {
   const pathname = usePathname();
 
@@ -68,6 +80,10 @@ export default function AttributionTracker() {
     const explicit = fromParam && ALL_VERTICAL_KEYS.includes(fromParam) ? fromParam : null;
     const inferred = verticalFromPath(pathname);
     if (explicit || inferred) data.vertical = explicit || inferred;
+
+    const serviceParam = params.get('service');
+    const service = serviceParam && PROJECT_BY_VALUE[serviceParam] ? serviceParam : serviceFromPath(pathname);
+    if (service) data.service = service;
 
     safeWrite(data);
   }, [pathname]);

@@ -8,6 +8,7 @@ export default function sitemap() {
   const routes = [
     { path: '', priority: 1.0, changeFrequency: 'monthly' },
     { path: '/residential', priority: 0.9, changeFrequency: 'monthly' },
+    { path: '/residential/aging-in-place', priority: 0.8, changeFrequency: 'monthly' },
     ...RESIDENTIAL_SERVICES.map(service => ({
       path: `/residential/${service.slug}`,
       priority: 0.8,
@@ -15,6 +16,7 @@ export default function sitemap() {
     })),
     { path: '/commercial', priority: 0.9, changeFrequency: 'monthly' },
     ...VERTICALS.map(v => ({ path: `/commercial/${v.slug}`, priority: 0.8, changeFrequency: 'monthly' })),
+    { path: '/commercial/accessible-units', priority: 0.8, changeFrequency: 'monthly' },
     { path: '/about', priority: 0.7, changeFrequency: 'yearly' },
     { path: '/faq', priority: 0.6, changeFrequency: 'yearly' },
     { path: '/financing', priority: 0.6, changeFrequency: 'yearly' },

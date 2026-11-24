@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
@@ -8,10 +9,32 @@ import {
   RESIDENTIAL_SERVICE_BY_SLUG,
   SITE_URL,
 } from '@/lib/residentialServices';
+import { pageMetadata } from '@/lib/seo';
+import { estimateHref } from '@/lib/projectOptions';
 
 export const dynamicParams = false;
 
-const CONSULTATION_HREF = '/consultation?vertical=residential';
+// Extra related links that point at the audience pages rather than at
+// another service. Keyed by service slug.
+const AGING_IN_PLACE_HUB = {
+  href: '/residential/aging-in-place',
+  name: 'Aging-in-Place Planning',
+  blurb: 'Planning for yourself or a parent? Start with the room-by-room guide to staying safely in your own home.',
+};
+const EXTRA_RELATED = {
+  'aging-in-place-bathroom-remodels': [AGING_IN_PLACE_HUB],
+  'tub-to-shower-conversions': [AGING_IN_PLACE_HUB],
+  'accessibility-modifications': [
+    AGING_IN_PLACE_HUB,
+    {
+      href: '/commercial/accessible-units',
+      name: 'Accessible Units for Property Managers',
+      blurb: 'Managing apartments or rentals? McLoud Construction upgrades units for residents with mobility needs.',
+    },
+  ],
+};
+
+const sectionHeadingClass = 'font-mono text-xs uppercase tracking-[0.2em]';
 
 const areaServed = [
   { '@type': 'AdministrativeArea', name: 'Kansas City Metro, MO & KS' },
@@ -29,23 +52,17 @@ export function generateStaticParams() {
 export function generateMetadata({ params }) {
   const service = RESIDENTIAL_SERVICE_BY_SLUG[params.service];
   if (!service) return {};
-  const path = `/residential/${service.slug}`;
-  return {
-    title: { absolute: service.metaTitle },
+  return pageMetadata({
+    title: service.metaTitle,
     description: service.metaDescription,
-    alternates: { canonical: path },
-    openGraph: {
-      title: service.metaTitle,
-      description: service.metaDescription,
-      url: path,
-    },
-  };
+    path: `/residential/${service.slug}`,
+  });
 }
 
-function EstimateLink({ className }) {
+function EstimateLink({ href, className }) {
   return (
     <Link
-      href={CONSULTATION_HREF}
+      href={href}
       className={
         className ||
         'inline-block bg-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90'
@@ -70,26 +87,6 @@ function RichText({ parts }) {
         )
       )}
     </p>
-  );
-}
-
-function PhotoPlaceholder({ label, alt }) {
-  return (
-    <figure>
-      <div
-        className="flex aspect-[4/3] items-center justify-center border border-ink/10 bg-ink/[0.04] px-6 text-center"
-        role="img"
-        aria-label={alt}
-      >
-        <div>
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">{label} photo</div>
-          <p className="mt-3 max-w-xs font-body text-sm leading-relaxed text-ink/50">
-            Project photo coming soon. This placeholder stands in until a McLoud Construction {label.toLowerCase()} image is added.
-          </p>
-        </div>
-      </div>
-      <figcaption className="mt-3 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-concrete">{alt}</figcaption>
-    </figure>
   );
 }
 
@@ -126,6 +123,12 @@ function serviceSchema(service) {
 export default function ResidentialServicePage({ params }) {
   const service = RESIDENTIAL_SERVICE_BY_SLUG[params.service];
   if (!service) notFound();
+  const consultationHref = estimateHref(service.slug);
+  const related = [...service.related, ...(EXTRA_RELATED[service.slug] || [])];
+  // Only real project photos are shown. Entries without a `src` are
+  // descriptions waiting for a photo, so the section stays hidden until then.
+  const photos = (service.photos || []).filter(photo => photo.src);
+  const linkHref = href => (href.startsWith('/consultation') ? consultationHref : href);
 
   return (
     <>
@@ -136,12 +139,12 @@ export default function ResidentialServicePage({ params }) {
       <section className="mx-auto max-w-3xl px-6 py-16">
         <p className="font-body text-lg leading-relaxed text-ink/80">{service.intro}</p>
         <div className="mt-8">
-          <EstimateLink />
+          <EstimateLink href={consultationHref} />
         </div>
       </section>
 
       <section className="mx-auto max-w-3xl px-6 pb-16">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Who It&rsquo;s For</div>
+        <h2 className={`${sectionHeadingClass} text-rust`}>Who It&rsquo;s For</h2>
         <div className="tick-rule mt-3 mb-8" />
         <p className="font-body leading-relaxed text-ink/75">{service.audienceIntro}</p>
         <ul className="mt-5 list-disc space-y-2 pl-5 font-body leading-relaxed text-ink/75">
@@ -154,7 +157,7 @@ export default function ResidentialServicePage({ params }) {
 
       <section className="bg-paper">
         <div className="mx-auto max-w-3xl px-6 py-16">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">What&rsquo;s Included</div>
+          <h2 className={`${sectionHeadingClass} text-rust`}>What&rsquo;s Included</h2>
           <div className="tick-rule mt-3 mb-8" />
           <p className="font-body leading-relaxed text-ink/75">{service.includedIntro}</p>
           <ul className="mt-5 list-disc space-y-2 pl-5 font-body leading-relaxed text-ink/75">
@@ -170,7 +173,7 @@ export default function ResidentialServicePage({ params }) {
               {service.includedLinks.map(link => (
                 <Link
                   key={link.href}
-                  href={link.href}
+                  href={linkHref(link.href)}
                   className="font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
                 >
                   {link.label} →
@@ -183,7 +186,7 @@ export default function ResidentialServicePage({ params }) {
 
       <section className="bg-blueprint text-paper">
         <div className="mx-auto max-w-3xl px-6 py-16">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Why McLoud Construction</div>
+          <h2 className={`${sectionHeadingClass} text-brass`}>Why McLoud Construction</h2>
           <div className="tick-rule mt-3 mb-8" />
           {service.why.map(paragraph => (
             <p key={paragraph} className="mt-4 font-body leading-relaxed text-paper/80 first:mt-0">
@@ -191,29 +194,32 @@ export default function ResidentialServicePage({ params }) {
             </p>
           ))}
           <div className="mt-8">
-            <EstimateLink />
+            <EstimateLink href={consultationHref} />
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Before and After</div>
-        <div className="tick-rule mt-3 mb-8" />
-        <p className="mb-8 max-w-2xl font-body leading-relaxed text-ink/75">
-          Project photos will be added here as McLoud Construction completes {service.name.toLowerCase()} in the Kansas
-          City metro.
-        </p>
-        <div className="grid gap-8 md:grid-cols-2">
-          {service.photos.map(photo => (
-            <PhotoPlaceholder key={photo.label} label={photo.label} alt={photo.alt} />
-          ))}
-        </div>
-      </section>
+      {photos.length > 0 && (
+        <section className="mx-auto max-w-6xl px-6 py-16">
+          <h2 className={`${sectionHeadingClass} text-rust`}>Before and After</h2>
+          <div className="tick-rule mt-3 mb-8" />
+          <div className="grid gap-8 md:grid-cols-2">
+            {photos.map(photo => (
+              <figure key={photo.src}>
+                <Image src={photo.src} alt={photo.alt} width={1200} height={900} className="h-auto w-full object-cover" />
+                <figcaption className="mt-3 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-concrete">
+                  {photo.label}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+      )}
 
-      <section className="mx-auto max-w-6xl px-6 pb-16">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-concrete">Related Services</div>
+      <section className="mx-auto max-w-6xl px-6 py-16">
+        <h2 className={`${sectionHeadingClass} text-concrete`}>Related Services</h2>
         <div className="mt-5 grid gap-6 md:grid-cols-2">
-          {service.related.map(item => (
+          {related.map(item => (
             <Link
               key={item.href}
               href={item.href}
@@ -227,7 +233,7 @@ export default function ResidentialServicePage({ params }) {
       </section>
 
       <section className="mx-auto max-w-3xl px-6 pb-16">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Frequently Asked Questions</div>
+        <h2 className={`${sectionHeadingClass} text-rust`}>Frequently Asked Questions</h2>
         <div className="tick-rule mt-3 mb-8" />
         <div className="divide-y divide-ink/10 border-t border-ink/10">
           {service.faqs.map(item => (
@@ -242,7 +248,7 @@ export default function ResidentialServicePage({ params }) {
                   {item.links.map(link => (
                     <Link
                       key={link.href}
-                      href={link.href}
+                      href={linkHref(link.href)}
                       className="font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
                     >
                       {link.label} →
@@ -255,7 +261,7 @@ export default function ResidentialServicePage({ params }) {
         </div>
       </section>
 
-      <CtaBanner heading={service.ctaHeading} body={service.ctaBody} href={CONSULTATION_HREF} />
+      <CtaBanner heading={service.ctaHeading} body={service.ctaBody} href={consultationHref} />
     </>
   );
 }

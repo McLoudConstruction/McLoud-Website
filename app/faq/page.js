@@ -1,20 +1,16 @@
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
+import { pageMetadata } from '@/lib/seo';
 
 const DESCRIPTION =
-  'Answers to common questions about McLoud Construction’s service area, estimates, financing, timelines, scope changes, and permits for Kansas City remodeling and commercial projects.';
+  'Answers about McLoud Construction’s service area, estimates, financing, scope changes, permits, and accessibility, basement, and remodeling projects in Kansas City.';
 
-export const metadata = {
-  title: 'Remodeling & Commercial Construction FAQ | McLoud Construction Kansas City',
+export const metadata = pageMetadata({
+  title: 'Remodeling & Construction FAQ',
   description: DESCRIPTION,
-  alternates: { canonical: '/faq' },
-  openGraph: {
-    title: 'Remodeling & Commercial Construction FAQ | McLoud Construction Kansas City',
-    description: DESCRIPTION,
-    url: '/faq',
-  },
-};
+  path: '/faq',
+});
 
 const FAQS = [
   {

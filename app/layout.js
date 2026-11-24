@@ -4,12 +4,11 @@ import Footer from '@/components/Footer';
 import { Analytics } from '@vercel/analytics/react';
 import AttributionTracker from '@/components/AttributionTracker';
 import { PHONE, SERVICE_AREAS } from '@/lib/siteConfig';
+import { SITE_URL, SITE_NAME, OG_IMAGE } from '@/lib/seo';
 
-const SITE_URL = 'https://mcloudconstruction.com';
-const SITE_NAME = 'McLoud Construction';
-const DEFAULT_TITLE = 'McLoud Construction | Kansas City Commercial & Residential Contractor';
+const DEFAULT_TITLE = 'Kansas City Remodeling for Every Stage of Life | McLoud Construction';
 const DEFAULT_DESCRIPTION =
-  'Commercial capital improvements and residential remodeling across the Kansas City metro, Missouri and Kansas. Quality work, honest communication.';
+  'Aging-in-place bathrooms, accessibility modifications, tub-to-shower conversions, basement finishing, and kitchen and bath remodels across the Kansas City metro.';
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -18,9 +17,8 @@ export const metadata = {
     template: '%s | McLoud Construction',
   },
   description: DEFAULT_DESCRIPTION,
-  alternates: {
-    canonical: '/',
-  },
+  // No default canonical here: every page sets its own through pageMetadata,
+  // and a root default would point pages without one (like the 404) at '/'.
   icons: {
     icon: [
       { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
@@ -35,14 +33,7 @@ export const metadata = {
     description: DEFAULT_DESCRIPTION,
     url: SITE_URL,
     locale: 'en_US',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'McLoud Construction \u2014 Built right. Told straight.',
-      },
-    ],
+    images: [OG_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',

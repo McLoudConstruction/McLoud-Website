@@ -3,19 +3,15 @@ import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
 import ObfuscatedEmail from '@/components/ObfuscatedEmail';
 import { VERTICALS } from '@/lib/verticals';
+import { COMMERCIAL_EXTRA_NAV } from '@/lib/projectOptions';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata = {
-  title: 'Commercial Buildouts & Capital Improvements | McLoud',
+export const metadata = pageMetadata({
+  title: 'Commercial Renovations in Kansas City',
   description:
-    'Exterior repaints, retail and office buildouts, and multifamily amenity renovations for commercial property owners across the Kansas City metro.',
-  alternates: { canonical: '/commercial' },
-  openGraph: {
-    title: 'Commercial Buildouts & Capital Improvements | McLoud',
-    description:
-      'Exterior repaints, retail and office buildouts, and multifamily amenity renovations for commercial property owners across the Kansas City metro.',
-    url: '/commercial',
-  },
-};
+    'Exterior repaints, retail and office buildouts, accessible-unit upgrades, and multifamily amenity renovations for property owners and managers across the Kansas City metro.',
+  path: '/commercial',
+});
 
 const GROUPS = [
   {
@@ -102,7 +98,38 @@ export default function CommercialPage() {
                 {v.label}
               </Link>
             ))}
+            {COMMERCIAL_EXTRA_NAV.map(link => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="border-l-2 border-brass pl-4 font-display text-2xl font-bold uppercase tracking-tight transition-colors hover:text-brass"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
+        </div>
+      </section>
+
+      <section className="border-b border-ink/10 bg-paper">
+        <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 px-6 py-14 md:flex-row md:items-center md:justify-between">
+          <div>
+            <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">For Property Managers</div>
+            <h2 className="mt-2 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
+              Need Accessible Units?
+            </h2>
+            <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink/70">
+              McLoud Construction converts and updates units for residents who use wheelchairs, walkers, or other
+              mobility aids: roll-in showers, wider doorways, lowered counters, and accessible entries, built by a
+              demo-and-rebuild crew that works in occupied buildings.
+            </p>
+          </div>
+          <Link
+            href="/commercial/accessible-units"
+            className="shrink-0 border border-rust px-7 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-rust transition-colors hover:bg-rust hover:text-paper"
+          >
+            Accessible Unit Upgrades →
+          </Link>
         </div>
       </section>
 

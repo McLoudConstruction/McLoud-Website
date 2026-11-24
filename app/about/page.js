@@ -1,19 +1,15 @@
 import Image from 'next/image';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'About McLoud Construction | Kansas City, MO & KS',
+  absolute: true,
   description:
-    'Locally owned and operated by Stachys and Isabelle McLoud, serving the Kansas City metro with honest communication and hands-on craftsmanship.',
-  alternates: { canonical: '/about' },
-  openGraph: {
-    title: 'About McLoud Construction | Kansas City, MO & KS',
-    description:
-      'Locally owned and operated by Stachys and Isabelle McLoud, serving the Kansas City metro with honest communication and hands-on craftsmanship.',
-    url: '/about',
-  },
-};
+    'Locally owned and operated by Stachys and Isabelle McLoud, with a restoration and demo-and-rebuild background, serving the Kansas City metro with honest communication.',
+  path: '/about',
+});
 
 export default function AboutPage() {
   return (
@@ -45,6 +41,13 @@ export default function AboutPage() {
               quality work, and never make a client guess what&rsquo;s happening. We&rsquo;re local,
               not a franchise, so the people who show up to your consultation are the same people
               who&rsquo;ll answer the phone six weeks into your project.
+            </p>
+            <p className="mt-4 font-body leading-relaxed text-ink/75">
+              Stachys came to McLoud Construction from restoration, doing large demo-and-rebuild work for
+              property management companies. That background shapes how we work today: we find water problems
+              and hidden damage before we finish a room, we keep occupied homes and buildings clean and
+              livable during the work, and we put every space back together the right way. McLoud Construction
+              is insured, and every trade partner is vetted.
             </p>
           </div>
         </div>

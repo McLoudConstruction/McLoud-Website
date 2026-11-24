@@ -2,13 +2,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ObfuscatedEmail from './ObfuscatedEmail';
 import { SERVICE_AREAS, phoneDisplay, phoneHref } from '@/lib/siteConfig';
+import { RESIDENTIAL_NAV, COMMERCIAL_EXTRA_NAV } from '@/lib/projectOptions';
 
 export default function Footer() {
   const phone = phoneDisplay();
   return (
     <footer className="bg-ink text-paper">
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-10 md:grid-cols-3 lg:grid-cols-6">
+        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <div>
             <Image src="/logo.png" alt="McLoud Construction" width={185} height={80} className="h-16 w-auto" />
             <p className="mt-4 max-w-xs font-body text-sm leading-relaxed text-paper/70">
@@ -21,8 +22,21 @@ export default function Footer() {
             <ul className="mt-4 space-y-2 font-body text-sm text-paper/80">
               <li><Link href="/residential" className="hover:text-brass">Residential</Link></li>
               <li><Link href="/commercial" className="hover:text-brass">Commercial</Link></li>
+              {COMMERCIAL_EXTRA_NAV.map(link => (
+                <li key={link.href}><Link href={link.href} className="hover:text-brass">{link.label}</Link></li>
+              ))}
               <li><Link href="/about" className="hover:text-brass">About</Link></li>
               <li><Link href="/faq" className="hover:text-brass">FAQ</Link></li>
+              <li><Link href="/financing" className="hover:text-brass">Financing</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <div className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-brass">Residential Services</div>
+            <ul className="mt-4 space-y-2 font-body text-sm text-paper/80">
+              {RESIDENTIAL_NAV.map(link => (
+                <li key={link.href}><Link href={link.href} className="hover:text-brass">{link.label}</Link></li>
+              ))}
             </ul>
           </div>
 

@@ -1,15 +1,22 @@
 # McLoud Construction
 
-> McLoud Construction is a locally owned general contractor serving the Kansas City metro
-> (Missouri and Kansas), specializing in residential remodeling and commercial capital
-> improvement projects. Quality work, honest communication.
+> McLoud Construction is a locally owned, insured general contractor serving the Kansas City
+> metro (Missouri and Kansas). It specializes in remodeling for every stage of life:
+> aging-in-place bathroom remodels, accessibility modifications, tub-to-shower conversions,
+> and basement finishing, alongside kitchen, bathroom, and whole-home remodels and commercial
+> renovations for property owners and managers. Its background is restoration and
+> demo-and-rebuild work. Built right. Told straight.
 
 ## Services
 
+- Aging-in-place bathroom remodels: curbless showers, grab bars, shower benches, comfort-height toilets, slip-resistant floors
+- Accessibility modifications: ramps, wider doorways, accessible kitchens and bathrooms, accessible entries
+- Tub-to-shower conversions: tub removal and a new walk-in shower with low-threshold or curbless options
+- Basement finishing: moisture checks first, then framing, flooring, bedrooms with egress windows, bathrooms, and living space
 - Residential remodeling: kitchen, bathroom, and whole-home remodels
+- Accessible unit upgrades for property managers: roll-in showers, wider doorways, accessible kitchens and entries
 - Commercial buildouts: retail, office, and multifamily amenity renovations
 - Exterior work: paints, wood rot and trim replacement, stucco repairs
-- Finish carpentry and clubhouse remodels for multifamily properties
 
 ## Service Area
 
@@ -19,9 +26,15 @@ Overland Park, Olathe, Lenexa, Shawnee, Leawood, and Kansas City, KS in Kansas.
 
 ## Pages
 
-- [Home](https://mcloudconstruction.com/): Overview of McLoud Construction and its approach
-- [Residential](https://mcloudconstruction.com/residential): Kitchen, bathroom, and whole-home remodeling services
+- [Home](https://mcloudconstruction.com/): Remodeling for every stage of life in Kansas City, with paths for each kind of client
+- [Residential](https://mcloudconstruction.com/residential): Specialties plus kitchen, bathroom, and whole-home remodeling
+- [Aging-in-Place Planning](https://mcloudconstruction.com/residential/aging-in-place): Room-by-room guide for older homeowners and adult children planning for a parent
+- [Aging-in-Place Bathroom Remodels](https://mcloudconstruction.com/residential/aging-in-place-bathroom-remodels): Safer bathrooms that still look like home
+- [Accessibility Modifications](https://mcloudconstruction.com/residential/accessibility-modifications): Ramps, wider doorways, accessible kitchens and bathrooms
+- [Basement Finishing](https://mcloudconstruction.com/residential/basement-finishing): Finished, dry living space below grade
+- [Tub-to-Shower Conversions](https://mcloudconstruction.com/residential/tub-to-shower-conversions): Replace an unused tub with a walk-in shower
 - [Commercial](https://mcloudconstruction.com/commercial): Commercial buildouts and capital improvement services
+- [Accessible Units](https://mcloudconstruction.com/commercial/accessible-units): Accessible unit upgrades for property managers
 - [Multi-Family](https://mcloudconstruction.com/commercial/multi-family): Exterior repaints, clubhouse remodels, and amenity upgrades for apartment communities
 - [Hotel & Lodging](https://mcloudconstruction.com/commercial/hotel-lodging): Exterior and interior renovations for hotels and lodging properties
 - [Office](https://mcloudconstruction.com/commercial/office): Office buildouts and renovations
@@ -29,10 +42,10 @@ Overland Park, Olathe, Lenexa, Shawnee, Leawood, and Kansas City, KS in Kansas.
 - [Recreational Facilities](https://mcloudconstruction.com/commercial/recreational-facilities): Renovations and repairs for recreational facilities and clubs
 - [Churches](https://mcloudconstruction.com/commercial/churches): Repairs, repaints, and renovations for churches
 - [About](https://mcloudconstruction.com/about): Company background and the owners, Stachys and Isabelle McLoud
-- [FAQ](https://mcloudconstruction.com/faq): Answers to common questions about estimates, financing, scope changes, timelines, and service area
-- [Financing](https://mcloudconstruction.com/financing): Residential remodel financing arranged through Acorn Finance
-- [Consultation](https://mcloudconstruction.com/consultation): Request a free estimate or consultation
+- [FAQ](https://mcloudconstruction.com/faq): Answers to common questions about estimates, financing, scope changes, and service area
+- [Financing](https://mcloudconstruction.com/financing): Remodel financing arranged through Acorn Finance
+- [Consultation](https://mcloudconstruction.com/consultation): Request a free estimate
 
 ## Contact
 
-Schedule a consultation at https://mcloudconstruction.com/consultation
+Request a free estimate at https://mcloudconstruction.com/consultation

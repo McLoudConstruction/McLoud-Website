@@ -3,13 +3,22 @@ import { useState, useRef, useEffect } from 'react';
 import { readAttribution } from '@/components/AttributionTracker';
 import { VERTICALS, VERTICAL_BY_KEY } from '@/lib/verticals';
 import { phoneDisplay, phoneHref } from '@/lib/siteConfig';
+import {
+  PROJECT_OPTIONS,
+  PROJECT_BY_VALUE,
+  COMMERCIAL_PROJECTS,
+  AUDIENCE_OPTIONS,
+  AUDIENCE_BY_VALUE,
+} from '@/lib/projectOptions';
 
 const API_URL = 'https://jobs.mcloudconstruction.com/api/public/consultation-request';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Commercial-only details. They are folded into the message text below, so the
-// jobs platform keeps receiving exactly the fields it already expects.
+// Commercial-only details, plus "What's the project?" and "Who is it for?".
+// They are folded into the existing `project` and `message` fields below, so
+// the jobs platform keeps receiving exactly the fields it already expects and
+// no database change is needed.
 const PROPERTY_TYPES = [...VERTICALS.map(v => v.label), 'Other'];
 const TIMELINES = ['As soon as possible', 'Within 3 months', '3 to 6 months', '6+ months / planning ahead', 'Not sure yet'];
 
@@ -26,6 +35,8 @@ export default function ConsultationForm() {
     email: '',
     phone: '',
     projectType: 'Residential',
+    service: '',
+    audience: '',
     company: '',
     propertyType: '',
     size: '',
@@ -39,21 +50,53 @@ export default function ConsultationForm() {
   const [fieldErrors, setFieldErrors] = useState({});
   const fileInputRef = useRef(null);
 
-  // A visitor who arrived from an industry page is almost certainly a
-  // commercial lead, so start the form on Commercial and preselect that
-  // industry. Residential is the default for everyone else. Attribution
-  // itself is read again at submit.
+  // Preselect the form from where the visitor came from: an explicit
+  // ?service= / ?for= on the link they clicked wins, then the service page
+  // they last looked at, then the industry page (which means a commercial
+  // lead). The URL is read here directly because this effect runs before the
+  // tracker's. Attribution itself is read again at submit.
   useEffect(() => {
-    const { vertical } = readAttribution();
-    if (vertical && vertical !== 'residential') {
-      const label = VERTICAL_BY_KEY[vertical]?.label || '';
-      setForm(prev =>
-        prev.projectType === 'Residential'
-          ? { ...prev, projectType: 'Commercial', propertyType: prev.propertyType || label }
-          : prev
-      );
-    }
+    const params = new URLSearchParams(window.location.search);
+    const attribution = readAttribution();
+    const fromParam = params.get('service');
+    const service = PROJECT_BY_VALUE[fromParam] ? fromParam : PROJECT_BY_VALUE[attribution.service] ? attribution.service : '';
+    const forParam = params.get('for');
+    const audience = AUDIENCE_BY_VALUE[forParam] ? forParam : '';
+    const vertical = params.get('vertical') || attribution.vertical;
+    const industryLabel = vertical && vertical !== 'residential' ? VERTICAL_BY_KEY[vertical]?.label || '' : '';
+
+    setForm(prev => {
+      if (prev.service) return prev; // the visitor already chose
+      const next = { ...prev, audience: prev.audience || audience };
+      if (service) {
+        next.service = service;
+        next.projectType = COMMERCIAL_PROJECTS.includes(service) ? 'Commercial' : 'Residential';
+      } else if (industryLabel) {
+        next.service = 'commercial';
+        next.projectType = 'Commercial';
+      }
+      if (next.projectType === 'Commercial' && industryLabel && !next.propertyType) next.propertyType = industryLabel;
+      return next;
+    });
   }, []);
+
+  function updateService(value) {
+    setForm(prev => ({
+      ...prev,
+      service: value,
+      // "Something else" keeps whatever Residential/Commercial choice is showing.
+      projectType:
+        value === 'other' ? prev.projectType : COMMERCIAL_PROJECTS.includes(value) ? 'Commercial' : 'Residential',
+    }));
+    setFieldErrors(prev => {
+      if (!prev.service && !prev.project) return prev;
+      const next = { ...prev };
+      delete next.service;
+      delete next.project;
+      return next;
+    });
+    if (status === 'invalid') setStatus('idle');
+  }
 
   function update(field, value) {
     setForm(prev => ({ ...prev, [field]: value }));
@@ -84,7 +127,8 @@ export default function ConsultationForm() {
     if (phoneDigits.length !== 10) errors.phone = 'Enter a valid 10-digit phone number.';
     if (!EMAIL_PATTERN.test(form.email.trim())) errors.email = 'Enter a valid email address (e.g. name@example.com).';
     if (form.projectType === 'Commercial' && !form.company.trim()) errors.company = 'Company is required.';
-    if (!form.project.trim()) errors.project = 'This field is required.';
+    if (!form.service) errors.service = 'Choose the closest match.';
+    if (form.service === 'other' && !form.project.trim()) errors.project = 'Tell us in a few words what the project is.';
     if (!form.message.trim()) errors.message = 'Please tell us a bit about your project.';
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
@@ -103,9 +147,24 @@ export default function ConsultationForm() {
     }
     setStatus('sending');
     try {
-      // Commercial details ride along inside the message text.
+      // The project choice goes in the existing `project` field ("Something
+      // else" sends what the visitor typed). Who it's for and the commercial
+      // details ride along inside the message text.
+      const choice = PROJECT_BY_VALUE[form.service];
+      const isCommercialLead = form.projectType === 'Commercial';
+      // Commercial leads can add a few words of scope, kept with the choice.
+      // The text box only shows for commercial and "Something else".
+      const scope = isCommercialLead || form.service === 'other' ? form.project.trim() : '';
+      const project =
+        form.service === 'other' ? scope : choice && scope ? `${choice.label}: ${scope}` : choice?.label || scope;
+
       let message = form.message.trim();
-      if (form.projectType === 'Commercial') {
+      const projectDetails = [
+        choice && `Project: ${choice.label}${scope ? ` (${scope})` : ''}`,
+        !isCommercialLead && form.audience && `Who it's for: ${AUDIENCE_BY_VALUE[form.audience]?.label || form.audience}`,
+      ].filter(Boolean);
+      if (projectDetails.length) message += `\n\n--- Project details ---\n${projectDetails.join('\n')}`;
+      if (isCommercialLead) {
         const details = [
           form.propertyType && `Property type: ${form.propertyType}`,
           form.size.trim() && `Size / scale: ${form.size.trim()}`,
@@ -114,9 +173,10 @@ export default function ConsultationForm() {
         if (details.length) message += `\n\n--- Property details ---\n${details.join('\n')}`;
       }
 
-      const { propertyType, size, timeline, ...core } = form;
+      // Only the fields the jobs platform already accepts are sent.
+      const { propertyType, size, timeline, service, audience, ...core } = form;
       const data = new FormData();
-      Object.entries({ ...core, message }).forEach(([key, value]) => data.append(key, value));
+      Object.entries({ ...core, project, message }).forEach(([key, value]) => data.append(key, value));
       // Where the lead came from. The jobs platform validates and stores these.
       const attribution = readAttribution();
       ['vertical', 'utm_source', 'utm_medium', 'utm_campaign', 'landing_path', 'referrer'].forEach(key => {
@@ -199,12 +259,63 @@ export default function ConsultationForm() {
       </div>
 
       <div className="mt-6">
-        <label htmlFor="cf-type" className={labelClass}>Project Type *</label>
-        <select id="cf-type" className={inputClass} value={form.projectType} onChange={e => update('projectType', e.target.value)}>
-          <option>Residential</option>
-          <option>Commercial</option>
+        <label htmlFor="cf-service" className={labelClass}>What&rsquo;s the Project? *</label>
+        <select id="cf-service" className={inputClass} value={form.service} onChange={e => updateService(e.target.value)}>
+          <option value="">Select one</option>
+          {PROJECT_OPTIONS.map(o => (
+            <option key={o.value} value={o.value}>{o.label}</option>
+          ))}
         </select>
+        {fieldErrors.service && <p className={errorClass}>{fieldErrors.service}</p>}
       </div>
+
+      {isCommercial && form.service !== 'other' && (
+        <div className="mt-6">
+          <label htmlFor="cf-project" className={labelClass}>Scope in a Few Words</label>
+          <input
+            id="cf-project"
+            className={inputClass}
+            placeholder="e.g. Exterior repaint and rot repair"
+            value={form.project}
+            onChange={e => update('project', e.target.value)}
+          />
+        </div>
+      )}
+
+      {form.service === 'other' && (
+        <div className="mt-6 grid gap-6 sm:grid-cols-2">
+          <div>
+            <label htmlFor="cf-project" className={labelClass}>What Is It? *</label>
+            <input
+              id="cf-project"
+              className={inputClass}
+              placeholder="e.g. Deck repair"
+              value={form.project}
+              onChange={e => update('project', e.target.value)}
+            />
+            {fieldErrors.project && <p className={errorClass}>{fieldErrors.project}</p>}
+          </div>
+          <div>
+            <label htmlFor="cf-type" className={labelClass}>Home or Business? *</label>
+            <select id="cf-type" className={inputClass} value={form.projectType} onChange={e => update('projectType', e.target.value)}>
+              <option value="Residential">Residential</option>
+              <option value="Commercial">Commercial</option>
+            </select>
+          </div>
+        </div>
+      )}
+
+      {!isCommercial && (
+        <div className="mt-6">
+          <label htmlFor="cf-audience" className={labelClass}>Who Is It For?</label>
+          <select id="cf-audience" className={inputClass} value={form.audience} onChange={e => update('audience', e.target.value)}>
+            <option value="">Select one</option>
+            {AUDIENCE_OPTIONS.map(o => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+        </div>
+      )}
 
       {isCommercial && (
         <>
@@ -247,18 +358,6 @@ export default function ConsultationForm() {
           </div>
         </>
       )}
-
-      <div className="mt-6">
-        <label htmlFor="cf-project" className={labelClass}>What Are You Working On? *</label>
-        <input
-          id="cf-project"
-          className={inputClass}
-          placeholder={isCommercial ? 'e.g. Exterior repaint and rot repair' : 'e.g. Kitchen remodel'}
-          value={form.project}
-          onChange={e => update('project', e.target.value)}
-        />
-        {fieldErrors.project && <p className={errorClass}>{fieldErrors.project}</p>}
-      </div>
 
       <div className="mt-6">
         <label htmlFor="cf-message" className={labelClass}>Tell Us About Your Project *</label>

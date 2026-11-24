@@ -1,20 +1,15 @@
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
+import { pageMetadata } from '@/lib/seo';
 
 const ACORN_APPLY_URL = 'https://www.acornfinance.com/pre-qualify/?d=D8WDE&utm_medium=user_pre_qual_link';
 
-export const metadata = {
-  title: 'Kitchen & Bath Remodel Financing | McLoud Construction Kansas City',
+export const metadata = pageMetadata({
+  title: 'Remodel Financing in Kansas City',
   description:
-    'Check your rate for kitchen, bathroom, and whole-home remodel financing in minutes with no impact to your credit score, through a network of vetted lenders arranged by Acorn Finance.',
-  alternates: { canonical: '/financing' },
-  openGraph: {
-    title: 'Kitchen & Bath Remodel Financing | McLoud Construction Kansas City',
-    description:
-      'Check your rate for kitchen, bathroom, and whole-home remodel financing in minutes with no impact to your credit score, through a network of vetted lenders arranged by Acorn Finance.',
-    url: '/financing',
-  },
-};
+    'Check your rate for home remodel financing in minutes with no impact to your credit score, through a network of vetted lenders arranged by Acorn Finance.',
+  path: '/financing',
+});
 
 const BENEFITS = [
   {

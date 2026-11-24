@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
 import { VERTICALS, VERTICAL_BY_SLUG } from '@/lib/verticals';
+import { pageMetadata } from '@/lib/seo';
+import { COMMERCIAL_EXTRA_NAV } from '@/lib/projectOptions';
 
 // Only the industries defined in lib/verticals.js exist; anything else is a 404.
 export const dynamicParams = false;
@@ -14,13 +16,7 @@ export function generateStaticParams() {
 export function generateMetadata({ params }) {
   const v = VERTICAL_BY_SLUG[params.industry];
   if (!v) return {};
-  const path = `/commercial/${v.slug}`;
-  return {
-    title: v.metaTitle,
-    description: v.metaDescription,
-    alternates: { canonical: path },
-    openGraph: { title: v.metaTitle, description: v.metaDescription, url: path },
-  };
+  return pageMetadata({ title: v.metaTitle, description: v.metaDescription, path: `/commercial/${v.slug}` });
 }
 
 export default function IndustryPage({ params }) {
@@ -72,6 +68,15 @@ export default function IndustryPage({ params }) {
               className="border-l-2 border-brass pl-3 font-display text-lg font-bold uppercase tracking-tight hover:text-brass"
             >
               {o.label}
+            </Link>
+          ))}
+          {COMMERCIAL_EXTRA_NAV.map(link => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="border-l-2 border-brass pl-3 font-display text-lg font-bold uppercase tracking-tight hover:text-brass"
+            >
+              {link.label}
             </Link>
           ))}
         </div>

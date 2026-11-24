@@ -3,13 +3,23 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { VERTICALS } from '@/lib/verticals';
+import { RESIDENTIAL_NAV, COMMERCIAL_EXTRA_NAV } from '@/lib/projectOptions';
 import { phoneDisplay, phoneHref } from '@/lib/siteConfig';
 
-// `industries: true` gives that item a dropdown of the industry pages
-// (lib/verticals.js). The parent link still goes to its own page.
+// An item with `menu` gets a dropdown on desktop and an indented list in the
+// mobile menu. The parent link still goes to its own page.
+const RESIDENTIAL_MENU = { allLabel: 'All Residential', links: RESIDENTIAL_NAV };
+const COMMERCIAL_MENU = {
+  allLabel: 'All Commercial',
+  links: [
+    ...VERTICALS.map(v => ({ href: `/commercial/${v.slug}`, label: v.label })),
+    ...COMMERCIAL_EXTRA_NAV,
+  ],
+};
+
 const NAV = [
-  { href: '/residential', label: 'Residential' },
-  { href: '/commercial', label: 'Commercial', industries: true },
+  { href: '/residential', label: 'Residential', menu: RESIDENTIAL_MENU },
+  { href: '/commercial', label: 'Commercial', menu: COMMERCIAL_MENU },
   { href: '/about', label: 'About' },
   { href: '/faq', label: 'FAQ' },
   { href: '/financing', label: 'Financing' },
@@ -31,11 +41,11 @@ export default function Header() {
 
         <nav className="hidden items-center gap-8 md:flex">
           {NAV.map(item =>
-            item.industries ? (
+            item.menu ? (
               // Opens on hover and on keyboard focus. The panel is attached to
               // the link with padding (no gap), so moving the pointer down into
-              // it never closes it. Touch devices tap through to /commercial,
-              // which lists the same industries.
+              // it never closes it. Touch devices tap through to the parent
+              // page, which lists the same links.
               <div key={item.href} className="group relative">
                 <Link href={item.href} className={`${linkClass} inline-flex items-center gap-1.5`}>
                   {item.label}
@@ -44,21 +54,21 @@ export default function Header() {
                   </svg>
                 </Link>
                 <div className="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-5 opacity-0 transition-opacity duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-                  <div className="min-w-[16rem] border border-paper/10 border-t-2 border-t-brass bg-ink py-2 shadow-xl">
+                  <div className="min-w-[19rem] border border-paper/10 border-t-2 border-t-brass bg-ink py-2 shadow-xl">
                     <Link
                       href={item.href}
                       className="block px-5 py-2.5 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-brass transition-colors hover:bg-paper/5"
                     >
-                      All Commercial
+                      {item.menu.allLabel}
                     </Link>
                     <div className="mx-5 my-1 h-px bg-paper/10" />
-                    {VERTICALS.map(v => (
+                    {item.menu.links.map(link => (
                       <Link
-                        key={v.key}
-                        href={`/commercial/${v.slug}`}
+                        key={link.href}
+                        href={link.href}
                         className="block px-5 py-2.5 font-mono text-xs uppercase tracking-[0.15em] text-paper/80 transition-colors hover:bg-paper/5 hover:text-brass"
                       >
-                        {v.label}
+                        {link.label}
                       </Link>
                     ))}
                   </div>
@@ -112,16 +122,16 @@ export default function Header() {
               >
                 {item.label}
               </Link>
-              {item.industries && (
+              {item.menu && (
                 <div className="mb-2 ml-1 border-l border-brass/60 pl-4">
-                  {VERTICALS.map(v => (
+                  {item.menu.links.map(link => (
                     <Link
-                      key={v.key}
-                      href={`/commercial/${v.slug}`}
+                      key={link.href}
+                      href={link.href}
                       onClick={() => setOpen(false)}
                       className="block py-2 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-paper/60"
                     >
-                      {v.label}
+                      {link.label}
                     </Link>
                   ))}
                 </div>
