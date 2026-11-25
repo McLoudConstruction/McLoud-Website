@@ -236,3 +236,29 @@ textarea:focus-visible {
     transform: none;
   }
 }
+
+/* Chat widget attention: the bubble pops in, the button gives a small hop and a
+   soft pulse ring every few seconds. All of it stops for people who prefer less motion. */
+@keyframes chat-pop {
+  0% { opacity: 0; transform: translateY(8px) scale(0.85); }
+  70% { opacity: 1; transform: translateY(-2px) scale(1.03); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes chat-hop {
+  0%, 62%, 100% { transform: translateY(0); }
+  68% { transform: translateY(-9px); }
+  74% { transform: translateY(0); }
+  80% { transform: translateY(-5px); }
+  86% { transform: translateY(0); }
+}
+@keyframes chat-ring {
+  0%, 60% { opacity: 0; transform: scale(1); }
+  66% { opacity: 0.45; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.35, 1.7); }
+}
+.chat-teaser { transform-origin: bottom right; animation: chat-pop 0.45s ease-out both; }
+.chat-nudge { animation: chat-hop 7s ease-in-out 5s infinite; }
+.chat-ring { opacity: 0; animation: chat-ring 7s ease-out 5s infinite; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  .chat-teaser, .chat-nudge, .chat-ring { animation: none; }
+}

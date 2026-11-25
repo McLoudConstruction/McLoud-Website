@@ -18,6 +18,8 @@ import {
 // the server; the server decides everything else.
 
 const STORAGE_KEY = 'mcloud_chat_v1';
+const TEASER_KEY = 'mcloud_chat_teaser_v1';
+const TEASER_TEXT = 'Questions? Magic can help!';
 const MAX_INPUT = 1000;
 
 function makeId() {
@@ -92,6 +94,7 @@ export default function ChatWidget() {
   const listRef = useRef(null);
   const inputRef = useRef(null);
   const buttonRef = useRef(null);
+  const [teaser, setTeaser] = useState(false);
 
   // Only show the widget when the server says chat is switched on.
   useEffect(() => {
@@ -102,6 +105,23 @@ export default function ChatWidget() {
       .catch(() => {});
     return () => { cancelled = true; };
   }, []);
+
+  // A small speech bubble pops up next to the button once per visit to say hello.
+  // It never shows again after it is dismissed, clicked, or the chat has been used.
+  useEffect(() => {
+    if (!enabled || open) return undefined;
+    let seen = false;
+    try { seen = window.sessionStorage.getItem(TEASER_KEY) === '1'; } catch { /* storage blocked */ }
+    if (seen || messages.length > 0) return undefined;
+    const show = setTimeout(() => setTeaser(true), 3500);
+    const hide = setTimeout(() => setTeaser(false), 3500 + 14000);
+    return () => { clearTimeout(show); clearTimeout(hide); };
+  }, [enabled, open, messages.length]);
+
+  function dismissTeaser() {
+    setTeaser(false);
+    try { window.sessionStorage.setItem(TEASER_KEY, '1'); } catch { /* storage blocked */ }
+  }
 
   // Restore the conversation after a page change.
   useEffect(() => {
@@ -193,30 +213,57 @@ export default function ChatWidget() {
   return (
     <div className="print:hidden">
       {!open && (
-        <button
-          ref={buttonRef}
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label="Chat with McLoud Construction"
-          className="fixed bottom-5 right-5 z-[60] flex items-center gap-2 bg-brass px-5 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-ink shadow-lg transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
-        >
-          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          </svg>
-          Ask a question
-        </button>
+        <div className="fixed bottom-5 right-5 z-[60] flex flex-col items-end gap-3">
+          {teaser && (
+            <div className="chat-teaser relative max-w-[240px] border border-ink/15 bg-paper py-3 pl-4 pr-9 text-sm font-medium text-ink shadow-xl">
+              <button
+                type="button"
+                onClick={() => { dismissTeaser(); setOpen(true); }}
+                className="text-left focus:outline-none focus-visible:underline"
+              >
+                {TEASER_TEXT}
+              </button>
+              <button
+                type="button"
+                onClick={dismissTeaser}
+                aria-label="Dismiss"
+                className="absolute right-1.5 top-1.5 p-1 text-ink/50 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-brass"
+              >
+                <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              </button>
+              <span aria-hidden="true" className="absolute -bottom-[7px] right-8 h-3 w-3 rotate-45 border-b border-r border-ink/15 bg-paper" />
+            </div>
+          )}
+          <span className="chat-nudge relative block">
+            <span aria-hidden="true" className="chat-ring absolute inset-0 bg-brass" />
+            <button
+              ref={buttonRef}
+              type="button"
+              onClick={() => { dismissTeaser(); setOpen(true); }}
+              aria-label="Chat with Magic, the McLoud Construction assistant"
+              className="relative flex items-center gap-2 bg-brass px-5 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-ink shadow-lg transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
+            >
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              Ask Magic
+            </button>
+          </span>
+        </div>
       )}
 
       {open && (
         <section
           role="dialog"
-          aria-label="Chat with McLoud Construction"
-          className="fixed inset-x-0 bottom-0 z-[60] flex h-[85dvh] max-h-[640px] flex-col border border-ink/20 bg-paper shadow-2xl sm:inset-x-auto sm:bottom-5 sm:right-5 sm:h-[600px] sm:w-[390px]"
+          aria-label="Chat with Magic, the McLoud Construction assistant"
+          className="fixed inset-x-0 bottom-0 z-[60] flex h-[85dvh] max-h-[640px] flex-col border border-ink/20 bg-paper shadow-2xl sm:inset-x-auto sm:bottom-5 sm:right-5 sm:h-[min(600px,calc(100dvh-2.5rem))] sm:w-[390px]"
         >
           <header className="flex items-start justify-between gap-3 bg-ink px-5 py-4 text-paper">
             <div>
-              <div className="font-display text-lg font-extrabold uppercase tracking-tight">McLoud Construction</div>
-              <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.15em] text-paper/60">AI assistant</div>
+              <div className="font-display text-lg font-extrabold uppercase tracking-tight">Magic</div>
+              <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.15em] text-paper/60">McLoud Construction AI assistant</div>
             </div>
             <button type="button" onClick={close} aria-label="Close chat" className="-mr-1 p-1 text-paper/70 hover:text-paper focus:outline-none focus-visible:ring-2 focus-visible:ring-brass">
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -293,7 +340,7 @@ export default function ChatWidget() {
               </button>
             </div>
             <p className="mt-2 font-body text-[11px] leading-snug text-ink/55">
-              AI assistant. Chats are saved so our team can follow up. Please do not share payment details.
+              Magic is an AI assistant. Chats are saved so our team can follow up. Please do not share payment details.
               Prefer a person? Call <a href={CHAT_PHONE_HREF} className="text-brass underline underline-offset-2">{CHAT_PHONE}</a>.
             </p>
           </form>
