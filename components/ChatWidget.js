@@ -264,15 +264,15 @@ export default function ChatWidget() {
           aria-label="Chat with Magic, the McLoud Construction assistant"
           className="fixed inset-x-0 bottom-0 z-[60] flex h-[85dvh] max-h-[600px] flex-col overflow-hidden rounded-t-2xl bg-paper shadow-2xl ring-1 ring-ink/10 sm:inset-x-auto sm:bottom-0 sm:right-5 sm:h-[min(540px,calc(100dvh-1.25rem))] sm:w-[350px] sm:rounded-b-none sm:rounded-t-2xl"
         >
-          <header className="flex items-center justify-between gap-3 bg-ink px-4 py-3 text-paper">
+          <header className="flex items-center justify-between gap-3 bg-brass px-4 py-3 text-ink">
             <div className="flex items-center gap-3">
-              <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-full bg-brass font-display text-lg font-extrabold leading-none text-ink">M</span>
+              <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-full bg-ink font-display text-lg font-extrabold leading-none text-paper">M</span>
               <div>
                 <div className="font-display text-base font-extrabold uppercase leading-tight tracking-tight">Magic</div>
-                <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-paper/55">McLoud Construction</div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink/75">McLoud Construction</div>
               </div>
             </div>
-            <button type="button" onClick={close} aria-label="Close chat" className="-mr-1 rounded-full p-1.5 text-paper/70 hover:bg-paper/10 hover:text-paper focus:outline-none focus-visible:ring-2 focus-visible:ring-brass">
+            <button type="button" onClick={close} aria-label="Close chat" className="-mr-1 rounded-full p-1.5 text-ink/75 hover:bg-ink/10 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-ink">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M6 6l12 12M18 6L6 18" />
               </svg>
