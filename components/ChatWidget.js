@@ -2,7 +2,6 @@
 import { useCallback, useEffect, useRef, useState, Fragment } from 'react';
 import { usePathname } from 'next/navigation';
 import {
-  CHAT_PHONE,
   CHAT_PHONE_HREF,
   CHAT_GREETING,
   CHAT_STARTERS,
@@ -263,15 +262,17 @@ export default function ChatWidget() {
         <section
           role="dialog"
           aria-label="Chat with Magic, the McLoud Construction assistant"
-          className="fixed inset-x-0 bottom-0 z-[60] flex h-[80dvh] max-h-[560px] flex-col border border-ink/20 border-t-brass border-t-2 bg-paper shadow-2xl sm:inset-x-auto sm:bottom-5 sm:right-5 sm:h-[min(520px,calc(100dvh-2.5rem))] sm:w-[340px]"
+          className="fixed inset-x-0 bottom-0 z-[60] flex h-[85dvh] max-h-[600px] flex-col overflow-hidden rounded-t-2xl bg-paper shadow-2xl ring-1 ring-ink/10 sm:inset-x-auto sm:bottom-5 sm:right-5 sm:h-[min(540px,calc(100dvh-2.5rem))] sm:w-[350px] sm:rounded-2xl"
         >
-          <header className="flex items-center justify-between gap-3 bg-ink px-4 py-2.5 text-paper">
-            <div className="flex items-center gap-2.5">
-              <span aria-hidden="true" className="h-2 w-2 rounded-full bg-brass" />
-              <span className="font-display text-base font-extrabold uppercase tracking-tight">Magic</span>
-              <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-paper/50">McLoud Construction</span>
+          <header className="flex items-center justify-between gap-3 bg-ink px-4 py-3 text-paper">
+            <div className="flex items-center gap-3">
+              <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-full bg-brass font-display text-lg font-extrabold leading-none text-ink">M</span>
+              <div>
+                <div className="font-display text-base font-extrabold uppercase leading-tight tracking-tight">Magic</div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-paper/55">McLoud Construction</div>
+              </div>
             </div>
-            <button type="button" onClick={close} aria-label="Close chat" className="-mr-1 p-1 text-paper/70 hover:text-paper focus:outline-none focus-visible:ring-2 focus-visible:ring-brass">
+            <button type="button" onClick={close} aria-label="Close chat" className="-mr-1 rounded-full p-1.5 text-paper/70 hover:bg-paper/10 hover:text-paper focus:outline-none focus-visible:ring-2 focus-visible:ring-brass">
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M6 6l12 12M18 6L6 18" />
               </svg>
@@ -283,7 +284,7 @@ export default function ChatWidget() {
               <div key={i} className={m.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
                 <div
                   className={`max-w-[88%] whitespace-pre-wrap break-words px-3 py-2 font-body text-sm leading-snug ${
-                    m.role === 'user' ? 'bg-ink text-paper' : 'border border-ink/15 bg-white text-ink'
+                    m.role === 'user' ? 'rounded-2xl rounded-br-md bg-ink text-paper' : 'rounded-2xl rounded-bl-md border border-ink/10 bg-white text-ink shadow-sm'
                   }`}
                 >
                   {m.role === 'user' ? m.content : linkify(m.content).map((part, j) => <Fragment key={j}>{part}</Fragment>)}
@@ -293,7 +294,7 @@ export default function ChatWidget() {
 
             {sending && (
               <div className="flex justify-start" role="status" aria-label="The assistant is typing">
-                <div className="border border-ink/15 bg-white px-3 py-2.5">
+                <div className="rounded-2xl rounded-bl-md border border-ink/10 bg-white px-3.5 py-3 shadow-sm">
                   <span className="inline-flex gap-1" aria-hidden="true">
                     <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ink/40" />
                     <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ink/40 [animation-delay:150ms]" />
@@ -310,7 +311,7 @@ export default function ChatWidget() {
                     key={chip.label}
                     type="button"
                     onClick={() => send(chip.text)}
-                    className="border border-brass bg-transparent px-2.5 py-1 font-body text-[13px] text-ink transition-colors hover:bg-brass hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-brass"
+                    className="rounded-full border border-brass bg-transparent px-3 py-1.5 font-body text-[13px] text-ink transition-colors hover:bg-brass hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-brass"
                   >
                     {chip.label}
                   </button>
@@ -321,9 +322,9 @@ export default function ChatWidget() {
 
           <form
             onSubmit={e => { e.preventDefault(); send(input); }}
-            className="border-t border-ink/15 bg-paper px-3.5 pb-2.5 pt-2.5"
+            className="border-t border-ink/10 bg-paper px-3.5 py-3"
           >
-            <div className="flex items-end gap-2">
+            <div className="flex items-end gap-2 rounded-[22px] border border-ink/20 bg-white py-1 pl-4 pr-1 focus-within:border-brass">
               <label htmlFor="chat-input" className="sr-only">Your message</label>
               <textarea
                 id="chat-input"
@@ -335,22 +336,19 @@ export default function ChatWidget() {
                 onKeyDown={onKeyDown}
                 disabled={sending}
                 placeholder="Type your question"
-                className="min-h-[40px] w-full resize-none border border-ink/20 bg-transparent px-3 py-2 font-body text-sm leading-snug text-ink placeholder:text-ink/40 focus:border-brass focus:outline-none disabled:opacity-60"
+                className="min-h-[36px] w-full resize-none bg-transparent py-2 font-body text-sm leading-snug text-ink placeholder:text-ink/40 focus:outline-none disabled:opacity-60"
               />
               <button
                 type="submit"
                 disabled={sending || !input.trim()}
                 aria-label="Send message"
-                className="flex h-[40px] w-10 shrink-0 items-center justify-center bg-brass text-ink transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink disabled:opacity-40"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brass text-ink transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink disabled:opacity-40"
               >
                 <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14M13 6l6 6-6 6" />
                 </svg>
               </button>
             </div>
-            <p className="mt-1.5 font-body text-[11px] leading-snug text-ink/55">
-              Chats are saved so our team can follow up. Prefer a person? Call <a href={CHAT_PHONE_HREF} className="text-brass underline underline-offset-2">{CHAT_PHONE}</a>.
-            </p>
           </form>
         </section>
       )}
