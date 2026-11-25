@@ -1,9 +1,13 @@
-McLoud Construction follow-up: hero graphic labels + tagline brand rule
-Apply over a fresh main. Paths are repo-relative. N = new file, M = changed file.
+Chat assistant, website (deploy AFTER the jobs app)
 
-M  app/page.js
-M  components/Footer.js
-N  components/Tagline.js
-M  public/og-image.png
+New: lib/chatConfig.js, lib/chatKnowledge.js, lib/chatPrompt.js, app/api/chat/route.js, components/ChatWidget.js
+Changed: app/layout.js (mounts <ChatWidget /> after <Footer />)
 
-Delete these files: none.
+Vercel env vars for the website project:
+  ANTHROPIC_API_KEY      required
+  CHAT_SHARED_SECRET     required, same value as the jobs project
+  CHAT_IP_SALT           optional, any random string
+  CHAT_MODEL             optional, default claude-haiku-5-5
+  CHAT_ENABLED           optional, set to false to hide the widget
+  JOBS_API_URL           optional, default https://jobs.mcloudconstruction.com
+The widget stays hidden until the key and secret are set.

@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Analytics } from '@vercel/analytics/react';
 import AttributionTracker from '@/components/AttributionTracker';
+import ChatWidget from '@/components/ChatWidget';
 import { phoneE164 } from '@/lib/siteConfig';
 import { SITE_URL, SITE_NAME, OG_IMAGE } from '@/lib/seo';
 import { AREA_SERVED, ORG_ID, WEBSITE_ID } from '@/lib/schema';
@@ -120,6 +121,7 @@ export default function RootLayout({ children }) {
         <Header />
         {children}
         <Footer />
+        <ChatWidget />
         <Analytics />
       </body>
     </html>
