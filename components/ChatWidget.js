@@ -142,6 +142,11 @@ export default function ChatWidget() {
   }, [visitorId, conversationId, messages, quickReplies, open]);
 
   useEffect(() => {
+    const el = inputRef.current;
+    if (el) { el.style.height = 'auto'; el.style.height = `${Math.min(el.scrollHeight, 96)}px`; }
+  }, [input, open]);
+
+  useEffect(() => {
     if (open && listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight;
   }, [messages, sending, open, quickReplies]);
 
@@ -258,25 +263,26 @@ export default function ChatWidget() {
         <section
           role="dialog"
           aria-label="Chat with Magic, the McLoud Construction assistant"
-          className="fixed inset-x-0 bottom-0 z-[60] flex h-[85dvh] max-h-[640px] flex-col border border-ink/20 bg-paper shadow-2xl sm:inset-x-auto sm:bottom-5 sm:right-5 sm:h-[min(600px,calc(100dvh-2.5rem))] sm:w-[390px]"
+          className="fixed inset-x-0 bottom-0 z-[60] flex h-[80dvh] max-h-[560px] flex-col border border-ink/20 border-t-brass border-t-2 bg-paper shadow-2xl sm:inset-x-auto sm:bottom-5 sm:right-5 sm:h-[min(520px,calc(100dvh-2.5rem))] sm:w-[340px]"
         >
-          <header className="flex items-start justify-between gap-3 bg-ink px-5 py-4 text-paper">
-            <div>
-              <div className="font-display text-lg font-extrabold uppercase tracking-tight">Magic</div>
-              <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.15em] text-paper/60">McLoud Construction AI assistant</div>
+          <header className="flex items-center justify-between gap-3 bg-ink px-4 py-2.5 text-paper">
+            <div className="flex items-center gap-2.5">
+              <span aria-hidden="true" className="h-2 w-2 rounded-full bg-brass" />
+              <span className="font-display text-base font-extrabold uppercase tracking-tight">Magic</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-paper/50">McLoud Construction</span>
             </div>
             <button type="button" onClick={close} aria-label="Close chat" className="-mr-1 p-1 text-paper/70 hover:text-paper focus:outline-none focus-visible:ring-2 focus-visible:ring-brass">
-              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M6 6l12 12M18 6L6 18" />
               </svg>
             </button>
           </header>
 
-          <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4" aria-live="polite" aria-relevant="additions">
+          <div ref={listRef} className="flex-1 space-y-2.5 overflow-y-auto px-3.5 py-3.5" aria-live="polite" aria-relevant="additions">
             {shown.map((m, i) => (
               <div key={i} className={m.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
                 <div
-                  className={`max-w-[85%] whitespace-pre-wrap break-words px-3.5 py-2.5 font-body text-[15px] leading-snug ${
+                  className={`max-w-[88%] whitespace-pre-wrap break-words px-3 py-2 font-body text-sm leading-snug ${
                     m.role === 'user' ? 'bg-ink text-paper' : 'border border-ink/15 bg-white text-ink'
                   }`}
                 >
@@ -287,7 +293,7 @@ export default function ChatWidget() {
 
             {sending && (
               <div className="flex justify-start" role="status" aria-label="The assistant is typing">
-                <div className="border border-ink/15 bg-white px-3.5 py-3">
+                <div className="border border-ink/15 bg-white px-3 py-2.5">
                   <span className="inline-flex gap-1" aria-hidden="true">
                     <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ink/40" />
                     <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ink/40 [animation-delay:150ms]" />
@@ -298,13 +304,13 @@ export default function ChatWidget() {
             )}
 
             {!sending && (showStarters ? CHAT_STARTERS.map(s => ({ label: s, text: s })) : quickReplies).length > 0 && (
-              <div className="flex flex-wrap gap-2 pt-1">
+              <div className="flex flex-wrap gap-1.5 pt-1">
                 {(showStarters ? CHAT_STARTERS.map(s => ({ label: s, text: s })) : quickReplies).map(chip => (
                   <button
                     key={chip.label}
                     type="button"
                     onClick={() => send(chip.text)}
-                    className="border border-brass bg-transparent px-3 py-1.5 font-body text-sm text-ink transition-colors hover:bg-brass hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-brass"
+                    className="border border-brass bg-transparent px-2.5 py-1 font-body text-[13px] text-ink transition-colors hover:bg-brass hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-brass"
                   >
                     {chip.label}
                   </button>
@@ -315,33 +321,35 @@ export default function ChatWidget() {
 
           <form
             onSubmit={e => { e.preventDefault(); send(input); }}
-            className="border-t border-ink/15 bg-paper px-4 pb-3 pt-3"
+            className="border-t border-ink/15 bg-paper px-3.5 pb-2.5 pt-2.5"
           >
             <div className="flex items-end gap-2">
               <label htmlFor="chat-input" className="sr-only">Your message</label>
               <textarea
                 id="chat-input"
                 ref={inputRef}
-                rows={2}
+                rows={1}
                 maxLength={MAX_INPUT}
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={onKeyDown}
                 disabled={sending}
                 placeholder="Type your question"
-                className="min-h-[52px] w-full resize-none border border-ink/20 bg-transparent px-3 py-2 font-body text-[15px] text-ink placeholder:text-ink/40 focus:border-brass focus:outline-none disabled:opacity-60"
+                className="min-h-[40px] w-full resize-none border border-ink/20 bg-transparent px-3 py-2 font-body text-sm leading-snug text-ink placeholder:text-ink/40 focus:border-brass focus:outline-none disabled:opacity-60"
               />
               <button
                 type="submit"
                 disabled={sending || !input.trim()}
-                className="h-[52px] bg-brass px-4 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink disabled:opacity-40"
+                aria-label="Send message"
+                className="flex h-[40px] w-10 shrink-0 items-center justify-center bg-brass text-ink transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink disabled:opacity-40"
               >
-                Send
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
               </button>
             </div>
-            <p className="mt-2 font-body text-[11px] leading-snug text-ink/55">
-              Magic is an AI assistant. Chats are saved so our team can follow up. Please do not share payment details.
-              Prefer a person? Call <a href={CHAT_PHONE_HREF} className="text-brass underline underline-offset-2">{CHAT_PHONE}</a>.
+            <p className="mt-1.5 font-body text-[11px] leading-snug text-ink/55">
+              Chats are saved so our team can follow up. Prefer a person? Call <a href={CHAT_PHONE_HREF} className="text-brass underline underline-offset-2">{CHAT_PHONE}</a>.
             </p>
           </form>
         </section>
