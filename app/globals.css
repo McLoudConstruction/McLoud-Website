@@ -271,3 +271,10 @@ textarea:focus-visible {
 
 /* The chat button steps aside while the mobile menu is open (set by MobileMenu.js). */
 html[data-menu-open] .chat-launcher { display: none; }
+
+/* Placeholder for the chat message box (it is an editable box, not a text field). */
+.chat-input:empty::before { content: attr(data-placeholder); color: rgba(28, 27, 25, 0.65); pointer-events: none; }
+
+/* Phones: while the full screen chat is open, hide the page behind it so nothing dark shows
+   around the keyboard's toolbar. The body color is already the chat's cream. */
+html[data-chat-open] body > *:not(.chat-root) { visibility: hidden; }

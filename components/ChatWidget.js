@@ -151,9 +151,11 @@ export default function ChatWidget() {
     const prevHtml = document.documentElement.style.overflow;
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
+    document.documentElement.dataset.chatOpen = 'true';
     return () => {
       document.body.style.overflow = prevBody;
       document.documentElement.style.overflow = prevHtml;
+      delete document.documentElement.dataset.chatOpen;
     };
   }, [open, phone]);
 
@@ -194,8 +196,10 @@ export default function ChatWidget() {
 
   useEffect(() => {
     const el = inputRef.current;
-    if (el) { el.style.height = 'auto'; el.style.height = `${Math.min(el.scrollHeight, 96)}px`; }
-  }, [input, open]);
+    if (!el) return;
+    if (!sending && el.contentEditable !== 'plaintext-only') el.contentEditable = 'true';
+    if (input === '' && el.innerText !== '') el.innerText = '';
+  }, [input, open, sending]);
 
   useEffect(() => {
     if (open && listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight;
@@ -255,6 +259,36 @@ export default function ChatWidget() {
     [messages, sending, conversationId, visitorId, pathname],
   );
 
+  // The message box is a plain editable box rather than a text field, so phone browsers
+  // do not attach their autofill toolbar (passwords, cards, addresses) above the keyboard.
+  function onInputBox(e) {
+    const el = e.currentTarget;
+    let text = el.innerText.replace(/\u00a0/g, ' ');
+    if (!text.trim()) {
+      // Browsers leave a stray line break behind once the box is emptied; clear it so the placeholder returns.
+      if (el.innerHTML !== '') el.innerHTML = '';
+      setInput('');
+      return;
+    }
+    if (text.length > MAX_INPUT) {
+      text = text.slice(0, MAX_INPUT);
+      el.innerText = text;
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      range.collapse(false);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+    setInput(text);
+  }
+
+  function onPasteBox(e) {
+    e.preventDefault();
+    const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+    document.execCommand('insertText', false, text);
+  }
+
   function onKeyDown(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -268,7 +302,7 @@ export default function ChatWidget() {
   const showStarters = messages.length === 0;
 
   return (
-    <div className="print:hidden">
+    <div className="chat-root print:hidden">
       {!open && (
         <div className="chat-launcher fixed right-5 z-[60] flex flex-col items-end gap-3" style={{ bottom: `calc(1.25rem + ${inset}px)` }}>
           {teaser && (
@@ -310,10 +344,6 @@ export default function ChatWidget() {
           </span>
         </div>
       )}
-
-      {/* Phones: a solid layer behind the chat so nothing from the page shows around the
-          keyboard's own toolbar. */}
-      {open && phone && <div aria-hidden="true" className="fixed inset-0 z-[59] bg-paper" />}
 
       {open && (
         <section
@@ -385,23 +415,23 @@ export default function ChatWidget() {
           >
             <div className="flex items-end gap-2 rounded-[22px] border border-ink/20 bg-white py-1 pl-4 pr-1 focus-within:border-brass">
               <label htmlFor="chat-input" className="sr-only">Your message</label>
-              <textarea
+              <div
                 id="chat-input"
-                name="mcloud-chat-message"
-                autoComplete="off"
-                enterKeyHint="send"
-                data-lpignore="true"
-                data-1p-ignore="true"
-                data-form-type="other"
                 ref={inputRef}
-                rows={1}
-                maxLength={MAX_INPUT}
-                value={input}
-                onChange={e => setInput(e.target.value)}
+                role="textbox"
+                aria-multiline="true"
+                aria-label="Your message"
+                aria-disabled={sending}
+                contentEditable={sending ? 'false' : 'plaintext-only'}
+                suppressContentEditableWarning
+                spellCheck
+                autoCapitalize="sentences"
+                enterKeyHint="send"
+                data-placeholder="Type your question"
+                onInput={onInputBox}
+                onPaste={onPasteBox}
                 onKeyDown={onKeyDown}
-                disabled={sending}
-                placeholder="Type your question"
-                className="min-h-[36px] w-full resize-none bg-transparent py-2 font-body text-base leading-snug sm:text-sm text-ink placeholder:text-ink/65 focus:outline-none disabled:opacity-60"
+                className="chat-input max-h-24 min-h-[36px] w-full overflow-y-auto whitespace-pre-wrap break-words bg-transparent py-2 font-body text-base leading-snug text-ink focus:outline-none sm:text-sm"
               />
               <button
                 type="submit"
