@@ -94,6 +94,9 @@ export default function ChatWidget() {
   const inputRef = useRef(null);
   const buttonRef = useRef(null);
   const [teaser, setTeaser] = useState(false);
+  // How far the visible screen bottom sits above the layout bottom. On phones this is
+  // the height of the browser toolbar (or the keyboard), so the chat stays above it.
+  const [inset, setInset] = useState(0);
 
   // Only show the widget when the server says chat is switched on.
   useEffect(() => {
@@ -103,6 +106,29 @@ export default function ChatWidget() {
       .then(d => { if (!cancelled) setEnabled(Boolean(d.enabled)); })
       .catch(() => {});
     return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return undefined;
+    let raf = 0;
+    const update = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const gap = Math.round(window.innerHeight - vv.height - vv.offsetTop);
+        setInset(Math.max(0, Math.min(gap, 400)));
+      });
+    };
+    update();
+    vv.addEventListener('resize', update);
+    vv.addEventListener('scroll', update);
+    window.addEventListener('resize', update);
+    return () => {
+      cancelAnimationFrame(raf);
+      vv.removeEventListener('resize', update);
+      vv.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
   }, []);
 
   // A small speech bubble pops up next to the button once per visit to say hello.
@@ -217,7 +243,7 @@ export default function ChatWidget() {
   return (
     <div className="print:hidden">
       {!open && (
-        <div className="fixed bottom-5 right-5 z-[60] flex flex-col items-end gap-3">
+        <div className="fixed right-5 z-[60] flex flex-col items-end gap-3" style={{ bottom: `calc(1.25rem + ${inset}px)` }}>
           {teaser && (
             <div className="chat-teaser relative max-w-[240px] border border-ink/15 bg-paper py-3 pl-4 pr-9 text-sm font-medium text-ink shadow-xl">
               <button
@@ -262,6 +288,7 @@ export default function ChatWidget() {
         <section
           role="dialog"
           aria-label="Chat with Magic, the McLoud Construction assistant"
+          style={{ bottom: `${inset}px`, maxHeight: `min(600px, calc(100dvh - ${inset}px - 0.75rem))` }}
           className="fixed inset-x-0 bottom-0 z-[60] flex h-[85dvh] max-h-[600px] flex-col overflow-hidden rounded-t-2xl bg-paper shadow-2xl ring-1 ring-ink/10 sm:inset-x-auto sm:bottom-0 sm:right-5 sm:h-[min(540px,calc(100dvh-1.25rem))] sm:w-[350px] sm:rounded-b-none sm:rounded-t-2xl"
         >
           <header className="flex items-center justify-between gap-3 bg-brass px-4 py-3 text-ink">

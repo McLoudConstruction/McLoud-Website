@@ -16,11 +16,17 @@
 
 html {
   scroll-behavior: smooth;
+  /* Phones: never let a stray wide element widen the page. iOS otherwise stretches the
+     layout, pushing the menu button and fixed buttons off the right edge. */
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: #EDE7DA;
   color: #1C1B19;
+  max-width: 100%;
+  overflow-x: clip; /* clip, not hidden, so the sticky header keeps working */
 }
 
 @media (prefers-reduced-motion: reduce) {
