@@ -2,7 +2,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ObfuscatedEmail from './ObfuscatedEmail';
 import { SERVICE_AREAS, phoneDisplay, phoneHref } from '@/lib/siteConfig';
-import { RESIDENTIAL_NAV, COMMERCIAL_EXTRA_NAV } from '@/lib/projectOptions';
+import { HUBS, HOMEOWNER_NAV, ACCESSIBILITY_NAV, PROPERTY_MANAGER_NAV } from '@/lib/projectOptions';
+
+// One column per kind of customer, each headed by a link to its hub page.
+const MENUS = [
+  { ...HUBS.homeowners, links: HOMEOWNER_NAV },
+  { ...HUBS.accessibility, links: ACCESSIBILITY_NAV.filter(link => link.href !== HUBS.accessibility.href) },
+  { ...HUBS.propertyManagers, links: PROPERTY_MANAGER_NAV },
+];
 
 export default function Footer() {
   const phone = phoneDisplay();
@@ -17,26 +24,26 @@ export default function Footer() {
             </p>
           </div>
 
+          {MENUS.map(menu => (
+            <div key={menu.href}>
+              <Link href={menu.href} className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-brass hover:underline">
+                {menu.label}
+              </Link>
+              <ul className="mt-4 space-y-2 font-body text-sm text-paper/80">
+                {menu.links.map(link => (
+                  <li key={link.href}><Link href={link.href} className="hover:text-brass">{link.label}</Link></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
           <div>
-            <div className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-brass">Navigate</div>
+            <div className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-brass">Company</div>
             <ul className="mt-4 space-y-2 font-body text-sm text-paper/80">
-              <li><Link href="/residential" className="hover:text-brass">Residential</Link></li>
-              <li><Link href="/commercial" className="hover:text-brass">Commercial</Link></li>
-              {COMMERCIAL_EXTRA_NAV.map(link => (
-                <li key={link.href}><Link href={link.href} className="hover:text-brass">{link.label}</Link></li>
-              ))}
               <li><Link href="/about" className="hover:text-brass">About</Link></li>
               <li><Link href="/faq" className="hover:text-brass">FAQ</Link></li>
               <li><Link href="/financing" className="hover:text-brass">Financing</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <div className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-brass">Residential Services</div>
-            <ul className="mt-4 space-y-2 font-body text-sm text-paper/80">
-              {RESIDENTIAL_NAV.map(link => (
-                <li key={link.href}><Link href={link.href} className="hover:text-brass">{link.label}</Link></li>
-              ))}
+              <li><Link href="/consultation" className="hover:text-brass">Free Estimate</Link></li>
             </ul>
           </div>
 
@@ -45,7 +52,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-2 font-body text-sm text-paper/80">
               {phone && <li><a href={phoneHref()} className="hover:text-brass">{phone}</a></li>}
               <li><ObfuscatedEmail user="info" domain="mcloudconstruction.com" label="Email Us" className="hover:text-brass" /></li>
-              <li><Link href="/consultation" className="hover:text-brass">Schedule a Consultation</Link></li>
+              <li><Link href="/consultation" className="hover:text-brass">Request a Free Estimate</Link></li>
               <li className="text-paper/50">Monday to Friday, 8am to 5pm</li>
             </ul>
           </div>

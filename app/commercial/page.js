@@ -2,43 +2,54 @@ import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
 import ObfuscatedEmail from '@/components/ObfuscatedEmail';
+import FaqList from '@/components/FaqList';
 import { VERTICALS } from '@/lib/verticals';
-import { COMMERCIAL_EXTRA_NAV } from '@/lib/projectOptions';
 import { pageMetadata } from '@/lib/seo';
+import { faqPageNode, graph, JsonLd, serviceNode } from '@/lib/schema';
+
+// The Property Managers hub. The industry pages (office, retail, hotels,
+// churches, recreational facilities) were folded into this page and
+// /commercial/interior-remodels; their old URLs redirect in next.config.js.
 
 export const metadata = pageMetadata({
-  title: 'Commercial Renovations in Kansas City',
+  title: 'Commercial & Property Management Renovations in Kansas City',
   description:
-    'Exterior repaints, retail and office buildouts, accessible-unit upgrades, and multifamily amenity renovations for property owners and managers across the Kansas City metro.',
+    'Renovation contractor for Kansas City property managers: unit renovations and turns, commercial interior remodels, accessible units, and exterior repairs.',
   path: '/commercial',
 });
 
-const GROUPS = [
+const SERVICES = [
   {
-    label: 'Exteriors',
-    services: [
-      { title: 'Full Exterior Paints', body: 'Complete exterior repaints for multi-building properties, coordinated to minimize disruption to tenants and residents.' },
-      { title: 'Wood Rot & Trim Replacement', body: 'Rot repair and trim replacement that addresses the underlying moisture issue, not just the visible damage.' },
-      { title: 'Stucco Repairs', body: 'Patch and repair work matched to existing texture and color, so the fix disappears into the surface.' },
-    ],
+    title: 'Unit Renovations & Turns',
+    href: '/commercial/unit-renovations',
+    body: 'Kitchens, baths, flooring, and finishes between residents or as full interior renovations, built to your property standard.',
   },
   {
-    label: 'Renovations & Buildouts',
-    services: [
-      { title: 'Exterior & Interior Renovations', body: 'Full-scope renovation work spanning both the building envelope and interior spaces, coordinated as one project.' },
-      { title: 'Retail Buildout & Renovations', body: 'Buildouts and renovations for retail spaces, built around real move-in timelines and lease deadlines.' },
-      { title: 'Office Buildout & Renovations', body: 'Office space buildouts and renovations, from full-floor reconfigurations to targeted updates.' },
-    ],
+    title: 'Commercial Interior Remodels',
+    href: '/commercial/interior-remodels',
+    body: 'Office and retail buildouts, lobbies, clubhouses, leasing offices, and community spaces, planned around tenants and open hours.',
   },
   {
-    label: 'Finishing & Amenities',
-    services: [
-      { title: 'Finish Carpentry', body: 'Precision trim, millwork, and finish carpentry for spaces where the details are what tenants actually notice.' },
-      { title: 'Clubhouse Remodels & Renovations', body: 'Full remodels for multi-family clubhouses and shared amenity spaces, built to handle real daily use.' },
-      { title: 'Amenity Additions & Renovations', body: 'New amenity spaces and renovations to existing ones, planned around how residents actually use them.' },
-    ],
+    title: 'Accessible Unit Upgrades',
+    href: '/commercial/accessible-units',
+    body: 'Roll-in showers, wider doorways, and accessible kitchens for residents with mobility needs, built to your specifications.',
+  },
+  {
+    title: 'Multi-Family Renovations',
+    href: '/commercial/multi-family',
+    body: 'Units, amenities, and exteriors for apartment communities, sequenced around residents and your leasing calendar.',
   },
 ];
+
+const EXTERIOR = [
+  { title: 'Exterior Repaints', body: 'Complete exterior repaints for multi-building properties, sequenced building by building to keep disruption to tenants and residents low.' },
+  { title: 'Wood Rot & Trim Replacement', body: 'Rot repair and trim replacement that addresses the underlying moisture issue, not just the visible damage.' },
+  { title: 'Stucco Repairs', body: 'Patch and repair work matched to existing texture and color, so the fix disappears into the surface.' },
+];
+
+// Property types are listed (not linked) so the folded industries keep a
+// mention on the hub. Labels come from lib/verticals.js.
+const PROPERTY_TYPES = VERTICALS.map(v => v.label);
 
 const EXPECT = [
   {
@@ -59,77 +70,111 @@ const EXPECT = [
   },
 ];
 
+const FAQS = [
+  {
+    q: "What kinds of properties do you work on?",
+    a: "Apartment communities and rental properties first, plus offices, retail spaces, hotels and lodging, churches, and recreational and community facilities across the Kansas City metro.",
+  },
+  {
+    q: "Can you work while the property stays open?",
+    a: "Yes. For apartment communities, hotels, retail centers, and other properties that stay open, we plan access, noise, and sequencing around residents, guests, and customers, and build the schedule around your leasing calendar or lease dates.",
+  },
+  {
+    q: "Do you provide a W-9 and certificate of insurance?",
+    a: "Yes. McLoud Construction is insured, and we can send a W-9 and a certificate of insurance for vendor onboarding.",
+  },
+  {
+    q: "Do you handle unit turns and full unit renovations?",
+    a: "Yes. McLoud Construction renovates units between residents and takes units down to the studs when the job calls for it. Stachys McLoud founded the company after years in the restoration industry managing large projects for Kansas City property management companies, so leasing calendars and occupied buildings are familiar ground.",
+    links: [{ label: 'Unit renovations & turns', href: '/commercial/unit-renovations' }],
+  },
+  {
+    q: "Do you do exterior repairs and repaints?",
+    a: "Yes. Exterior repaints, wood rot and trim replacement, and stucco repairs, sequenced building by building so tenants and residents know what to expect.",
+  },
+];
+
+const schema = graph(
+  serviceNode({
+    name: 'Commercial & Property Management Renovations',
+    serviceType: 'Commercial and property management renovation',
+    description:
+      'Renovations for property managers and owners across the Kansas City metro, including unit renovations and turns, commercial interior remodels, accessible units, and exterior repaints and repairs.',
+    path: '/commercial',
+  }),
+  faqPageNode(FAQS)
+);
+
 export default function CommercialPage() {
   return (
     <>
+      <JsonLd data={schema} />
       <PageHero
-        eyebrow="For Property Owners"
-        title="Commercial Buildouts & Renovations"
-        body="From full exterior renovations to interior buildouts, we work with property managers and owners who need a contractor that shows up, communicates clearly, and finishes on schedule."
+        eyebrow="For Property Managers & Owners"
+        title="Kansas City Renovation Contractor for Property Managers"
+        subtitle="Commercial Buildouts & Renovations"
+        body="McLoud Construction works with property managers and owners across the Kansas City metro who need a contractor that shows up, communicates clearly, and plans around the people using the property: unit renovations, interior remodels, accessible units, and exterior repairs."
+        crumbs={[{ name: 'Property Managers', href: '/commercial' }]}
       />
 
       <section className="mx-auto max-w-7xl px-6 py-20">
-        {GROUPS.map(group => (
-          <div key={group.label} className="mb-16 last:mb-0">
-            <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">{group.label}</div>
-            <div className="tick-rule mt-3 mb-8" />
-            <div className="grid gap-8 md:grid-cols-3">
-              {group.services.map(service => (
-                <div key={service.title}>
-                  <h3 className="font-display text-xl font-bold uppercase tracking-tight">{service.title}</h3>
-                  <p className="mt-2 font-body text-sm leading-relaxed text-ink/70">{service.body}</p>
-                </div>
-              ))}
+        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">What We Do for Property Managers</div>
+        <div className="tick-rule mt-3 mb-8" />
+        <div className="grid gap-10 md:grid-cols-2">
+          {SERVICES.map(service => (
+            <div key={service.href} className="border-l-2 border-brass pl-5">
+              <h2 className="font-display text-2xl font-bold uppercase tracking-tight">
+                <Link href={service.href} className="hover:text-rust">
+                  {service.title}
+                </Link>
+              </h2>
+              <p className="mt-3 font-body leading-relaxed text-ink/70">{service.body}</p>
+              <Link
+                href={service.href}
+                className="mt-4 inline-block font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
+              >
+                {service.title} →
+              </Link>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </section>
 
-      <section className="bg-ink text-paper">
+      <section id="exterior-work" className="scroll-mt-24 bg-blueprint text-paper">
         <div className="mx-auto max-w-7xl px-6 py-20">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Industries We Serve</div>
-          <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 md:grid-cols-3">
-            {VERTICALS.map(v => (
-              <Link
-                key={v.key}
-                href={`/commercial/${v.slug}`}
-                className="border-l-2 border-brass pl-4 font-display text-2xl font-bold uppercase tracking-tight transition-colors hover:text-brass"
-              >
-                {v.label}
-              </Link>
-            ))}
-            {COMMERCIAL_EXTRA_NAV.map(link => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="border-l-2 border-brass pl-4 font-display text-2xl font-bold uppercase tracking-tight transition-colors hover:text-brass"
-              >
-                {link.label}
-              </Link>
+          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Exterior Work</div>
+          <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
+            Exterior Repairs &amp; Repaints
+          </h2>
+          <div className="mt-8 grid gap-10 md:grid-cols-3">
+            {EXTERIOR.map(item => (
+              <div key={item.title}>
+                <div className="tick-rule mb-3" />
+                <h3 className="font-display text-xl font-bold uppercase tracking-tight">{item.title}</h3>
+                <p className="mt-2 font-body text-sm leading-relaxed text-paper/80">{item.body}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       <section className="border-b border-ink/10 bg-paper">
-        <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 px-6 py-14 md:flex-row md:items-center md:justify-between">
-          <div>
-            <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">For Property Managers</div>
-            <h2 className="mt-2 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
-              Need Accessible Units?
-            </h2>
-            <p className="mt-3 max-w-2xl font-body leading-relaxed text-ink/70">
-              McLoud Construction converts and updates units for residents who use wheelchairs, walkers, or other
-              mobility aids: roll-in showers, wider doorways, lowered counters, and accessible entries, built by a
-              demo-and-rebuild crew that works in occupied buildings.
-            </p>
-          </div>
-          <Link
-            href="/commercial/accessible-units"
-            className="shrink-0 border border-rust px-7 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-rust transition-colors hover:bg-rust hover:text-paper"
-          >
-            Accessible Unit Upgrades →
-          </Link>
+        <div className="mx-auto max-w-7xl px-6 py-14">
+          <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Properties We Work On</div>
+          <ul className="mt-5 flex flex-wrap gap-x-8 gap-y-3">
+            {PROPERTY_TYPES.map(label => (
+              <li key={label} className="border-l-2 border-brass pl-3 font-display text-lg font-bold uppercase tracking-tight">
+                {label}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-5 max-w-2xl font-body text-sm leading-relaxed text-ink/70">
+            Offices, retail spaces, hotels, churches, and recreational facilities are covered under{' '}
+            <Link href="/commercial/interior-remodels" className="text-rust underline hover:text-ink">
+              commercial interior remodels
+            </Link>{' '}
+            and the exterior work above.
+          </p>
         </div>
       </section>
 
@@ -156,6 +201,19 @@ export default function CommercialPage() {
             label="Email us"
             className="text-rust underline hover:text-brass"
           />
+          .
+        </p>
+      </section>
+
+      <section className="mx-auto max-w-3xl px-6 pb-20" id="faq">
+        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Property Manager Questions</h2>
+        <div className="tick-rule mt-3 mb-8" />
+        <FaqList items={FAQS} />
+        <p className="mt-8 font-body text-sm text-ink/70">
+          General questions about estimates and working with McLoud Construction are on our{' '}
+          <Link href="/faq" className="text-rust underline hover:text-ink">
+            FAQ page
+          </Link>
           .
         </p>
       </section>

@@ -2,13 +2,14 @@ import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
 import ObfuscatedEmail from '@/components/ObfuscatedEmail';
-import { SERVICE_AREAS } from '@/lib/siteConfig';
-import { VERTICALS } from '@/lib/verticals';
-import { pageMetadata, SITE_URL } from '@/lib/seo';
+import FaqList from '@/components/FaqList';
+import PropertyManagerLinks from '@/components/PropertyManagerLinks';
+import { pageMetadata } from '@/lib/seo';
+import { faqPageNode, graph, JsonLd, serviceNode } from '@/lib/schema';
 import { estimateHref } from '@/lib/projectOptions';
 
-// Audience page for property managers who need units made accessible. It is a
-// sibling of the industry pages rather than an entry in lib/verticals.js,
+// Property manager page for units that need to be accessible. It is listed in
+// both the Property Managers and Accessibility menus. It is not an entry in lib/verticals.js,
 // because each vertical key must also exist in the jobs platform. Leads from
 // here are sent as multi-family with "Accessible Unit Upgrades" as the project.
 
@@ -18,7 +19,7 @@ const ESTIMATE_HREF = estimateHref('accessible-units');
 export const metadata = pageMetadata({
   title: 'Accessible Unit Upgrades in Kansas City',
   description:
-    'Accessible unit upgrades for Kansas City property managers: roll-in showers, wider doorways, lowered counters, and accessible entries, built in occupied buildings by McLoud Construction.',
+    'Accessible unit upgrades for Kansas City property managers: roll-in showers, wider doorways, lowered counters, and entries, built in occupied buildings.',
   path: PATH,
 });
 
@@ -41,81 +42,56 @@ const CONCERNS = [
     body: 'Accessibility requirements vary by property and program. We build to the specifications and drawings you or your design professional provide, and flag anything that does not fit the space before work starts.',
   },
   {
-    title: 'A demo-and-rebuild crew',
-    body: 'Our background is restoration and demo-and-rebuild work for property management companies. Taking a unit down to the studs and putting it back together correctly is familiar work.',
+    title: 'Property management experience',
+    body: 'Stachys McLoud founded McLoud Construction after years in the restoration industry managing large projects for Kansas City property management companies. Occupied buildings, on-site teams, and unit schedules are familiar ground.',
   },
 ];
 
 const FAQS = [
   {
-    q: 'Can you work while neighboring units are occupied?',
-    a: 'Yes. We plan access, noise, and dust control around residents, and coordinate the schedule with your on-site team before work starts.',
+    q: "Can you work while neighboring units are occupied?",
+    a: "Yes. We plan access, noise, and dust control around residents and coordinate the schedule with your on-site team before work starts.",
   },
   {
-    q: 'Can you work from our accessibility specifications?',
-    a: 'Yes. Send the specifications or drawings for the unit, and we will build to them and raise any conflicts with the existing conditions before work begins.',
+    q: "Which accessibility standard applies to our units?",
+    a: "That depends on the property, when it was built, and any program it participates in. The ADA, Fair Housing Act design requirements, and funding-program standards can each apply in different situations. McLoud Construction builds to the specifications and drawings provided by you or your design professional, who determines which standard applies.",
   },
   {
-    q: 'Do you provide a W-9 and certificate of insurance?',
-    a: 'Yes. McLoud Construction is insured, and we can send a W-9 and certificate of insurance for vendor onboarding.',
-  },
-  {
-    q: 'Do you serve properties across the Kansas City metro?',
-    a: 'Yes. McLoud Construction works with properties on both the Missouri and Kansas sides of the state line.',
+    q: "Can you work from our accessibility specifications?",
+    a: "Yes. Send the specifications or drawings for the unit, and we will build to them and raise any conflicts with existing conditions before work begins.",
   },
 ];
 
-const areaServed = [
-  { '@type': 'AdministrativeArea', name: 'Kansas City Metro, MO & KS' },
-  ...Object.entries(SERVICE_AREAS).flatMap(([state, cities]) =>
-    cities.map(city => ({ '@type': 'City', name: city.includes(',') ? city : `${city}, ${state}` }))
-  ),
-];
-
-const schema = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'Service',
+const schema = graph(
+  {
+    ...serviceNode({
       name: 'Accessible Unit Upgrades',
       serviceType: 'Accessible unit renovation for property managers',
       description:
         'Accessible unit upgrades for apartment communities and rental properties across the Kansas City metro, including roll-in showers, wider doorways, accessible kitchens, and accessible entries.',
-      url: `${SITE_URL}${PATH}`,
-      areaServed,
-      audience: { '@type': 'BusinessAudience', audienceType: 'Property managers and owners' },
-      provider: { '@type': 'GeneralContractor', name: 'McLoud Construction', url: SITE_URL },
-    },
-    {
-      '@type': 'FAQPage',
-      mainEntity: FAQS.map(item => ({
-        '@type': 'Question',
-        name: item.q,
-        acceptedAnswer: { '@type': 'Answer', text: item.a },
-      })),
-    },
-    {
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
-        { '@type': 'ListItem', position: 2, name: 'Commercial', item: `${SITE_URL}/commercial` },
-        { '@type': 'ListItem', position: 3, name: 'Accessible Units', item: `${SITE_URL}${PATH}` },
-      ],
-    },
-  ],
-};
+      path: PATH,
+    }),
+    audience: { '@type': 'BusinessAudience', audienceType: 'Property managers and owners' },
+  },
+  faqPageNode(FAQS)
+);
 
 const labelClass = 'font-mono text-xs uppercase tracking-[0.2em]';
 
 export default function AccessibleUnitsPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <JsonLd data={schema} />
 
       <PageHero
         eyebrow="For Property Managers · Kansas City"
-        title="Accessible Units, Built by a Demo-and-Rebuild Crew"
+        title="Accessible Unit Upgrades in Kansas City"
+        subtitle="Accessible Units, Built Around the Residents Who Stay"
         body="McLoud Construction upgrades apartment and rental units for residents who use wheelchairs, walkers, or other mobility aids, working around the residents who stay in the building."
+        crumbs={[
+          { name: 'Property Managers', href: '/commercial' },
+          { name: 'Accessible Units', href: PATH },
+        ]}
       />
 
       <section className="mx-auto max-w-7xl px-6 py-20">
@@ -155,20 +131,10 @@ export default function AccessibleUnitsPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-6 py-16">
-        <h2 className={`${labelClass} text-rust`}>Frequently Asked Questions</h2>
+      <section className="mx-auto max-w-3xl px-6 py-16" id="faq">
+        <h2 className={`${labelClass} text-rust`}>Accessible Unit Questions</h2>
         <div className="tick-rule mt-3 mb-8" />
-        <div className="divide-y divide-ink/10 border-t border-ink/10">
-          {FAQS.map(item => (
-            <details key={item.q} className="group py-6">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-xl font-bold uppercase tracking-tight">
-                {item.q}
-                <span className="shrink-0 font-mono text-lg text-brass transition-transform group-open:rotate-45">+</span>
-              </summary>
-              <p className="mt-4 max-w-2xl font-body leading-relaxed text-ink/70">{item.a}</p>
-            </details>
-          ))}
-        </div>
+        <FaqList items={FAQS} />
         <p className="mt-8 font-body text-sm text-ink/70">
           Need vendor paperwork first?{' '}
           <ObfuscatedEmail
@@ -190,14 +156,16 @@ export default function AccessibleUnitsPage() {
               Ramps, wider doorways, accessible kitchens, and bathrooms for homeowners and families.
             </p>
           </Link>
-          {VERTICALS.filter(v => v.key === 'multi_family').map(v => (
-            <Link key={v.key} href={`/commercial/${v.slug}`} className="border-l-2 border-brass pl-4 hover:text-brass">
-              <div className="font-display text-xl font-bold uppercase tracking-tight">{v.title}</div>
-              <p className="mt-2 font-body text-sm leading-relaxed text-ink/70">{v.body}</p>
-            </Link>
-          ))}
+          <Link href="/commercial/unit-renovations" className="border-l-2 border-brass pl-4 hover:text-brass">
+            <div className="font-display text-xl font-bold uppercase tracking-tight">Unit Renovations &amp; Turns</div>
+            <p className="mt-2 font-body text-sm leading-relaxed text-ink/70">
+              Kitchens, baths, flooring, and finishes between residents, built to your property standard.
+            </p>
+          </Link>
         </div>
       </section>
+
+      <PropertyManagerLinks current={PATH} />
 
       <CtaBanner
         heading="Have Units That Need to Be Accessible?"

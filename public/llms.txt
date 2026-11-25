@@ -1,22 +1,35 @@
 # McLoud Construction
 
-> McLoud Construction is a locally owned, insured general contractor serving the Kansas City
-> metro (Missouri and Kansas). It specializes in remodeling for every stage of life:
-> aging-in-place bathroom remodels, accessibility modifications, tub-to-shower conversions,
-> and basement finishing, alongside kitchen, bathroom, and whole-home remodels and commercial
-> renovations for property owners and managers. Its background is restoration and
-> demo-and-rebuild work. Built right. Told straight.
+> McLoud Construction is a locally owned, insured remodeling contractor serving the Kansas City
+> metro (Missouri and Kansas). It works for three kinds of customers: homeowners (kitchen,
+> bathroom, basement, and whole-home remodels), accessibility (aging-in-place bathrooms,
+> tub-to-shower conversions, and accessibility modifications), and property managers (unit
+> renovations, commercial interior remodels, accessible units, and exterior repairs).
+> Stachys McLoud founded McLoud Construction after years in the restoration industry managing
+> large projects for Kansas City property management companies. Built right. Told straight.
 
-## Services
+## Homeowners
+
+- Kitchen remodeling: cabinetry, countertops, layout changes, plumbing, electrical, flooring, and lighting
+- Bathroom remodeling: full gut renovations and focused updates, with waterproofing and ventilation done right
+- Basement finishing: moisture checks first, then framing, flooring, bedrooms with egress windows, bathrooms, and living space
+- Whole-home remodeling: open-concept conversions, multi-room renovations, and full interior overhauls
+- Tub-to-shower conversions: tub removal and a new walk-in shower with low-threshold or curbless options
+
+## Accessibility
 
 - Aging-in-place bathroom remodels: curbless showers, grab bars, shower benches, comfort-height toilets, slip-resistant floors
+- Tub-to-shower conversions
 - Accessibility modifications: ramps, wider doorways, accessible kitchens and bathrooms, accessible entries
-- Tub-to-shower conversions: tub removal and a new walk-in shower with low-threshold or curbless options
-- Basement finishing: moisture checks first, then framing, flooring, bedrooms with egress windows, bathrooms, and living space
-- Residential remodeling: kitchen, bathroom, and whole-home remodels
 - Accessible unit upgrades for property managers: roll-in showers, wider doorways, accessible kitchens and entries
-- Commercial buildouts: retail, office, and multifamily amenity renovations
-- Exterior work: paints, wood rot and trim replacement, stucco repairs
+
+## Property Managers
+
+- Unit renovations and turns: kitchens, baths, flooring, and finishes built to a property standard
+- Commercial interior remodels: office and retail buildouts, lobbies, clubhouses, leasing offices, church and community spaces
+- Accessible unit upgrades
+- Multi-family renovations: units, amenities, and exteriors for apartment communities
+- Exterior work: repaints, wood rot and trim replacement, stucco repairs
 
 ## Service Area
 
@@ -26,23 +39,22 @@ Overland Park, Olathe, Lenexa, Shawnee, Leawood, and Kansas City, KS in Kansas.
 
 ## Pages
 
-- [Home](https://mcloudconstruction.com/): Remodeling for every stage of life in Kansas City, with paths for each kind of client
-- [Residential](https://mcloudconstruction.com/residential): Specialties plus kitchen, bathroom, and whole-home remodeling
-- [Aging-in-Place Planning](https://mcloudconstruction.com/residential/aging-in-place): Room-by-room guide for older homeowners and adult children planning for a parent
-- [Aging-in-Place Bathroom Remodels](https://mcloudconstruction.com/residential/aging-in-place-bathroom-remodels): Safer bathrooms that still look like home
-- [Accessibility Modifications](https://mcloudconstruction.com/residential/accessibility-modifications): Ramps, wider doorways, accessible kitchens and bathrooms
+- [Home](https://mcloudconstruction.com/): Kansas City remodeling contractor, with sections for homeowners, accessibility, and property managers
+- [Homeowners](https://mcloudconstruction.com/residential): Kitchen, bathroom, basement, and whole-home remodeling
+- [Kitchen Remodeling](https://mcloudconstruction.com/residential/kitchen-remodeling): Kitchen remodels across the Kansas City metro
+- [Bathroom Remodeling](https://mcloudconstruction.com/residential/bathroom-remodeling): Bathroom remodels across the Kansas City metro
 - [Basement Finishing](https://mcloudconstruction.com/residential/basement-finishing): Finished, dry living space below grade
+- [Accessibility](https://mcloudconstruction.com/residential/aging-in-place): Aging-in-place and accessibility planning, room by room, for older homeowners and families
+- [Aging-in-Place Bathroom Remodels](https://mcloudconstruction.com/residential/aging-in-place-bathroom-remodels): Safer bathrooms that still look like home
 - [Tub-to-Shower Conversions](https://mcloudconstruction.com/residential/tub-to-shower-conversions): Replace an unused tub with a walk-in shower
-- [Commercial](https://mcloudconstruction.com/commercial): Commercial buildouts and capital improvement services
+- [Accessibility Modifications](https://mcloudconstruction.com/residential/accessibility-modifications): Ramps, wider doorways, accessible kitchens and bathrooms
+- [Property Managers](https://mcloudconstruction.com/commercial): Renovations for property managers and owners, including exterior repairs and repaints
+- [Unit Renovations & Turns](https://mcloudconstruction.com/commercial/unit-renovations): Apartment unit renovations planned around the leasing calendar
+- [Commercial Interior Remodels](https://mcloudconstruction.com/commercial/interior-remodels): Office, retail, hospitality, and community interiors
 - [Accessible Units](https://mcloudconstruction.com/commercial/accessible-units): Accessible unit upgrades for property managers
-- [Multi-Family](https://mcloudconstruction.com/commercial/multi-family): Exterior repaints, clubhouse remodels, and amenity upgrades for apartment communities
-- [Hotel & Lodging](https://mcloudconstruction.com/commercial/hotel-lodging): Exterior and interior renovations for hotels and lodging properties
-- [Office](https://mcloudconstruction.com/commercial/office): Office buildouts and renovations
-- [Retail](https://mcloudconstruction.com/commercial/retail): Retail buildouts and renovations
-- [Recreational Facilities](https://mcloudconstruction.com/commercial/recreational-facilities): Renovations and repairs for recreational facilities and clubs
-- [Churches](https://mcloudconstruction.com/commercial/churches): Repairs, repaints, and renovations for churches
+- [Multi-Family](https://mcloudconstruction.com/commercial/multi-family): Units, amenities, and exteriors for apartment communities
 - [About](https://mcloudconstruction.com/about): Company background and the owners, Stachys and Isabelle McLoud
-- [FAQ](https://mcloudconstruction.com/faq): Answers to common questions about estimates, financing, scope changes, and service area
+- [FAQ](https://mcloudconstruction.com/faq): Five general questions; project questions are answered on each audience's pages
 - [Financing](https://mcloudconstruction.com/financing): Remodel financing arranged through Acorn Finance
 - [Consultation](https://mcloudconstruction.com/consultation): Request a free estimate
 

@@ -2,14 +2,16 @@ import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
 import FinancingBanner from '@/components/FinancingBanner';
-import { RESIDENTIAL_SERVICES } from '@/lib/residentialServices';
+import FaqList from '@/components/FaqList';
+import { ACCESSIBILITY_SERVICES } from '@/lib/residentialServices';
 import { estimateHref } from '@/lib/projectOptions';
 import { pageMetadata } from '@/lib/seo';
+import { faqPageNode, graph, JsonLd, serviceNode } from '@/lib/schema';
 
 export const metadata = pageMetadata({
-  title: 'Home Remodeling & Accessibility in Kansas City',
+  title: 'Home Remodeling in Kansas City, MO & KS',
   description:
-    'Aging-in-place bathrooms, accessibility modifications, tub-to-shower conversions, basement finishing, and kitchen, bath, and whole-home remodels for Kansas City metro homeowners.',
+    'Home remodeling contractor in Kansas City, MO & KS: kitchen and bathroom remodels, basement finishing, whole-home remodels, and tub-to-shower conversions.',
   path: '/residential',
 });
 
@@ -17,14 +19,26 @@ const SERVICES = [
   {
     id: 'kitchen-remodeling',
     title: 'Kitchen Remodeling',
-    body: "The kitchen carries more daily use than any other room in the house, so it has to hold up to real life while still feeling like the heart of the home. We handle everything from cabinetry and countertops to layout changes, plumbing, and electrical, working through your options with you at every material and finish decision, not just handing you a spec sheet.",
+    page: '/residential/kitchen-remodeling',
+    linkLabel: 'Kitchen remodeling in Kansas City',
+    body: 'Cabinetry and countertops, layout changes, plumbing, electrical, flooring, and lighting, with guidance at every material and finish decision instead of a spec sheet.',
     points: ['Cabinetry & countertops', 'Layout & structural changes', 'Plumbing & electrical', 'Flooring & lighting'],
   },
   {
     id: 'bathroom-remodeling',
     title: 'Bathroom Remodeling',
-    body: "Bathrooms are unforgiving of shortcuts. Waterproofing, ventilation, and fixture placement all have to be right the first time. Whether it's a full gut renovation or a focused update, we treat the parts you'll never see (moisture barriers, proper slope, solid blocking) with the same care as the tile you'll look at every morning.",
+    page: '/residential/bathroom-remodeling',
+    linkLabel: 'Bathroom remodeling in Kansas City',
+    body: 'Full gut renovations and focused updates, with the waterproofing, ventilation, and blocking you never see built as carefully as the tile you look at every morning.',
     points: ['Full gut renovations', 'Tile, showers & tubs', 'Vanities & fixtures', 'Ventilation & waterproofing'],
+  },
+  {
+    id: 'basement-finishing',
+    title: 'Basement Finishing',
+    page: '/residential/basement-finishing',
+    linkLabel: 'Basement finishing in Kansas City',
+    body: 'Family rooms, guest suites, home offices, and bathrooms in the space you already own, with moisture checked and dealt with before any framing or drywall goes in.',
+    points: ['Moisture checks first', 'Framing & insulation', 'Basement bathrooms', 'Egress & lighting'],
   },
   {
     id: 'whole-home-remodeling',
@@ -34,52 +48,59 @@ const SERVICES = [
   },
 ];
 
+const FAQS = [
+  {
+    q: "Should I remodel the bathroom, convert the tub, or plan an aging-in-place bathroom?",
+    a: "If you only want to replace a tub you do not use, a tub-to-shower conversion is the focused option. If you want a new bathroom overall, start with a bathroom remodel. If safety and getting older are the main reasons, an aging-in-place bathroom remodel plans the whole room around that. Many projects combine elements of all three.",
+  },
+  {
+    q: "Can a kitchen or bathroom remodel include accessibility features?",
+    a: "Yes. While walls and floors are open, it is easy to add blocking for grab bars, wider doorways, lever handles, pull-out storage, and low-threshold showers, and none of it has to look clinical.",
+  },
+  {
+    q: "Can we stay in the house during the remodel?",
+    a: "Most homeowners do. McLoud Construction protects the rest of the house, keeps the work area tidy, and tells you what is happening each day, so you know which rooms are usable and when.",
+  },
+  {
+    q: "Is my basement ready to finish?",
+    a: "It depends on moisture. We look for signs of water before anything else, and if there is an active problem it gets addressed before any framing or drywall goes in.",
+    links: [{ label: 'Basement finishing', href: '/residential/basement-finishing' }],
+  },
+  {
+    q: "Do you handle permits?",
+    a: "Permit requirements vary by project and by city, and they differ between the Missouri and Kansas sides of the metro. We tell you what your scope needs during the estimate process.",
+  },
+  {
+    q: "Do you take on whole-home remodels?",
+    a: "Yes. Open-concept conversions, multi-room renovations, and full interior overhauls are coordinated across every trade with one point of contact and a clear schedule agreed before work starts.",
+  },
+];
+
 export default function ResidentialPage() {
   return (
     <>
+      <JsonLd
+        data={graph(
+          serviceNode({
+            name: 'Home Remodeling',
+            serviceType: 'Residential remodeling',
+            description:
+              'Kitchen remodels, bathroom remodels, basement finishing, whole-home remodels, and tub-to-shower conversions for homeowners across the Kansas City metro.',
+            path: '/residential',
+          }),
+          faqPageNode(FAQS)
+        )}
+      />
       <PageHero
         eyebrow="For Kansas City Homeowners"
-        title="Residential Remodeling"
-        body="Safer bathrooms, accessible homes, finished basements, and the kitchens and baths you use every day, built around how you actually live, with honest communication from your first walkthrough to the final punch list."
+        title="Home Remodeling Contractor in Kansas City"
+        subtitle="Built Around How You Actually Live"
+        body="Kitchens, bathrooms, basements, and whole-home remodels across the Kansas City metro, on both sides of the state line, with honest communication from your first walkthrough to the final punch list."
+        crumbs={[{ name: 'Homeowners', href: '/residential' }]}
       />
 
-      <section className="bg-paper">
-        <div className="mx-auto max-w-6xl px-6 py-20">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Our Specialties</div>
-          <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
-            Remodeling for Every Stage of Life
-          </h2>
-          <div className="tick-rule mt-4 mb-10" />
-          <div className="grid gap-10 md:grid-cols-2">
-            {RESIDENTIAL_SERVICES.map(service => (
-              <div key={service.slug} className="border-l-2 border-brass pl-5">
-                <h3 className="font-display text-2xl font-bold uppercase tracking-tight">
-                  <Link href={`/residential/${service.slug}`} className="hover:text-brass">
-                    {service.name}
-                  </Link>
-                </h3>
-                <p className="mt-3 font-body leading-relaxed text-ink/75">{service.cardBlurb}</p>
-                <Link
-                  href={`/residential/${service.slug}`}
-                  className="mt-4 inline-block font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
-                >
-                  {service.name} →
-                </Link>
-              </div>
-            ))}
-          </div>
-          <p className="mt-12 max-w-3xl font-body leading-relaxed text-ink/75">
-            Planning for yourself or for a parent?{' '}
-            <Link href="/residential/aging-in-place" className="text-rust underline hover:text-ink">
-              Start with our aging-in-place planning guide
-            </Link>
-            , a room-by-room look at what helps people stay safely in their own homes.
-          </p>
-        </div>
-      </section>
-
       <section className="mx-auto max-w-6xl px-6 py-20">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Kitchen, Bath &amp; Whole-Home</div>
+        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Kitchens, Baths, Basements &amp; Whole-Home</div>
         <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
           Remodels You&rsquo;ll Use Every Day
         </h2>
@@ -94,7 +115,13 @@ export default function ResidentialPage() {
               <span className="font-mono text-sm text-brass">{String(i + 1).padStart(2, '0')}</span>
               <div>
                 <h3 className="font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
-                  {service.title}
+                  {service.page ? (
+                    <Link href={service.page} className="hover:text-brass">
+                      {service.title}
+                    </Link>
+                  ) : (
+                    service.title
+                  )}
                 </h3>
                 <p className="mt-4 max-w-2xl font-body leading-relaxed text-ink/75">{service.body}</p>
                 <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.1em] text-concrete">
@@ -102,16 +129,69 @@ export default function ResidentialPage() {
                     <li key={point}>• {point}</li>
                   ))}
                 </ul>
-                <Link
-                  href={estimateHref(service.id)}
-                  className="mt-6 inline-block font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
-                >
-                  Request a Free Estimate →
-                </Link>
+                <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+                  {service.page && (
+                    <Link
+                      href={service.page}
+                      className="font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
+                    >
+                      {service.linkLabel} →
+                    </Link>
+                  )}
+                  <Link
+                    href={estimateHref(service.id)}
+                    className="font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
+                  >
+                    Request a Free Estimate →
+                  </Link>
+                </div>
               </div>
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="bg-paper">
+        <div className="mx-auto max-w-6xl border-t border-ink/10 px-6 py-20">
+          <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Easier to Use for Years to Come</div>
+          <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
+            Accessibility &amp; Aging-in-Place
+          </h2>
+          <p className="mt-4 max-w-3xl font-body leading-relaxed text-ink/75">
+            Planning for yourself or for a parent? Any remodel can include features that make a room safer and easier
+            to use, and some projects are built around that from the start.{' '}
+            <Link href="/residential/aging-in-place" className="text-rust underline hover:text-ink">
+              See our aging-in-place and accessibility planning guide
+            </Link>
+            .
+          </p>
+          <div className="tick-rule mt-6 mb-10" />
+          <div className="grid gap-10 md:grid-cols-3">
+            {ACCESSIBILITY_SERVICES.map(service => (
+              <div key={service.slug} className="border-l-2 border-brass pl-5">
+                <h3 className="font-display text-2xl font-bold uppercase tracking-tight">
+                  <Link href={`/residential/${service.slug}`} className="hover:text-brass">
+                    {service.name}
+                  </Link>
+                </h3>
+                <p className="mt-3 font-body leading-relaxed text-ink/75">{service.cardBlurb}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-3xl px-6 py-20" id="faq">
+        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Homeowner Remodeling Questions</h2>
+        <div className="tick-rule mt-3 mb-8" />
+        <FaqList items={FAQS} />
+        <p className="mt-8 font-body text-sm text-ink/70">
+          More answers about estimates, insurance, and working with McLoud Construction are on our{' '}
+          <Link href="/faq" className="text-rust underline hover:text-ink">
+            general FAQ
+          </Link>
+          .
+        </p>
       </section>
 
       <FinancingBanner />

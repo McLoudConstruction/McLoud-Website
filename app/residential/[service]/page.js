@@ -3,14 +3,12 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
+import FaqList from '@/components/FaqList';
 import { SERVICE_AREAS } from '@/lib/siteConfig';
-import {
-  RESIDENTIAL_SERVICES,
-  RESIDENTIAL_SERVICE_BY_SLUG,
-  SITE_URL,
-} from '@/lib/residentialServices';
+import { RESIDENTIAL_SERVICES, RESIDENTIAL_SERVICE_BY_SLUG } from '@/lib/residentialServices';
+import { faqPageNode, graph, JsonLd, serviceNode } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
-import { estimateHref } from '@/lib/projectOptions';
+import { estimateHref, HUBS } from '@/lib/projectOptions';
 
 export const dynamicParams = false;
 
@@ -18,7 +16,7 @@ export const dynamicParams = false;
 // another service. Keyed by service slug.
 const AGING_IN_PLACE_HUB = {
   href: '/residential/aging-in-place',
-  name: 'Aging-in-Place Planning',
+  name: 'Aging-in-Place & Accessibility Planning',
   blurb: 'Planning for yourself or a parent? Start with the room-by-room guide to staying safely in your own home.',
 };
 const EXTRA_RELATED = {
@@ -35,15 +33,6 @@ const EXTRA_RELATED = {
 };
 
 const sectionHeadingClass = 'font-mono text-xs uppercase tracking-[0.2em]';
-
-const areaServed = [
-  { '@type': 'AdministrativeArea', name: 'Kansas City Metro, MO & KS' },
-  { '@type': 'State', name: 'Missouri' },
-  { '@type': 'State', name: 'Kansas' },
-  ...Object.entries(SERVICE_AREAS).flatMap(([state, cities]) =>
-    cities.map(city => ({ '@type': 'City', name: city.includes(',') ? city : `${city}, ${state}` }))
-  ),
-];
 
 export function generateStaticParams() {
   return RESIDENTIAL_SERVICES.map(service => ({ service: service.slug }));
@@ -91,34 +80,20 @@ function RichText({ parts }) {
 }
 
 function serviceSchema(service) {
-  const path = `/residential/${service.slug}`;
-  return {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'Service',
-        name: service.name,
-        serviceType: service.name,
-        description: service.description,
-        url: `${SITE_URL}${path}`,
-        areaServed,
-        provider: {
-          '@type': 'GeneralContractor',
-          name: 'McLoud Construction',
-          url: SITE_URL,
-        },
-      },
-      {
-        '@type': 'FAQPage',
-        mainEntity: service.faqs.map(item => ({
-          '@type': 'Question',
-          name: item.q,
-          acceptedAnswer: { '@type': 'Answer', text: item.a },
-        })),
-      },
-    ],
-  };
+  return graph(
+    serviceNode({
+      name: service.name,
+      description: service.description,
+      path: `/residential/${service.slug}`,
+    }),
+    faqPageNode(service.faqs)
+  );
 }
+
+// Named communities for the "Where We Work" paragraph, written out as
+// natural text rather than a keyword list.
+const MO_CITIES = SERVICE_AREAS.Missouri.join(', ');
+const KS_CITIES = SERVICE_AREAS.Kansas.join(', ');
 
 export default function ResidentialServicePage({ params }) {
   const service = RESIDENTIAL_SERVICE_BY_SLUG[params.service];
@@ -132,9 +107,18 @@ export default function ResidentialServicePage({ params }) {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema(service)) }} />
+      <JsonLd data={serviceSchema(service)} />
 
-      <PageHero eyebrow={service.eyebrow} title={service.title} body={service.heroBody} />
+      <PageHero
+        eyebrow={service.eyebrow}
+        title={service.h1}
+        subtitle={service.title}
+        body={service.heroBody}
+        crumbs={[
+          service.group === 'accessibility' ? HUBS.accessibility : HUBS.homeowners,
+          { name: service.name, href: `/residential/${service.slug}` },
+        ].map(c => ({ name: c.name || c.label, href: c.href }))}
+      />
 
       <section className="mx-auto max-w-3xl px-6 py-16">
         <p className="font-body text-lg leading-relaxed text-ink/80">{service.intro}</p>
@@ -232,32 +216,22 @@ export default function ResidentialServicePage({ params }) {
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-6 pb-16">
+      <section className="mx-auto max-w-3xl px-6 pb-16" id="faq">
         <h2 className={`${sectionHeadingClass} text-rust`}>Frequently Asked Questions</h2>
         <div className="tick-rule mt-3 mb-8" />
-        <div className="divide-y divide-ink/10 border-t border-ink/10">
-          {service.faqs.map(item => (
-            <details key={item.q} className="group py-6">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-xl font-bold uppercase tracking-tight">
-                {item.q}
-                <span className="shrink-0 font-mono text-lg text-brass transition-transform group-open:rotate-45">+</span>
-              </summary>
-              <p className="mt-4 max-w-2xl font-body leading-relaxed text-ink/70">{item.a}</p>
-              {item.links?.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
-                  {item.links.map(link => (
-                    <Link
-                      key={link.href}
-                      href={linkHref(link.href)}
-                      className="font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
-                    >
-                      {link.label} →
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </details>
-          ))}
+        <FaqList items={service.faqs} linkHref={linkHref} />
+      </section>
+
+      <section className="bg-paper">
+        <div className="mx-auto max-w-3xl px-6 py-16">
+          <h2 className={`${sectionHeadingClass} text-rust`}>Where We Work</h2>
+          <div className="tick-rule mt-3 mb-8" />
+          <p className="font-body leading-relaxed text-ink/75">
+            McLoud Construction serves homeowners across the Kansas City metro for {service.name.toLowerCase()}. On the
+            Missouri side, that includes {MO_CITIES}. On the Kansas side, it includes {KS_CITIES}. If your community
+            is not listed, <Link href="/faq" className="text-rust underline hover:text-ink">check our service area</Link>{' '}
+            or ask when you request an estimate.
+          </p>
         </div>
       </section>
 

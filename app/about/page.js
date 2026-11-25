@@ -7,14 +7,19 @@ export const metadata = pageMetadata({
   title: 'About McLoud Construction | Kansas City, MO & KS',
   absolute: true,
   description:
-    'Locally owned and operated by Stachys and Isabelle McLoud, with a restoration and demo-and-rebuild background, serving the Kansas City metro with honest communication.',
+    'McLoud Construction is locally owned by Stachys and Isabelle McLoud, remodeling homes and properties across the Kansas City metro with honest communication.',
   path: '/about',
 });
 
 export default function AboutPage() {
   return (
     <>
-      <PageHero eyebrow="Locally Owned & Operated" title="About McLoud Construction" />
+      <PageHero
+        eyebrow="Locally Owned & Operated"
+        title="About McLoud Construction"
+        subtitle="Kansas City Remodeling Contractor, Locally Owned"
+        crumbs={[{ name: 'About', href: '/about' }]}
+      />
 
       {/* Owners intro, photo paired with copy */}
       <section className="mx-auto max-w-5xl px-6 py-20">
@@ -43,11 +48,11 @@ export default function AboutPage() {
               who&rsquo;ll answer the phone six weeks into your project.
             </p>
             <p className="mt-4 font-body leading-relaxed text-ink/75">
-              Stachys founded McLoud Construction after years in restoration, running large demo-and-rebuild
-              projects for property management companies. That background shapes how we work today: we find water problems
-              and hidden damage before we finish a room, we keep occupied homes and buildings clean and
-              livable during the work, and we put every space back together the right way. McLoud Construction
-              is insured, and every trade partner is vetted.
+              Stachys McLoud founded McLoud Construction after years in the restoration industry managing large
+              projects for Kansas City property management companies. That experience shapes how we work today: we
+              find water problems and hidden damage before we finish a room, we keep occupied homes and buildings
+              clean and livable during the work, and we finish every space the right way. McLoud Construction is
+              insured, and every trade partner is vetted.
             </p>
           </div>
         </div>

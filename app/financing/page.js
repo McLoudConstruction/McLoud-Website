@@ -39,6 +39,7 @@ export default function FinancingPage() {
         eyebrow="For Homeowners"
         title="Remodel Financing"
         body="Spread the cost of your kitchen, bathroom, or whole-home remodel over time with financing options from a network of vetted lenders, arranged through Acorn Finance."
+        crumbs={[{ name: 'Financing', href: '/financing' }]}
       />
 
       <section className="mx-auto max-w-5xl px-6 py-20 text-center">

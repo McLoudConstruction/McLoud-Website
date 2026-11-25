@@ -1,82 +1,57 @@
 import Link from 'next/link';
 import FinancingBanner from '@/components/FinancingBanner';
 import { CREDENTIALS, SERVICE_AREAS } from '@/lib/siteConfig';
-import { RESIDENTIAL_SERVICES } from '@/lib/residentialServices';
-import { VERTICALS } from '@/lib/verticals';
-import { estimateHref } from '@/lib/projectOptions';
+import { ACCESSIBILITY_SERVICES } from '@/lib/residentialServices';
+import { estimateHref, PROPERTY_MANAGER_NAV } from '@/lib/projectOptions';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
-  title: 'Kansas City Remodeling for Every Stage of Life | McLoud Construction',
+  title: 'Kansas City Remodeling Contractor | McLoud Construction',
   absolute: true,
   description:
-    'Aging-in-place bathrooms, accessibility modifications, tub-to-shower conversions, basement finishing, and kitchen and bath remodels across the Kansas City metro.',
+    'Kansas City remodeling contractor for kitchens, bathrooms, basements, and accessibility remodels in MO & KS, plus renovations for property managers.',
   path: '/',
 });
 
-// "What brings you here?" One tile per kind of visitor, each pointing at the
-// page written for them.
-const PATHS = [
-  {
-    eyebrow: 'Staying in your home',
-    title: 'I want to stay in my home as I get older',
-    href: '/residential/aging-in-place-bathroom-remodels',
-    cta: 'Aging-in-place bathrooms',
-  },
-  {
-    eyebrow: 'Planning for a parent',
-    title: 'I am helping a parent stay safely at home',
-    href: '/residential/aging-in-place',
-    cta: 'Aging-in-place planning',
-  },
-  {
-    eyebrow: 'Wheelchair or walker',
-    title: 'Someone at home needs easier access',
-    href: '/residential/accessibility-modifications',
-    cta: 'Accessibility modifications',
-  },
-  {
-    eyebrow: 'The tub goes unused',
-    title: 'I would rather have a walk-in shower',
-    href: '/residential/tub-to-shower-conversions',
-    cta: 'Tub-to-shower conversions',
-  },
-  {
-    eyebrow: 'Need more room',
-    title: 'We need more living space without moving',
-    href: '/residential/basement-finishing',
-    cta: 'Basement finishing',
-  },
-  {
-    eyebrow: 'Kitchen or bath',
-    title: 'I want a new kitchen or bathroom',
-    href: '/residential#kitchen-remodeling',
-    cta: 'Kitchen & bath remodeling',
-  },
-];
-
-const EVERYDAY = [
+// Homeowner services, in menu order. Tub-to-shower conversions also appear in
+// the accessibility section below.
+const HOMEOWNER = [
   {
     id: 'kitchen-remodeling',
     title: 'Kitchen Remodeling',
+    href: '/residential/kitchen-remodeling',
     body: 'Cabinetry, countertops, layout changes, plumbing, electrical, flooring, and lighting, with guidance at every material and finish decision.',
   },
   {
     id: 'bathroom-remodeling',
     title: 'Bathroom Remodeling',
+    href: '/residential/bathroom-remodeling',
     body: 'Full gut renovations and focused updates, with the waterproofing, ventilation, and blocking you never see done as carefully as the tile you do.',
+  },
+  {
+    id: 'basement-finishing',
+    title: 'Basement Finishing',
+    href: '/residential/basement-finishing',
+    body: 'Family rooms, guest suites, offices, and bathrooms in the space you already own, with moisture checked before anything is framed.',
   },
   {
     id: 'whole-home-remodeling',
     title: 'Whole-Home Remodeling',
+    href: '/residential#whole-home-remodeling',
     body: 'Open-concept conversions, multi-room renovations, and full interior overhauls, coordinated across every trade with one point of contact.',
+  },
+  {
+    id: 'tub-to-shower-conversions',
+    title: 'Tub-to-Shower Conversions',
+    href: '/residential/tub-to-shower-conversions',
+    body: 'Swap a tub you never use for a walk-in shower, with the subfloor, plumbing, and waterproofing done right underneath.',
   },
 ];
 
 const WHY = [
   {
-    title: 'A restoration background',
-    body: 'Stachys McLoud founded McLoud Construction after years in restoration, running large demo-and-rebuild projects for property management companies. We know how to open a room up and put it back together the right way.',
+    title: 'Large-project experience',
+    body: 'Stachys McLoud founded McLoud Construction after years in the restoration industry managing large projects for Kansas City property management companies.',
   },
   {
     title: 'Clean work in lived-in homes',
@@ -95,22 +70,18 @@ const WHY = [
 export default function Home() {
   return (
     <>
-      {/* HERO: the niches lead. The tagline stays as the brand line; the H1
-          carries what McLoud Construction does and where. */}
+      {/* HERO: the H1 is the main keyword; the subhead names the services and
+          carries the brand line. */}
       <section className="relative overflow-hidden bg-ink text-paper">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-20 md:grid-cols-2 md:py-28 lg:grid-cols-[1.15fr_0.85fr]">
           <div>
             <div className="field-stamp text-brass">Kansas City Metro · MO &amp; KS</div>
             <h1 className="mt-6 font-display text-[3rem] font-extrabold uppercase leading-[0.95] tracking-tight md:text-[4rem]">
-              Kansas City Remodeling for Every Stage of Life
+              Kansas City Remodeling Contractor
             </h1>
-            <p className="mt-5 font-display text-2xl font-bold uppercase tracking-tight text-brass md:text-3xl">
-              Built right. Told straight.
-            </p>
-            <p className="mt-5 max-w-lg font-body text-lg leading-relaxed text-paper/80">
-              Aging-in-place bathrooms, accessibility modifications, tub-to-shower conversions, and basement
-              finishing, plus the kitchen and bath remodels McLoud Construction has always done. You&rsquo;ll
-              always know what&rsquo;s happening, what&rsquo;s next, and who to call.
+            <p className="mt-6 max-w-lg font-body text-lg leading-relaxed text-paper/85 md:text-xl">
+              Kitchens, bathrooms, basements and accessibility remodels for homes across the KC metro.{' '}
+              <span className="font-display font-bold uppercase tracking-tight text-brass">Built right. Told straight.</span>
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link
@@ -120,16 +91,16 @@ export default function Home() {
                 Request a Free Estimate
               </Link>
               <a
-                href="#specialties"
+                href="#homeowners"
                 className="border border-paper/30 px-6 py-3.5 text-center font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:border-brass hover:text-brass"
               >
-                See Our Specialties
+                See Our Services
               </a>
             </div>
             <p className="mt-6 font-body text-sm text-paper/70">
               Property manager?{' '}
               <Link href="/commercial" className="text-brass underline hover:text-paper">
-                Commercial renovations and accessible-unit upgrades
+                Unit renovations, interior remodels, and accessible units
               </Link>
             </p>
           </div>
@@ -146,44 +117,25 @@ export default function Home() {
             <TrustStamp key={c}>{c}</TrustStamp>
           ))}
           <TrustStamp>Vetted Subcontractors</TrustStamp>
-          <TrustStamp>Demo &amp; Rebuild Experience</TrustStamp>
+          <TrustStamp>Property Management Experience</TrustStamp>
           <TrustStamp>Missouri &amp; Kansas</TrustStamp>
         </div>
       </section>
 
-      {/* Audience paths */}
-      <section className="mx-auto max-w-7xl px-6 py-24">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Start Here</div>
-        <h2 className="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight md:text-5xl">
-          What Brings You Here?
-        </h2>
-        <div className="tick-rule mt-4 mb-10" />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {PATHS.map(path => (
-            <Link
-              key={path.href}
-              href={path.href}
-              className="group block border border-ink/15 p-7 transition-colors hover:border-brass"
-            >
-              <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">{path.eyebrow}</div>
-              <h3 className="mt-3 font-display text-2xl font-bold uppercase leading-tight tracking-tight">{path.title}</h3>
-              <div className="mt-5 font-mono text-xs uppercase tracking-[0.15em] text-rust group-hover:underline">
-                {path.cta} →
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Specialties */}
-      <section id="specialties" className="scroll-mt-24 bg-blueprint text-paper">
+      {/* Accessibility: its own section right under the hero, linking to both
+          accessibility pages (homes and rental units). */}
+      <section id="accessibility" className="scroll-mt-24 bg-blueprint text-paper">
         <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Our Specialties</div>
+          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Accessibility &amp; Aging-in-Place</div>
           <h2 className="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight md:text-5xl">
-            Safer, More Accessible, More Room
+            Safer, Easier Homes for Every Stage of Life
           </h2>
-          <div className="mt-12 grid gap-10 md:grid-cols-2">
-            {RESIDENTIAL_SERVICES.map(service => (
+          <p className="mt-4 max-w-2xl font-body leading-relaxed text-paper/80">
+            Planning ahead for yourself, helping a parent stay home, or making room for a walker or wheelchair.
+            McLoud Construction builds accessibility changes that still look like they belong in the home.
+          </p>
+          <div className="mt-12 grid gap-10 md:grid-cols-3">
+            {ACCESSIBILITY_SERVICES.map(service => (
               <div key={service.slug} className="border-l-2 border-brass pl-5">
                 <h3 className="font-display text-2xl font-bold uppercase tracking-tight">
                   <Link href={`/residential/${service.slug}`} className="hover:text-brass">
@@ -191,40 +143,52 @@ export default function Home() {
                   </Link>
                 </h3>
                 <p className="mt-3 font-body leading-relaxed text-paper/80">{service.cardBlurb}</p>
-                <Link
-                  href={`/residential/${service.slug}`}
-                  className="mt-4 inline-block font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
-                >
-                  Learn more →
-                </Link>
               </div>
             ))}
+          </div>
+          <div className="mt-12 flex flex-wrap gap-3">
+            <Link
+              href="/residential/aging-in-place"
+              className="border border-brass px-6 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-brass transition-colors hover:bg-brass hover:text-ink"
+            >
+              Aging-in-Place &amp; Accessibility Planning →
+            </Link>
+            <Link
+              href="/commercial/accessible-units"
+              className="border border-paper/30 px-6 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:border-brass hover:text-brass"
+            >
+              Accessible Units for Property Managers →
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Kitchen, bath and whole-home: still a full part of the business */}
-      <section className="mx-auto max-w-7xl px-6 py-24">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Kitchen, Bath &amp; Whole-Home</div>
+      {/* Homeowners */}
+      <section id="homeowners" className="mx-auto max-w-7xl scroll-mt-24 px-6 py-24">
+        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">For Homeowners</div>
         <h2 className="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight md:text-5xl">
-          The Rooms You Use Every Day
+          Home Remodeling in Kansas City
         </h2>
         <p className="mt-4 max-w-2xl font-body leading-relaxed text-ink/70">
-          McLoud Construction still builds the kitchens and bathrooms that make a house feel new, and any remodel
-          can include features that make the room easier to use for years to come.
+          The kitchens, bathrooms, and basements that make a house work better, and any remodel can include
+          features that make the room easier to use for years to come.
         </p>
         <div className="tick-rule mt-6 mb-10" />
-        <div className="grid gap-10 md:grid-cols-3">
-          {EVERYDAY.map(item => (
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+          {HOMEOWNER.map(item => (
             <div key={item.id}>
-              <h3 className="font-display text-2xl font-bold uppercase tracking-tight">{item.title}</h3>
+              <h3 className="font-display text-2xl font-bold uppercase tracking-tight">
+                <Link href={item.href} className="hover:text-rust">
+                  {item.title}
+                </Link>
+              </h3>
               <p className="mt-3 font-body leading-relaxed text-ink/70">{item.body}</p>
               <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
                 <Link
-                  href={`/residential#${item.id}`}
+                  href={item.href}
                   className="font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
                 >
-                  Details →
+                  {item.title} →
                 </Link>
                 <Link
                   href={estimateHref(item.id)}
@@ -236,14 +200,22 @@ export default function Home() {
             </div>
           ))}
         </div>
+        <Link
+          href="/residential"
+          className="mt-12 inline-block border border-rust px-6 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-rust transition-colors hover:bg-rust hover:text-paper"
+        >
+          All Homeowner Services →
+        </Link>
       </section>
+
+      <FinancingBanner />
 
       {/* Why McLoud Construction */}
       <section className="border-t border-ink/10 bg-paper">
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Why McLoud Construction</div>
           <h2 className="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight md:text-5xl">
-            Built by a Demo-and-Rebuild Crew
+            Built Right. Told Straight.
           </h2>
           <div className="tick-rule mt-4 mb-10" />
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -282,48 +254,46 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Commercial and property management */}
-      <section className="bg-ink text-paper">
+      {/* For Property Managers */}
+      <section id="property-managers" className="scroll-mt-24 bg-ink text-paper">
         <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-2">
           <div>
-            <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">For Property Owners &amp; Managers</div>
+            <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">For Property Managers</div>
             <h2 className="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight md:text-5xl">
-              Commercial &amp; Property Management
+              Renovations for Property Managers
             </h2>
             <p className="mt-5 max-w-lg font-body leading-relaxed text-paper/75">
-              Exterior repaints, buildouts, unit renovations, and amenity remodels, planned around residents,
-              guests, and leasing calendars. We also upgrade units for residents with mobility needs.
+              Unit renovations and turns, commercial interior remodels, accessible units, and exterior repaints and
+              repairs, planned around residents, tenants, and leasing calendars.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/commercial"
                 className="border border-brass px-6 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-brass transition-colors hover:bg-brass hover:text-ink"
               >
-                Explore Commercial →
+                Property Manager Services →
               </Link>
               <Link
-                href="/commercial/accessible-units"
+                href={estimateHref('commercial')}
                 className="border border-paper/30 px-6 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:border-brass hover:text-brass"
               >
-                Accessible Unit Upgrades →
+                Request a Property Estimate →
               </Link>
             </div>
           </div>
-          <div className="grid grid-cols-2 content-start gap-x-6 gap-y-5">
-            {VERTICALS.map(v => (
+          <div className="grid grid-cols-1 content-start gap-y-5 sm:grid-cols-2 sm:gap-x-6">
+            {PROPERTY_MANAGER_NAV.map(link => (
               <Link
-                key={v.key}
-                href={`/commercial/${v.slug}`}
+                key={link.href}
+                href={link.href}
                 className="border-l-2 border-brass pl-4 font-display text-xl font-bold uppercase tracking-tight transition-colors hover:text-brass"
               >
-                {v.label}
+                {link.label}
               </Link>
             ))}
           </div>
         </div>
       </section>
-
-      <FinancingBanner />
 
       {/* Owners */}
       <section className="mx-auto max-w-4xl px-6 py-24 text-center">
@@ -430,7 +400,7 @@ function ElevationDrawing() {
         CURBLESS SHOWER
       </text>
       <text x="230" y="30" textAnchor="middle" fill="#A8471F" fontFamily="IBM Plex Mono" fontSize="9" letterSpacing="1">
-        SCOPE: EVERY STAGE OF LIFE
+        BUILT RIGHT. TOLD STRAIGHT.
       </text>
     </svg>
   );

@@ -1,21 +1,24 @@
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
-import { SERVICE_AREAS } from '@/lib/siteConfig';
-import { pageMetadata, SITE_URL } from '@/lib/seo';
+import FaqList from '@/components/FaqList';
+import { pageMetadata } from '@/lib/seo';
+import { faqPageNode, graph, JsonLd, serviceNode } from '@/lib/schema';
+import { ACCESSIBILITY_SERVICES } from '@/lib/residentialServices';
 
-// Audience page for older homeowners and for adult children planning with a
-// parent. It routes visitors to the specific service pages rather than
-// repeating them.
+// The Accessibility hub: for older homeowners, adult children planning with a
+// parent, and anyone who needs a home to work with a walker or wheelchair. It
+// routes visitors to the specific service pages rather than repeating them,
+// and points property managers at accessible units.
 
 const PATH = '/residential/aging-in-place';
 const ESTIMATE_HREF = '/consultation?vertical=residential';
 const FAMILY_ESTIMATE_HREF = '/consultation?vertical=residential&for=family';
 
 export const metadata = pageMetadata({
-  title: 'Aging in Place Remodeling in Kansas City',
+  title: 'Aging in Place & Accessibility Remodeling in Kansas City',
   description:
-    'Planning for yourself or a parent? McLoud Construction plans aging-in-place remodeling across Kansas City: safer bathrooms, easier entries, and rooms that work for years.',
+    'Aging-in-place and accessibility remodeling in Kansas City: safer bathrooms, tub-to-shower conversions, ramps, and wider doorways, for you or a parent.',
   path: PATH,
 });
 
@@ -80,80 +83,63 @@ const SIGNS = [
 ];
 
 const WHY = [
-  'McLoud Construction is a demo-and-rebuild team with a restoration background. Aging-in-place work often means opening up a wall or floor, so we plan for what might be behind it and put the room back together properly.',
+  'Stachys McLoud founded McLoud Construction after years in the restoration industry managing large projects for Kansas City property management companies. Aging-in-place work often means opening up a wall or floor, so we plan for what might be behind it and finish the room properly.',
   'Most of our clients stay home during the work. We protect the rest of the house, keep the work area tidy, and make sure you always know what is happening next.',
   'McLoud Construction is insured, every subcontractor is vetted, and you have one point of contact from the first visit to the final walkthrough.',
 ];
 
 const FAQS = [
   {
-    q: 'Can I request an estimate for my parent?',
-    a: 'Yes. Request the estimate yourself and choose "A parent or family member" on the form. We will coordinate the visit with you and your parent, and family members are welcome at the walkthrough.',
+    q: "What does aging in place mean?",
+    a: "It means continuing to live safely and comfortably in your own home as you get older, instead of moving. Home modifications, such as a safer bathroom, an easier entry, and wider doorways, are a big part of making that possible.",
   },
   {
-    q: 'Do we have to do everything at once?',
-    a: 'No. Many families start with the bathroom or the main entry and plan other changes later. We can lay out the work in an order that makes sense for the home and the budget.',
+    q: "Where should we start?",
+    a: "Most families start with the bathroom or the main entry, because those are where getting around becomes hardest first. A walkthrough helps you see which changes would help most in your home.",
   },
   {
-    q: 'Will the changes make the house look like a hospital?',
-    a: 'They should not. The goal is a home that looks well finished and happens to be safer and easier to use, with fixtures and finishes chosen to match the rest of the house.',
+    q: "Can I request an estimate for my parent?",
+    a: "Yes. Request the estimate yourself and choose \"A parent or family member\" on the form. We coordinate the visit with you and your parent, and family members are welcome at the walkthrough.",
   },
   {
-    q: 'Which parts of Kansas City do you serve?',
-    a: 'McLoud Construction works across the Kansas City metro, on both the Missouri and Kansas sides of the state line. If you are not sure whether a home is in our service area, request a free estimate and we will let you know.',
+    q: "Do we have to do everything at once?",
+    a: "No. Many families make the most important change first and plan the rest later. We can lay out the work in an order that makes sense for the home and the budget.",
+  },
+  {
+    q: "Do you make apartments or rental units accessible?",
+    a: "Yes. For property managers, McLoud Construction upgrades units for residents with mobility needs, built to the specifications you or your design professional provide.",
+    links: [{ label: 'Accessible units for property managers', href: '/commercial/accessible-units' }],
+  },
+  {
+    q: "Should we talk to an occupational therapist first?",
+    a: "It can help. An occupational therapist can assess how a person moves through the day and recommend specific changes. If you have those recommendations, we are glad to build from them.",
   },
 ];
 
-const areaServed = [
-  { '@type': 'AdministrativeArea', name: 'Kansas City Metro, MO & KS' },
-  ...Object.entries(SERVICE_AREAS).flatMap(([state, cities]) =>
-    cities.map(city => ({ '@type': 'City', name: city.includes(',') ? city : `${city}, ${state}` }))
-  ),
-];
-
-const schema = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'Service',
-      name: 'Aging-in-Place Remodeling',
-      serviceType: 'Aging-in-place home remodeling',
-      description:
-        'Aging-in-place remodeling across the Kansas City metro, including safer bathrooms, accessible entries, wider doorways, and accessible kitchens.',
-      url: `${SITE_URL}${PATH}`,
-      areaServed,
-      provider: { '@type': 'GeneralContractor', name: 'McLoud Construction', url: SITE_URL },
-    },
-    {
-      '@type': 'FAQPage',
-      mainEntity: FAQS.map(item => ({
-        '@type': 'Question',
-        name: item.q,
-        acceptedAnswer: { '@type': 'Answer', text: item.a },
-      })),
-    },
-    {
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
-        { '@type': 'ListItem', position: 2, name: 'Residential', item: `${SITE_URL}/residential` },
-        { '@type': 'ListItem', position: 3, name: 'Aging-in-Place Planning', item: `${SITE_URL}${PATH}` },
-      ],
-    },
-  ],
-};
+const schema = graph(
+  serviceNode({
+    name: 'Aging-in-Place & Accessibility Remodeling',
+    serviceType: 'Aging-in-place and accessibility home remodeling',
+    description:
+      'Aging-in-place and accessibility remodeling across the Kansas City metro, including safer bathrooms, tub-to-shower conversions, accessible entries, wider doorways, and accessible kitchens.',
+    path: PATH,
+  }),
+  faqPageNode(FAQS)
+);
 
 const labelClass = 'font-mono text-xs uppercase tracking-[0.2em]';
 
 export default function AgingInPlacePage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <JsonLd data={schema} />
 
       <PageHero
-        eyebrow="Aging-in-Place Remodeling · Kansas City"
-        title="Stay in the Home You Love, Safely"
-        body="Whether you are planning ahead for yourself or helping a parent, McLoud Construction makes the changes that let people keep living safely and comfortably in their own Kansas City homes."
+        eyebrow="Accessibility · Kansas City Metro"
+        title="Aging-in-Place & Accessibility Remodeling in Kansas City"
+        subtitle="Stay in the Home You Love, Safely"
+        body="Whether you are planning ahead for yourself, helping a parent, or making room for a walker or wheelchair, McLoud Construction makes the changes that let people keep living safely and comfortably in their own Kansas City homes."
+        crumbs={[{ name: 'Accessibility', href: PATH }]}
       />
 
       <section className="mx-auto max-w-6xl px-6 py-20">
@@ -185,6 +171,36 @@ export default function AgingInPlacePage() {
           >
             Request One for a Parent
           </Link>
+        </div>
+      </section>
+
+      <section className="bg-blueprint text-paper">
+        <div className="mx-auto max-w-6xl px-6 py-20">
+          <h2 className={`${labelClass} text-brass`}>Accessibility Services</h2>
+          <div className="tick-rule mt-3 mb-10" />
+          <div className="grid gap-10 md:grid-cols-2">
+            {ACCESSIBILITY_SERVICES.map(service => (
+              <div key={service.slug} className="border-l-2 border-brass pl-5">
+                <h3 className="font-display text-2xl font-bold uppercase tracking-tight">
+                  <Link href={`/residential/${service.slug}`} className="hover:text-brass">
+                    {service.name}
+                  </Link>
+                </h3>
+                <p className="mt-3 font-body leading-relaxed text-paper/80">{service.cardBlurb}</p>
+              </div>
+            ))}
+            <div className="border-l-2 border-brass pl-5">
+              <h3 className="font-display text-2xl font-bold uppercase tracking-tight">
+                <Link href="/commercial/accessible-units" className="hover:text-brass">
+                  Accessible Units for Property Managers
+                </Link>
+              </h3>
+              <p className="mt-3 font-body leading-relaxed text-paper/80">
+                Roll-in showers, wider doorways, and accessible kitchens for apartment and rental units, built in
+                occupied buildings to the specifications you provide.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -240,20 +256,10 @@ export default function AgingInPlacePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-6 py-16">
-        <h2 className={`${labelClass} text-rust`}>Frequently Asked Questions</h2>
+      <section className="mx-auto max-w-3xl px-6 py-16" id="faq">
+        <h2 className={`${labelClass} text-rust`}>Accessibility &amp; Aging-in-Place Questions</h2>
         <div className="tick-rule mt-3 mb-8" />
-        <div className="divide-y divide-ink/10 border-t border-ink/10">
-          {FAQS.map(item => (
-            <details key={item.q} className="group py-6">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-xl font-bold uppercase tracking-tight">
-                {item.q}
-                <span className="shrink-0 font-mono text-lg text-brass transition-transform group-open:rotate-45">+</span>
-              </summary>
-              <p className="mt-4 max-w-2xl font-body leading-relaxed text-ink/70">{item.a}</p>
-            </details>
-          ))}
-        </div>
+        <FaqList items={FAQS} />
       </section>
 
       <CtaBanner

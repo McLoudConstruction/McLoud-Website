@@ -298,8 +298,9 @@ export default function ConsultationForm() {
           <div>
             <label htmlFor="cf-type" className={labelClass}>Home or Business? *</label>
             <select id="cf-type" className={inputClass} value={form.projectType} onChange={e => update('projectType', e.target.value)}>
-              <option value="Residential">Residential</option>
-              <option value="Commercial">Commercial</option>
+              {/* The values are what the jobs platform expects; only the labels changed. */}
+              <option value="Residential">My home (homeowner)</option>
+              <option value="Commercial">A property I manage or own, or a business</option>
             </select>
           </div>
         </div>

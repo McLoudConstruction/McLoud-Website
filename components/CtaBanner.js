@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import { phoneDisplay, phoneHref } from '@/lib/siteConfig';
 
 export default function CtaBanner({ heading = "Let's Talk About Your Project", body, href = '/consultation' }) {
+  const phone = phoneDisplay();
   return (
     <section className="grid-paper border-t border-ink/10 bg-paper">
       <div className="mx-auto max-w-7xl px-6 py-24 text-center">
@@ -14,6 +16,14 @@ export default function CtaBanner({ heading = "Let's Talk About Your Project", b
         >
           Get a Free Estimate
         </Link>
+        {phone && (
+          <p className="mt-5 font-mono text-xs uppercase tracking-[0.15em] text-ink/60">
+            Or call{' '}
+            <a href={phoneHref()} className="text-rust hover:underline">
+              {phone}
+            </a>
+          </p>
+        )}
       </div>
     </section>
   );

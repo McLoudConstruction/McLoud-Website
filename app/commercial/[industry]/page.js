@@ -1,33 +1,59 @@
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
-import { VERTICALS, VERTICAL_BY_SLUG } from '@/lib/verticals';
+import FaqList from '@/components/FaqList';
+import PropertyManagerLinks from '@/components/PropertyManagerLinks';
+import { PAGE_VERTICALS, VERTICAL_BY_SLUG } from '@/lib/verticals';
 import { pageMetadata } from '@/lib/seo';
-import { COMMERCIAL_EXTRA_NAV } from '@/lib/projectOptions';
+import { faqPageNode, graph, JsonLd, serviceNode } from '@/lib/schema';
 
-// Only the industries defined in lib/verticals.js exist; anything else is a 404.
+// Only industries in lib/verticals.js with `hasPage: true` get a page; the
+// rest were folded into the property manager pages and redirect in
+// next.config.js. Anything else is a 404.
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return VERTICALS.map(v => ({ industry: v.slug }));
+  return PAGE_VERTICALS.map(v => ({ industry: v.slug }));
+}
+
+function pageVertical(slug) {
+  const v = VERTICAL_BY_SLUG[slug];
+  return v && v.hasPage ? v : null;
 }
 
 export function generateMetadata({ params }) {
-  const v = VERTICAL_BY_SLUG[params.industry];
+  const v = pageVertical(params.industry);
   if (!v) return {};
   return pageMetadata({ title: v.metaTitle, description: v.metaDescription, path: `/commercial/${v.slug}` });
 }
 
 export default function IndustryPage({ params }) {
-  const v = VERTICAL_BY_SLUG[params.industry];
+  const v = pageVertical(params.industry);
   if (!v) notFound();
-
-  const others = VERTICALS.filter(o => o.key !== v.key);
+  const path = `/commercial/${v.slug}`;
 
   return (
     <>
-      <PageHero eyebrow={v.eyebrow} title={v.title} body={v.body} />
+      <JsonLd
+        data={graph(
+          serviceNode({
+            name: v.metaTitle.replace(/( in Kansas City|, KC)$/, ''),
+            description: v.metaDescription,
+            path,
+          }),
+          v.faqs?.length ? faqPageNode(v.faqs) : null
+        )}
+      />
+      <PageHero
+        eyebrow={v.eyebrow}
+        title={v.title}
+        subtitle={v.subtitle}
+        body={v.body}
+        crumbs={[
+          { name: 'Property Managers', href: '/commercial' },
+          { name: v.label, href: path },
+        ]}
+      />
 
       <section className="mx-auto max-w-7xl px-6 py-20">
         <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">What We Handle</div>
@@ -58,29 +84,19 @@ export default function IndustryPage({ params }) {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-concrete">Other Industries We Serve</div>
-        <div className="mt-5 flex flex-wrap gap-x-8 gap-y-3">
-          {others.map(o => (
-            <Link
-              key={o.key}
-              href={`/commercial/${o.slug}`}
-              className="border-l-2 border-brass pl-3 font-display text-lg font-bold uppercase tracking-tight hover:text-brass"
-            >
-              {o.label}
-            </Link>
-          ))}
-          {COMMERCIAL_EXTRA_NAV.map(link => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="border-l-2 border-brass pl-3 font-display text-lg font-bold uppercase tracking-tight hover:text-brass"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      </section>
+      {v.faqs?.length > 0 && (
+        <section className="mx-auto max-w-4xl px-6 py-20">
+          <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Questions</div>
+          <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
+            {v.label} FAQ
+          </h2>
+          <div className="mt-8">
+            <FaqList items={v.faqs} />
+          </div>
+        </section>
+      )}
+
+      <PropertyManagerLinks current={path} />
 
       <CtaBanner heading={v.ctaHeading} body={v.ctaBody} href={`/consultation?vertical=${v.key}`} />
     </>

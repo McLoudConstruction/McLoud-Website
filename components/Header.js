@@ -2,30 +2,22 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { VERTICALS } from '@/lib/verticals';
-import { RESIDENTIAL_NAV, COMMERCIAL_EXTRA_NAV } from '@/lib/projectOptions';
+import { HUBS, HOMEOWNER_NAV, ACCESSIBILITY_NAV, PROPERTY_MANAGER_NAV } from '@/lib/projectOptions';
 import { phoneDisplay, phoneHref } from '@/lib/siteConfig';
 
-// An item with `menu` gets a dropdown on desktop and an indented list in the
-// mobile menu. The parent link still goes to its own page.
-const RESIDENTIAL_MENU = { allLabel: 'All Residential', links: RESIDENTIAL_NAV };
-const COMMERCIAL_MENU = {
-  allLabel: 'All Commercial',
-  links: [
-    ...VERTICALS.map(v => ({ href: `/commercial/${v.slug}`, label: v.label })),
-    ...COMMERCIAL_EXTRA_NAV,
-  ],
-};
-
+// One menu per kind of customer. An item with `menu` gets a dropdown on
+// desktop and an indented list in the mobile menu. The parent link still goes
+// to its own hub page.
 const NAV = [
-  { href: '/residential', label: 'Residential', menu: RESIDENTIAL_MENU },
-  { href: '/commercial', label: 'Commercial', menu: COMMERCIAL_MENU },
+  { ...HUBS.homeowners, menu: { allLabel: 'All Homeowner Services', links: HOMEOWNER_NAV } },
+  // The hub is the menu's first link, so the "all" link is not repeated.
+  { ...HUBS.accessibility, menu: { links: ACCESSIBILITY_NAV } },
+  { ...HUBS.propertyManagers, menu: { allLabel: 'All Property Manager Services', links: PROPERTY_MANAGER_NAV } },
   { href: '/about', label: 'About' },
   { href: '/faq', label: 'FAQ' },
-  { href: '/financing', label: 'Financing' },
 ];
 
-const linkClass = 'font-mono text-xs uppercase tracking-[0.15em] text-paper/80 transition-colors hover:text-brass';
+const linkClass = 'whitespace-nowrap font-mono text-xs uppercase tracking-[0.15em] text-paper/80 transition-colors hover:text-brass';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -39,7 +31,7 @@ export default function Header() {
           <Image src="/logo.png" alt="McLoud Construction" width={185} height={80} priority className="h-12 w-auto md:h-14" />
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-5 lg:flex xl:gap-8">
           {NAV.map(item =>
             item.menu ? (
               // Opens on hover and on keyboard focus. The panel is attached to
@@ -55,13 +47,17 @@ export default function Header() {
                 </Link>
                 <div className="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-5 opacity-0 transition-opacity duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
                   <div className="min-w-[19rem] border border-paper/10 border-t-2 border-t-brass bg-ink py-2 shadow-xl">
-                    <Link
-                      href={item.href}
-                      className="block px-5 py-2.5 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-brass transition-colors hover:bg-paper/5"
-                    >
-                      {item.menu.allLabel}
-                    </Link>
-                    <div className="mx-5 my-1 h-px bg-paper/10" />
+                    {item.menu.allLabel && (
+                      <>
+                        <Link
+                          href={item.href}
+                          className="block px-5 py-2.5 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-brass transition-colors hover:bg-paper/5"
+                        >
+                          {item.menu.allLabel}
+                        </Link>
+                        <div className="mx-5 my-1 h-px bg-paper/10" />
+                      </>
+                    )}
                     {item.menu.links.map(link => (
                       <Link
                         key={link.href}
@@ -81,26 +77,26 @@ export default function Header() {
             )
           )}
           {phone && (
-            <a href={tel} className="hidden font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:text-brass lg:inline">
+            <a href={tel} className="hidden font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:text-brass xl:inline">
               {phone}
             </a>
           )}
           <a
             href="https://jobs.mcloudconstruction.com/customerportal"
-            className="font-mono text-xs uppercase tracking-[0.15em] text-paper/60 transition-colors hover:text-brass"
+            className="hidden whitespace-nowrap font-mono text-xs uppercase tracking-[0.15em] text-paper/60 transition-colors hover:text-brass xl:inline"
           >
             Client Login
           </a>
           <Link
             href="/consultation"
-            className="border border-brass px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] text-brass transition-colors hover:bg-brass hover:text-ink"
+            className="whitespace-nowrap border border-brass px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] text-brass transition-colors hover:bg-brass hover:text-ink"
           >
             Get an Estimate
           </Link>
         </nav>
 
         <button
-          className="flex flex-col gap-1.5 md:hidden"
+          className="flex flex-col gap-1.5 lg:hidden"
           aria-label="Toggle navigation"
           aria-expanded={open}
           onClick={() => setOpen(o => !o)}
@@ -112,7 +108,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <nav className="flex flex-col gap-1 border-t border-paper/10 px-6 pb-6 md:hidden">
+        <nav className="flex flex-col gap-1 border-t border-paper/10 px-6 pb-6 lg:hidden">
           {NAV.map(item => (
             <div key={item.href}>
               <Link

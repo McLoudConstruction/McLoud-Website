@@ -32,10 +32,15 @@ export function readAttribution() {
   return safeRead();
 }
 
+// Property manager pages that are not industry pages but whose leads are
+// multi-family work.
+const MULTI_FAMILY_PAGES = ['unit-renovations', 'accessible-units'];
+
 function verticalFromPath(pathname) {
   if (pathname === '/residential' || pathname.startsWith('/residential/')) return RESIDENTIAL_KEY;
   const match = pathname.match(/^\/commercial\/([^/]+)\/?$/);
   if (match && VERTICAL_BY_SLUG[match[1]]) return VERTICAL_BY_SLUG[match[1]].key;
+  if (match && MULTI_FAMILY_PAGES.includes(match[1])) return 'multi_family';
   return null;
 }
 
@@ -43,7 +48,8 @@ function verticalFromPath(pathname) {
 // "What's the project?" on the estimate form. It is not sent to the jobs
 // platform as its own field.
 export function serviceFromPath(pathname) {
-  if (pathname === '/commercial/accessible-units') return 'accessible-units';
+  const pm = pathname.match(/^\/commercial\/(accessible-units|unit-renovations|interior-remodels)\/?$/);
+  if (pm) return pm[1];
   const res = pathname.match(/^\/residential\/([^/]+)\/?$/);
   if (res && PROJECT_BY_VALUE[res[1]]) return res[1];
   if (/^\/commercial\/[^/]+\/?$/.test(pathname)) return 'commercial';

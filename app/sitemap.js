@@ -1,4 +1,4 @@
-import { VERTICALS } from '@/lib/verticals';
+import { PAGE_VERTICALS } from '@/lib/verticals';
 import { RESIDENTIAL_SERVICES } from '@/lib/residentialServices';
 
 export default function sitemap() {
@@ -15,8 +15,10 @@ export default function sitemap() {
       changeFrequency: 'monthly',
     })),
     { path: '/commercial', priority: 0.9, changeFrequency: 'monthly' },
-    ...VERTICALS.map(v => ({ path: `/commercial/${v.slug}`, priority: 0.8, changeFrequency: 'monthly' })),
+    { path: '/commercial/unit-renovations', priority: 0.8, changeFrequency: 'monthly' },
+    { path: '/commercial/interior-remodels', priority: 0.8, changeFrequency: 'monthly' },
     { path: '/commercial/accessible-units', priority: 0.8, changeFrequency: 'monthly' },
+    ...PAGE_VERTICALS.map(v => ({ path: `/commercial/${v.slug}`, priority: 0.7, changeFrequency: 'monthly' })),
     { path: '/about', priority: 0.7, changeFrequency: 'yearly' },
     { path: '/faq', priority: 0.6, changeFrequency: 'yearly' },
     { path: '/financing', priority: 0.6, changeFrequency: 'yearly' },

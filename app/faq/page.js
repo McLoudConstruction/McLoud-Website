@@ -1,103 +1,113 @@
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import CtaBanner from '@/components/CtaBanner';
+import FaqList from '@/components/FaqList';
 import { pageMetadata } from '@/lib/seo';
+import { faqPageNode, graph, JsonLd } from '@/lib/schema';
 
 const DESCRIPTION =
-  'Answers about McLoud Construction’s service area, estimates, financing, scope changes, permits, and accessibility, basement, and remodeling projects in Kansas City.';
+  'Kansas City remodeling FAQ: where McLoud Construction works, who it works for, how free estimates work, insurance and subcontractors, and staying informed.';
 
 export const metadata = pageMetadata({
-  title: 'Remodeling & Construction FAQ',
+  title: 'Kansas City Remodeling FAQ',
   description: DESCRIPTION,
   path: '/faq',
 });
 
+// Five general questions. Everything specific to homeowners, accessibility,
+// or property managers lives on that audience's pages, with its own FAQ
+// structured data, and is linked below instead of repeated.
 const FAQS = [
   {
-    q: 'What areas do you serve?',
-    a: 'We serve the greater Kansas City metro, including communities on both the Missouri and Kansas sides.',
+    q: "What areas does McLoud Construction serve?",
+    a: "The greater Kansas City metro on both sides of the state line, including Kansas City, Lee's Summit, Independence, Blue Springs, Liberty, and Raymore in Missouri, and Overland Park, Olathe, Lenexa, Shawnee, Leawood, and Kansas City, Kansas. If you do not see your community, ask.",
   },
   {
-    q: 'How much will my project cost?',
-    a: "Every project is different, so we don't quote prices without seeing the space. The estimate is free and carries no obligation: we visit, listen to your goals, and follow up with a detailed estimate and scope of work before anything moves forward. Homeowners can also look at financing options before they decide.",
+    q: "Who does McLoud Construction work for?",
+    a: "Homeowners planning kitchen, bathroom, basement, and whole-home remodels; homeowners and families planning aging-in-place and accessibility changes; and property managers who need unit renovations, interior remodels, accessible units, and exterior repairs.",
+    links: [
+      { href: "/residential", label: "Homeowners" },
+      { href: "/residential/aging-in-place", label: "Accessibility" },
+      { href: "/commercial", label: "Property managers" },
+    ],
   },
   {
-    q: 'Do you offer financing?',
-    a: "Yes, for residential projects. We work with Acorn Finance, which lets you check your rate in about 60 seconds with a soft credit check that doesn't affect your credit score. McLoud Construction is not a lender, and terms and approval are set by the lender. Details are on our financing page.",
-    link: { href: '/financing', label: 'See financing options' },
+    q: "How do estimates work, and what affects the cost?",
+    a: "You request a free estimate online, we visit to see the space and hear your goals, and then we send a written estimate and scope of work, with no obligation. Cost depends on the size of the space, whether plumbing, electrical, or walls move, what is found behind walls and under floors, and the materials you choose, so we do not quote prices without seeing the space.",
+    links: [{ href: "/consultation", label: "Request a free estimate" }],
   },
   {
-    q: 'How long does a typical project take?',
-    a: "It depends entirely on scope. A bathroom remodel and a whole-home renovation are very different timelines. We'll walk through a realistic schedule with you during your in-home consultation, before any agreement is signed.",
+    q: "Is McLoud Construction insured, and who does the work?",
+    a: "Yes. McLoud Construction is insured and can provide a certificate of insurance on request. We work with trusted subcontractors for specialty trades, and every one is vetted before they set foot on your property.",
   },
   {
-    q: 'How does the estimate process work?',
-    a: "It starts with a free estimate request, followed by an in-home consultation where we discuss your goals in detail. From there, we put together a full estimate and scope of work before anything moves forward.",
-  },
-  {
-    q: 'What happens if the scope changes during a project?',
-    a: 'If something changes, you hear it from us first, and change orders are written down so the scope and the cost stay clear for everyone.',
-  },
-  {
-    q: 'Do you use subcontractors, and are they vetted?',
-    a: 'Yes, on most projects we work with trusted subcontractors for specialty trades. Every subcontractor is vetted before they ever set foot on your property. That vetting process is something we take seriously, not a formality.',
-  },
-  {
-    q: 'Will I have one point of contact throughout the project?',
-    a: "Yes. You'll know who to call from your first consultation through the final walkthrough, with no getting bounced between departments.",
-  },
-  {
-    q: 'Can I track my project online?',
-    a: 'Yes. Clients get a portal login where they can see their estimate, contract, photos, and invoices, and message us directly.',
-  },
-  {
-    q: 'Do you work on both residential and commercial projects?',
-    a: 'Yes. Residential covers kitchen, bathroom, and whole-home remodeling. Commercial covers exterior repaints and repairs, renovations, and buildouts for multi-family, hotel, retail, office, recreational, church, and other property types.',
-  },
-  {
-    q: 'Can you work in occupied buildings?',
-    a: 'Yes. For apartment communities, hotels, retail centers, and other properties that stay open, we plan access, noise, and sequencing around residents, guests, and customers, and build the schedule around your leasing calendar or lease dates.',
-  },
-  {
-    q: 'Do you handle permits?',
-    a: "Permit requirements vary by project and municipality. We'll let you know what's needed for your specific scope during the estimate process.",
+    q: "How will I know what is happening during my project?",
+    a: "You have one point of contact from the first visit through the final walkthrough, and a client portal where you can see your estimate, contract, photos, and invoices and message us directly. If the scope changes, you hear it from us first, and change orders are written down.",
   },
 ];
 
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: FAQS.map(item => ({
-    '@type': 'Question',
-    name: item.q,
-    acceptedAnswer: { '@type': 'Answer', text: item.a },
-  })),
-};
+const faqSchema = graph(faqPageNode(FAQS));
+
+const AUDIENCE_FAQ_LINKS = [
+  {
+    label: 'Homeowners',
+    links: [
+      { href: '/residential#faq', label: 'Home remodeling questions' },
+      { href: '/residential/kitchen-remodeling#faq', label: 'Kitchen remodeling' },
+      { href: '/residential/bathroom-remodeling#faq', label: 'Bathroom remodeling' },
+      { href: '/residential/basement-finishing#faq', label: 'Basement finishing' },
+      { href: '/financing', label: 'Financing' },
+    ],
+  },
+  {
+    label: 'Accessibility',
+    links: [
+      { href: '/residential/aging-in-place#faq', label: 'Aging-in-place planning' },
+      { href: '/residential/aging-in-place-bathroom-remodels#faq', label: 'Aging-in-place bathrooms' },
+      { href: '/residential/tub-to-shower-conversions#faq', label: 'Tub-to-shower conversions' },
+      { href: '/residential/accessibility-modifications#faq', label: 'Accessibility modifications' },
+    ],
+  },
+  {
+    label: 'Property Managers',
+    links: [
+      { href: '/commercial#faq', label: 'Property manager questions' },
+      { href: '/commercial/unit-renovations', label: 'Unit renovations & turns' },
+      { href: '/commercial/interior-remodels', label: 'Commercial interior remodels' },
+      { href: '/commercial/accessible-units#faq', label: 'Accessible units' },
+    ],
+  },
+];
 
 export default function FaqPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <PageHero eyebrow="Common Questions" title="FAQ" />
+      <JsonLd data={faqSchema} />
+      <PageHero
+        eyebrow="Common Questions"
+        title="Kansas City Remodeling FAQ"
+        body="General questions about working with McLoud Construction. Questions about a specific project are answered on the pages for homeowners, accessibility, and property managers."
+        crumbs={[{ name: 'FAQ', href: '/faq' }]}
+      />
 
       <section className="mx-auto max-w-3xl px-6 py-20">
-        <div className="divide-y divide-ink/10 border-t border-ink/10">
-          {FAQS.map(item => (
-            <details key={item.q} className="group py-6">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-xl font-bold uppercase tracking-tight">
-                {item.q}
-                <span className="shrink-0 font-mono text-lg text-brass transition-transform group-open:rotate-45">+</span>
-              </summary>
-              <p className="mt-4 max-w-2xl font-body leading-relaxed text-ink/70">{item.a}</p>
-              {item.link && (
-                <Link
-                  href={item.link.href}
-                  className="mt-3 inline-block font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
-                >
-                  {item.link.label} →
-                </Link>
-              )}
-            </details>
+        <FaqList items={FAQS} />
+        <h2 className="mt-16 font-mono text-xs uppercase tracking-[0.2em] text-rust">Questions About Your Project</h2>
+        <div className="tick-rule mt-3 mb-6" />
+        <div className="grid gap-8 sm:grid-cols-3">
+          {AUDIENCE_FAQ_LINKS.map(group => (
+            <div key={group.label}>
+              <h3 className="font-display text-lg font-bold uppercase tracking-tight">{group.label}</h3>
+              <ul className="mt-3 space-y-2 font-body text-sm text-ink/75">
+                {group.links.map(link => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-rust underline hover:text-ink">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
         </div>
       </section>
