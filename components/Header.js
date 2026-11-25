@@ -1,12 +1,12 @@
 'use client';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { HUBS, HOMEOWNER_NAV, ACCESSIBILITY_NAV, PROPERTY_MANAGER_NAV } from '@/lib/projectOptions';
-import { phoneDisplay, phoneHref } from '@/lib/siteConfig';
+import MobileMenu, { Hamburger } from '@/components/MobileMenu';
 
 // One menu per kind of customer. An item with `menu` gets a dropdown on
-// desktop and an indented list in the mobile menu. The parent link still goes
+// desktop and an accordion in the mobile menu (components/MobileMenu.js). The parent link still goes
 // to its own hub page.
 const NAV = [
   { ...HUBS.homeowners, menu: { allLabel: 'All Homeowner Services', links: HOMEOWNER_NAV } },
@@ -21,8 +21,8 @@ const linkClass = 'whitespace-nowrap font-mono text-xs uppercase tracking-[0.15e
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const phone = phoneDisplay();
-  const tel = phoneHref();
+  const buttonRef = useRef(null);
+  const closeMenu = useCallback(() => setOpen(false), []);
 
   return (
     <header className="sticky top-0 z-50 bg-ink text-paper">
@@ -76,11 +76,10 @@ export default function Header() {
               </Link>
             )
           )}
-          {phone && (
-            <a href={tel} className="hidden font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:text-brass xl:inline">
-              {phone}
-            </a>
-          )}
+          {/* No phone number in the desktop header (Stachys, Nov 2026): it made the
+              header too wide. Tap-to-call stays in the mobile menu
+              (components/MobileMenu.js), the footer, the estimate banners and
+              the form's error message. */}
           <a
             href="https://jobs.mcloudconstruction.com/customerportal"
             className="hidden whitespace-nowrap font-mono text-xs uppercase tracking-[0.15em] text-paper/60 transition-colors hover:text-brass xl:inline"
@@ -95,65 +94,10 @@ export default function Header() {
           </Link>
         </nav>
 
-        <button
-          className="flex flex-col gap-1.5 lg:hidden"
-          aria-label="Toggle navigation"
-          aria-expanded={open}
-          onClick={() => setOpen(o => !o)}
-        >
-          <span className="block h-[1.5px] w-6 bg-paper" />
-          <span className="block h-[1.5px] w-6 bg-paper" />
-          <span className="block h-[1.5px] w-4 bg-paper" />
-        </button>
+        <Hamburger open={open} onClick={() => setOpen(o => !o)} buttonRef={buttonRef} />
       </div>
 
-      {open && (
-        <nav className="flex flex-col gap-1 border-t border-paper/10 px-6 pb-6 lg:hidden">
-          {NAV.map(item => (
-            <div key={item.href}>
-              <Link
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="block py-3 font-mono text-xs uppercase tracking-[0.15em] text-paper/80"
-              >
-                {item.label}
-              </Link>
-              {item.menu && (
-                <div className="mb-2 ml-1 border-l border-brass/60 pl-4">
-                  {item.menu.links.map(link => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setOpen(false)}
-                      className="block py-2 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-paper/60"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-          {phone && (
-            <a href={tel} className="py-3 font-mono text-xs uppercase tracking-[0.15em] text-paper">
-              Call {phone}
-            </a>
-          )}
-          <a
-            href="https://jobs.mcloudconstruction.com/customerportal"
-            className="py-3 font-mono text-xs uppercase tracking-[0.15em] text-paper/60"
-          >
-            Client Login
-          </a>
-          <Link
-            href="/consultation"
-            onClick={() => setOpen(false)}
-            className="mt-2 border border-brass px-4 py-3 text-center font-mono text-xs uppercase tracking-[0.15em] text-brass"
-          >
-            Get an Estimate
-          </Link>
-        </nav>
-      )}
+      <MobileMenu nav={NAV} open={open} onClose={closeMenu} buttonRef={buttonRef} />
     </header>
   );
 }

@@ -90,3 +90,149 @@ textarea:focus-visible {
     linear-gradient(90deg, rgba(28,27,25,0.05) 1px, transparent 1px);
   background-size: 28px 28px;
 }
+
+/* ------------------------------------------------------------------
+   Mobile menu (components/MobileMenu.js)
+   Off-canvas panel from the right over a fading backdrop. Ink #1C1B19,
+   paper #EDE7DA, tan #9B773D only; never rust.
+   ------------------------------------------------------------------ */
+:root {
+  --mm-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --mm-dur: 420ms;
+}
+
+.mm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(28, 27, 25, 0.62);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--mm-dur) var(--mm-ease), visibility 0s linear var(--mm-dur);
+}
+.mm-backdrop[data-open='true'] {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--mm-dur) var(--mm-ease), visibility 0s;
+}
+
+.mm-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 65;
+  display: flex;
+  flex-direction: column;
+  width: min(88vw, 26rem);
+  height: 100vh; /* fallback */
+  height: 100dvh; /* tracks Safari's collapsing toolbar */
+  background: #1c1b19;
+  color: #ede7da;
+  border-left: 1px solid rgba(155, 119, 61, 0.45);
+  box-shadow: -24px 0 60px rgba(0, 0, 0, 0.45);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform var(--mm-dur) var(--mm-ease), visibility 0s linear var(--mm-dur);
+}
+.mm-panel[data-open='true'] {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform var(--mm-dur) var(--mm-ease), visibility 0s;
+}
+
+/* Thin tan rule that draws in along the panel's top edge. */
+.mm-panel::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 2px;
+  width: 100%;
+  background: #9b773d;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 600ms var(--mm-ease) 120ms;
+}
+.mm-panel[data-open='true']::before {
+  transform: scaleX(1);
+}
+
+.mm-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Pinned footer clears the iPhone home indicator. */
+.mm-footer {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* Staggered entrance for the top-level items. */
+.mm-item {
+  opacity: 0;
+  transform: translateX(28px);
+  transition: opacity 260ms ease, transform 260ms ease;
+}
+.mm-panel[data-open='true'] .mm-item {
+  opacity: 1;
+  transform: none;
+  transition: opacity 500ms var(--mm-ease), transform 500ms var(--mm-ease);
+  transition-delay: calc(140ms + var(--mm-i, 0) * 55ms);
+}
+
+/* Accordion: animates height with grid rows, so no measuring in JS. */
+.mm-accordion {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 380ms var(--mm-ease), opacity 300ms ease;
+}
+.mm-accordion[data-open='true'] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.mm-chevron {
+  transition: transform 380ms var(--mm-ease), background-color 200ms ease, color 200ms ease;
+}
+.mm-chevron[data-open='true'] {
+  transform: rotate(180deg);
+  background: #9b773d;
+  color: #1c1b19;
+}
+
+/* Hamburger to X. */
+.mm-burger-line {
+  position: absolute;
+  right: 0;
+  height: 1.5px;
+  background: #ede7da;
+  transition: transform 380ms var(--mm-ease), opacity 200ms ease, width 380ms var(--mm-ease), top 380ms var(--mm-ease);
+}
+.mm-burger-top { top: 0; width: 24px; }
+.mm-burger-mid { top: 6.25px; width: 24px; }
+.mm-burger-bot { top: 12.5px; width: 16px; }
+.mm-burger[data-open='true'] .mm-burger-top { top: 6.25px; transform: rotate(45deg); }
+.mm-burger[data-open='true'] .mm-burger-mid { opacity: 0; transform: translateX(8px); }
+.mm-burger[data-open='true'] .mm-burger-bot { top: 6.25px; width: 24px; transform: rotate(-45deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  /* No slide, no stagger: the menu simply appears and disappears. */
+  .mm-panel,
+  .mm-panel[data-open='true'],
+  .mm-backdrop,
+  .mm-backdrop[data-open='true'],
+  .mm-panel[data-open='true'] .mm-item {
+    transition: none !important;
+  }
+  .mm-panel,
+  .mm-panel[data-open='true'],
+  .mm-item,
+  .mm-panel[data-open='true'] .mm-item {
+    transform: none !important;
+    transition-delay: 0s !important;
+  }
+  .mm-panel::before {
+    transform: none;
+  }
+}
