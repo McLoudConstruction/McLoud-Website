@@ -270,7 +270,7 @@ export default function ChatWidget() {
   return (
     <div className="print:hidden">
       {!open && (
-        <div className="fixed right-5 z-[60] flex flex-col items-end gap-3" style={{ bottom: `calc(1.25rem + ${inset}px)` }}>
+        <div className="chat-launcher fixed right-5 z-[60] flex flex-col items-end gap-3" style={{ bottom: `calc(1.25rem + ${inset}px)` }}>
           {teaser && (
             <div className="chat-teaser relative max-w-[240px] border border-ink/15 bg-paper py-3 pl-4 pr-9 text-sm font-medium text-ink shadow-xl">
               <button

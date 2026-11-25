@@ -268,3 +268,6 @@ textarea:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .chat-teaser, .chat-nudge, .chat-ring { animation: none; }
 }
+
+/* The chat button steps aside while the mobile menu is open (set by MobileMenu.js). */
+html[data-menu-open] .chat-launcher { display: none; }

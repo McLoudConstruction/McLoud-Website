@@ -130,6 +130,8 @@ export default function MobileMenu({ nav, open, onClose, buttonRef }) {
     const prevBody = document.body.style.overflow;
     root.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
+    // Lets other fixed UI (the chat button) get out of the way while the menu is open.
+    root.dataset.menuOpen = 'true';
 
     const focusTimer = setTimeout(() => {
       panelRef.current?.querySelector(FOCUSABLE)?.focus({ preventScroll: true });
@@ -164,6 +166,7 @@ export default function MobileMenu({ nav, open, onClose, buttonRef }) {
       document.removeEventListener('keydown', onKey);
       root.style.overflow = prevRoot;
       document.body.style.overflow = prevBody;
+      delete root.dataset.menuOpen;
       button?.focus({ preventScroll: true });
     };
   }, [open, close, buttonRef]);
@@ -234,7 +237,7 @@ export default function MobileMenu({ nav, open, onClose, buttonRef }) {
           )}
           <a
             href={PORTAL_URL}
-            className="mt-3 block text-center font-mono text-[0.65rem] uppercase tracking-[0.2em] text-paper/55"
+            className="mt-2.5 block border border-brass px-4 py-3 text-center font-mono text-xs uppercase tracking-[0.18em] text-brass transition-colors active:bg-brass active:text-ink"
           >
             Client Login
           </a>
