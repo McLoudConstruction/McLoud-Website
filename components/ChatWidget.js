@@ -101,6 +101,7 @@ export default function ChatWidget() {
   // open chat fills exactly this area, so it stays full screen with the keyboard up.
   const [view, setView] = useState({ top: 0, height: 0 });
   const [phone, setPhone] = useState(false);
+  const tallest = useRef(0);
 
   // Only show the widget when the server says chat is switched on.
   useEffect(() => {
@@ -121,6 +122,7 @@ export default function ChatWidget() {
       raf = requestAnimationFrame(() => {
         const gap = Math.round(window.innerHeight - vv.height - vv.offsetTop);
         setInset(Math.max(0, Math.min(gap, 400)));
+        if (vv.height > tallest.current || Math.abs(window.innerWidth - (tallest.w || 0)) > 50) { tallest.current = vv.height; tallest.w = window.innerWidth; }
         setView({ top: Math.round(vv.offsetTop), height: Math.round(vv.height) });
       });
     };
@@ -201,9 +203,11 @@ export default function ChatWidget() {
     if (input === '' && el.innerText !== '') el.innerText = '';
   }, [input, open, sending]);
 
+  const keyboardUp = phone && view.height > 0 && tallest.current - view.height > 150;
+
   useEffect(() => {
     if (open && listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight;
-  }, [messages, sending, open, quickReplies]);
+  }, [messages, sending, open, quickReplies, view.height]);
 
   useEffect(() => {
     // On phones, focusing here would throw the keyboard up the moment the chat opens.
@@ -352,12 +356,12 @@ export default function ChatWidget() {
           style={phone && view.height ? { top: `${view.top}px`, height: `${view.height}px` } : undefined}
           className="fixed inset-0 z-[60] flex flex-col overflow-hidden bg-paper shadow-2xl sm:inset-auto sm:bottom-0 sm:right-5 sm:h-[min(540px,calc(100dvh-1.25rem))] sm:w-[350px] sm:rounded-t-2xl sm:ring-1 sm:ring-ink/10"
         >
-          <header className="flex items-center justify-between gap-3 bg-brass px-4 py-3 text-ink">
+          <header className={`flex items-center justify-between gap-3 bg-brass px-4 text-ink ${keyboardUp ? 'py-1.5' : 'py-3'}`}>
             <div className="flex items-center gap-3">
-              <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-full bg-ink font-display text-lg font-extrabold leading-none text-paper">M</span>
+              <span aria-hidden="true" className={`flex items-center justify-center rounded-full bg-ink font-display font-extrabold leading-none text-paper ${keyboardUp ? 'h-7 w-7 text-sm' : 'h-9 w-9 text-lg'}`}>M</span>
               <div>
                 <div className="font-display text-base font-extrabold uppercase leading-tight tracking-tight">Magic</div>
-                <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink/75">McLoud Construction</div>
+                {!keyboardUp && <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink/75">McLoud Construction</div>}
               </div>
             </div>
             <button type="button" onClick={close} aria-label="Close chat" className="-mr-1 rounded-full p-1.5 text-ink/75 hover:bg-ink/10 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-ink">
@@ -411,7 +415,7 @@ export default function ChatWidget() {
           <form
             autoComplete="off"
             onSubmit={e => { e.preventDefault(); send(input); }}
-            className="border-t border-ink/10 bg-paper px-3.5 py-3"
+            className={`border-t border-ink/10 bg-paper px-3.5 ${keyboardUp ? 'py-2' : 'py-3'}`}
           >
             <div className="flex items-end gap-2 rounded-[22px] border border-ink/20 bg-white py-1 pl-4 pr-1 focus-within:border-brass">
               <label htmlFor="chat-input" className="sr-only">Your message</label>
