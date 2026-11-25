@@ -80,6 +80,89 @@ function linkify(text) {
   return parts;
 }
 
+// A small form the assistant can ask for instead of typing answers one by one. Each field
+// uses the right input type, so a phone shows the number pad for the phone number, the
+// email keyboard for the email, and offers to autofill the visitor's saved details.
+const FORM_FIELDS = {
+  name: { label: 'Full name', type: 'text', autoComplete: 'name', autoCapitalize: 'words', inputMode: 'text', required: true },
+  phone: { label: 'Phone number', type: 'tel', autoComplete: 'tel', inputMode: 'tel', required: true, placeholder: '(816) 555-0123' },
+  email: { label: 'Email', type: 'email', autoComplete: 'email', inputMode: 'email', autoCapitalize: 'none', required: true },
+  address: { label: 'Property address (street and city)', type: 'text', autoComplete: 'street-address', autoCapitalize: 'words', inputMode: 'text', required: true },
+  project: { label: 'What would you like done?', type: 'textarea', autoComplete: 'off', required: true, max: 400 },
+  company: { label: 'Company', type: 'text', autoComplete: 'organization', autoCapitalize: 'words', inputMode: 'text', required: true },
+};
+
+function fieldError(key, value) {
+  const v = value.trim();
+  if (!v) return 'Required';
+  if (key === 'phone' && v.replace(/\D/g, '').length < 10) return 'Enter a 10 digit phone number';
+  if (key === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return 'Enter a valid email';
+  return '';
+}
+
+function ContactForm({ fields, onSubmit, onSkip }) {
+  const [values, setValues] = useState({});
+  const [errors, setErrors] = useState({});
+  const keys = fields.filter(k => FORM_FIELDS[k]);
+
+  function submit(e) {
+    e.preventDefault();
+    const found = {};
+    for (const k of keys) {
+      const err = fieldError(k, values[k] || '');
+      if (err) found[k] = err;
+    }
+    setErrors(found);
+    if (Object.keys(found).length) {
+      const first = keys.find(k => found[k]);
+      document.getElementById(`cf-${first}`)?.focus();
+      return;
+    }
+    const line = { name: 'Name', phone: 'Phone', email: 'Email', address: 'Property address', project: 'Project', company: 'Company' };
+    onSubmit(['Here are my details.', ...keys.map(k => `${line[k]}: ${(values[k] || '').trim()}`)].join('\n'));
+  }
+
+  const inputClass = 'w-full rounded-xl border bg-white px-3 py-2.5 font-body text-base leading-snug text-ink placeholder:text-ink/45 focus:border-brass focus:outline-none';
+
+  return (
+    <form onSubmit={submit} noValidate className="rounded-2xl border border-ink/10 bg-white p-3.5 shadow-sm">
+      <div className="space-y-3">
+        {keys.map(k => {
+          const f = FORM_FIELDS[k];
+          const common = {
+            id: `cf-${k}`,
+            name: k,
+            value: values[k] || '',
+            onChange: e => setValues(v => ({ ...v, [k]: f.max ? e.target.value.slice(0, f.max) : e.target.value })),
+            autoComplete: f.autoComplete,
+            placeholder: f.placeholder,
+            'aria-invalid': errors[k] ? 'true' : 'false',
+            'aria-describedby': errors[k] ? `cf-${k}-err` : undefined,
+            className: `${inputClass} ${errors[k] ? 'border-red-700/70' : 'border-ink/20'}`,
+          };
+          return (
+            <div key={k}>
+              <label htmlFor={`cf-${k}`} className="mb-1 block font-mono text-[10px] uppercase tracking-[0.15em] text-ink/70">{f.label}</label>
+              {f.type === 'textarea' ? (
+                <textarea {...common} rows={3} className={`${common.className} resize-none`} />
+              ) : (
+                <input {...common} type={f.type} inputMode={f.inputMode} autoCapitalize={f.autoCapitalize} enterKeyHint="next" />
+              )}
+              {errors[k] && <div id={`cf-${k}-err`} className="mt-1 font-body text-xs text-red-800">{errors[k]}</div>}
+            </div>
+          );
+        })}
+      </div>
+      <button type="submit" className="mt-3.5 w-full rounded-full bg-brass px-4 py-3 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink">
+        Send details
+      </button>
+      <button type="button" onClick={onSkip} className="mt-2 block w-full py-1 text-center font-body text-xs text-ink/60 underline underline-offset-2 hover:text-ink">
+        I would rather type it
+      </button>
+    </form>
+  );
+}
+
 export default function ChatWidget() {
   const pathname = usePathname();
   const [enabled, setEnabled] = useState(false);
@@ -94,6 +177,7 @@ export default function ChatWidget() {
   const inputRef = useRef(null);
   const buttonRef = useRef(null);
   const [teaser, setTeaser] = useState(false);
+  const [form, setForm] = useState(null); // { fields: [...] } while the assistant is asking for details
   // How far the visible screen bottom sits above the layout bottom. On phones this is
   // the height of the browser toolbar (or the keyboard), so the chat stays above it.
   const [inset, setInset] = useState(0);
@@ -187,14 +271,15 @@ export default function ChatWidget() {
       setMessages(saved.messages);
       setConversationId(saved.conversationId || null);
       setQuickReplies(saved.quickReplies || []);
+      setForm(saved.form && Array.isArray(saved.form.fields) ? saved.form : null);
       if (saved.open) setOpen(true);
     }
   }, []);
 
   useEffect(() => {
     if (!visitorId) return;
-    writeSaved({ visitorId, conversationId, messages: messages.slice(-40), quickReplies, open });
-  }, [visitorId, conversationId, messages, quickReplies, open]);
+    writeSaved({ visitorId, conversationId, messages: messages.slice(-40), quickReplies, form, open });
+  }, [visitorId, conversationId, messages, quickReplies, form, open]);
 
   useEffect(() => {
     const el = inputRef.current;
@@ -207,7 +292,7 @@ export default function ChatWidget() {
 
   useEffect(() => {
     if (open && listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight;
-  }, [messages, sending, open, quickReplies, view.height]);
+  }, [messages, sending, open, quickReplies, form, view.height]);
 
   useEffect(() => {
     // On phones, focusing here would throw the keyboard up the moment the chat opens.
@@ -236,6 +321,7 @@ export default function ChatWidget() {
       setMessages(next);
       setInput('');
       setQuickReplies([]);
+      setForm(null);
       setSending(true);
       try {
         const res = await fetch('/api/chat', {
@@ -254,6 +340,8 @@ export default function ChatWidget() {
         if (data?.conversationId) setConversationId(data.conversationId);
         setMessages(prev => [...prev, { role: 'assistant', content: replyText }]);
         setQuickReplies(Array.isArray(data?.quickReplies) ? data.quickReplies.slice(0, 6) : []);
+        const wanted = Array.isArray(data?.form?.fields) ? data.form.fields.filter(k => FORM_FIELDS[k]).slice(0, 6) : [];
+        setForm(wanted.length ? { fields: wanted } : null);
       } catch {
         setMessages(prev => [...prev, { role: 'assistant', content: CHAT_FALLBACK_REPLY }]);
       } finally {
@@ -396,7 +484,16 @@ export default function ChatWidget() {
               </div>
             )}
 
-            {!sending && (showStarters ? CHAT_STARTERS.map(s => ({ label: s, text: s })) : quickReplies).length > 0 && (
+            {!sending && form && (
+              <ContactForm
+                key={form.fields.join(',')}
+                fields={form.fields}
+                onSubmit={text => send(text)}
+                onSkip={() => setForm(null)}
+              />
+            )}
+
+            {!sending && !form && (showStarters ? CHAT_STARTERS.map(s => ({ label: s, text: s })) : quickReplies).length > 0 && (
               <div className="flex flex-wrap gap-1.5 pt-1">
                 {(showStarters ? CHAT_STARTERS.map(s => ({ label: s, text: s })) : quickReplies).map(chip => (
                   <button

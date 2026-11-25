@@ -7,7 +7,7 @@ import { JOBS_API_URL, CHAT_FALLBACK_REPLY, CHAT_PHONE, CHAT_EMAIL } from '@/lib
 //   GET  /api/chat   { enabled }   Lets the widget stay hidden until the keys
 //                                  below are set, so this can be deployed first.
 //   POST /api/chat   { messages, conversationId?, visitorId?, pagePath? }
-//                    -> { reply, conversationId, quickReplies, booked, handedOff }
+//                    -> { reply, conversationId, quickReplies, form, booked, handedOff }
 //
 // The browser only ever sees text. The model key and the shared secret live
 // here on the server. Leads, bookings, rate limits and transcripts are handled
@@ -84,6 +84,8 @@ async function jobs(action, payload, timeoutMs = 9000) {
 
 // ── Tools the assistant can use ─────────────────────────────────────────
 
+const FORM_FIELDS = ['name', 'phone', 'email', 'address', 'project', 'company'];
+
 const TOOLS = [
   {
     name: 'get_consult_times',
@@ -118,6 +120,22 @@ const TOOLS = [
         company: { type: 'string', description: 'Company name. Required for commercial.' },
       },
       required: ['date', 'time', 'name', 'phone', 'email', 'address', 'project_type', 'description'],
+    },
+  },
+  {
+    name: 'show_contact_form',
+    description:
+      'Show the visitor a short form for their contact details, so they can fill it in instead of typing answers one by one. Use it when a booking or a team follow up needs details. List only the fields you still need. The visitor submits the form and their details arrive as their next message.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        fields: {
+          type: 'array',
+          items: { type: 'string', enum: FORM_FIELDS },
+          description: 'Which fields to show, in order. Usually name, phone, email, address, project. Add company only for commercial work.',
+        },
+      },
+      required: ['fields'],
     },
   },
   {
@@ -167,6 +185,14 @@ async function runTool(name, input, ctx) {
     if (!data.days.length) return 'There are no open times in the coming weeks. Offer to have the team follow up with request_team_followup.';
     ctx.quickReplies = chipsFromDays(data.days);
     return `Open consultation times (about ${data.durationMinutes} minutes each, Kansas City time). Offer a few and use the date and 24 hour time when booking.\n${describeDays(data.days)}`;
+  }
+
+  if (name === 'show_contact_form') {
+    const wanted = Array.isArray(input.fields) ? input.fields : [];
+    const fields = FORM_FIELDS.filter(f => wanted.includes(f));
+    ctx.form = { fields: fields.length ? fields : ['name', 'phone', 'email'] };
+    ctx.quickReplies = [];
+    return 'The form is now on the visitor\'s screen. Write one short sentence asking them to fill it in, then stop. Their details arrive as their next message.';
   }
 
   if (name === 'book_consultation') {
@@ -387,6 +413,7 @@ export async function POST(request) {
   return reply(finalText, {
     conversationId: ctx.conversationId,
     quickReplies: ctx.quickReplies,
+    form: ctx.form || null,
     booked: ctx.booked,
     handedOff: Boolean(ctx.handedOff),
   });
