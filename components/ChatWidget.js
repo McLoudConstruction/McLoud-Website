@@ -97,6 +97,10 @@ export default function ChatWidget() {
   // How far the visible screen bottom sits above the layout bottom. On phones this is
   // the height of the browser toolbar (or the keyboard), so the chat stays above it.
   const [inset, setInset] = useState(0);
+  // The visible screen area and whether we are on a phone-sized screen. On a phone the
+  // open chat fills exactly this area, so it stays full screen with the keyboard up.
+  const [view, setView] = useState({ top: 0, height: 0 });
+  const [phone, setPhone] = useState(false);
 
   // Only show the widget when the server says chat is switched on.
   useEffect(() => {
@@ -117,6 +121,7 @@ export default function ChatWidget() {
       raf = requestAnimationFrame(() => {
         const gap = Math.round(window.innerHeight - vv.height - vv.offsetTop);
         setInset(Math.max(0, Math.min(gap, 400)));
+        setView({ top: Math.round(vv.offsetTop), height: Math.round(vv.height) });
       });
     };
     update();
@@ -130,6 +135,27 @@ export default function ChatWidget() {
       window.removeEventListener('resize', update);
     };
   }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 639px)');
+    const sync = () => setPhone(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
+  // While the full screen chat is open on a phone, the page behind it must not scroll.
+  useEffect(() => {
+    if (!open || !phone) return undefined;
+    const prevBody = document.body.style.overflow;
+    const prevHtml = document.documentElement.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prevBody;
+      document.documentElement.style.overflow = prevHtml;
+    };
+  }, [open, phone]);
 
   // A small speech bubble pops up next to the button once per visit to say hello.
   // It never shows again after it is dismissed, clicked, or the chat has been used.
@@ -176,7 +202,8 @@ export default function ChatWidget() {
   }, [messages, sending, open, quickReplies]);
 
   useEffect(() => {
-    if (open) inputRef.current?.focus();
+    // On phones, focusing here would throw the keyboard up the moment the chat opens.
+    if (open && !window.matchMedia('(pointer: coarse)').matches) inputRef.current?.focus();
   }, [open]);
 
   const close = useCallback(() => {
@@ -288,8 +315,8 @@ export default function ChatWidget() {
         <section
           role="dialog"
           aria-label="Chat with Magic, the McLoud Construction assistant"
-          style={{ bottom: `${inset}px`, maxHeight: `min(600px, calc(100dvh - ${inset}px - 0.75rem))` }}
-          className="fixed inset-x-0 bottom-0 z-[60] flex h-[85dvh] max-h-[600px] flex-col overflow-hidden rounded-t-2xl bg-paper shadow-2xl ring-1 ring-ink/10 sm:inset-x-auto sm:bottom-0 sm:right-5 sm:h-[min(540px,calc(100dvh-1.25rem))] sm:w-[350px] sm:rounded-b-none sm:rounded-t-2xl"
+          style={phone && view.height ? { top: `${view.top}px`, height: `${view.height}px` } : undefined}
+          className="fixed inset-0 z-[60] flex flex-col overflow-hidden bg-paper shadow-2xl sm:inset-auto sm:bottom-0 sm:right-5 sm:h-[min(540px,calc(100dvh-1.25rem))] sm:w-[350px] sm:rounded-t-2xl sm:ring-1 sm:ring-ink/10"
         >
           <header className="flex items-center justify-between gap-3 bg-brass px-4 py-3 text-ink">
             <div className="flex items-center gap-3">
@@ -306,7 +333,7 @@ export default function ChatWidget() {
             </button>
           </header>
 
-          <div ref={listRef} className="flex-1 space-y-2.5 overflow-y-auto px-3.5 py-3.5" aria-live="polite" aria-relevant="additions">
+          <div ref={listRef} className="flex-1 space-y-2.5 overflow-y-auto overscroll-contain px-3.5 py-3.5" aria-live="polite" aria-relevant="additions">
             {shown.map((m, i) => (
               <div key={i} className={m.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
                 <div
@@ -363,7 +390,7 @@ export default function ChatWidget() {
                 onKeyDown={onKeyDown}
                 disabled={sending}
                 placeholder="Type your question"
-                className="min-h-[36px] w-full resize-none bg-transparent py-2 font-body text-sm leading-snug text-ink placeholder:text-ink/65 focus:outline-none disabled:opacity-60"
+                className="min-h-[36px] w-full resize-none bg-transparent py-2 font-body text-base leading-snug sm:text-sm text-ink placeholder:text-ink/65 focus:outline-none disabled:opacity-60"
               />
               <button
                 type="submit"
