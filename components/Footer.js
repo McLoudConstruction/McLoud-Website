@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import ObfuscatedEmail from './ObfuscatedEmail';
+import Tagline from './Tagline';
 import { SERVICE_AREAS, phoneDisplay, phoneHref } from '@/lib/siteConfig';
 import { HUBS, HOMEOWNER_NAV, ACCESSIBILITY_NAV, PROPERTY_MANAGER_NAV } from '@/lib/projectOptions';
 
@@ -22,6 +23,10 @@ export default function Footer() {
             <p className="mt-4 max-w-xs font-body text-sm leading-relaxed text-paper/70">
               Quality work, honest communication. Locally owned, serving the Kansas City metro.
             </p>
+            <Tagline
+              tone="dark"
+              className="mt-4 font-display text-xl font-bold uppercase leading-tight tracking-tight"
+            />
           </div>
 
           {MENUS.map(menu => (

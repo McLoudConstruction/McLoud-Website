@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import FinancingBanner from '@/components/FinancingBanner';
+import Tagline from '@/components/Tagline';
 import { CREDENTIALS, SERVICE_AREAS } from '@/lib/siteConfig';
 import { ACCESSIBILITY_SERVICES } from '@/lib/residentialServices';
 import { estimateHref, PROPERTY_MANAGER_NAV } from '@/lib/projectOptions';
@@ -80,9 +81,12 @@ export default function Home() {
               Kansas City Remodeling Contractor
             </h1>
             <p className="mt-6 max-w-lg font-body text-lg leading-relaxed text-paper/85 md:text-xl">
-              Kitchens, bathrooms, basements and accessibility remodels for homes across the KC metro.{' '}
-              <span className="font-display font-bold uppercase tracking-tight text-brass">Built right. Told straight.</span>
+              Kitchens, bathrooms, basements and accessibility remodels for homes across the KC metro.
             </p>
+            <Tagline
+              tone="dark"
+              className="mt-4 font-display text-2xl font-bold uppercase leading-tight tracking-tight md:text-3xl"
+            />
             <div className="mt-9 flex flex-wrap gap-3">
               <Link
                 href="/consultation?vertical=residential"
@@ -214,9 +218,11 @@ export default function Home() {
       <section className="border-t border-ink/10 bg-paper">
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Why McLoud Construction</div>
-          <h2 className="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight md:text-5xl">
-            Built Right. Told Straight.
-          </h2>
+          <Tagline
+            tone="light"
+            as="h2"
+            className="mt-3 font-display text-4xl font-extrabold uppercase leading-[0.95] tracking-tight md:text-5xl"
+          />
           <div className="tick-rule mt-4 mb-10" />
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             {WHY.map((item, i) => (
@@ -371,10 +377,17 @@ function TrustStamp({ children }) {
 }
 
 // Original elevation-style line drawing, the hero's signature visual,
-// standing in for photography we don't have and won't fake.
+// standing in for photography we don't have and won't fake. The three labels
+// sit below the ground line (not on the drawing) so they stay readable, and
+// each speaks to one kind of customer: the left door to accessibility, the
+// right door to property managers, and the full-width dimension to homeowners.
+// The top label follows the tagline rule in components/Tagline.js (dark
+// background: "Built Right." paper #EDE7DA, "Told Straight." brass #9B773D).
+const LABEL = { fontFamily: 'IBM Plex Mono', fontSize: 13, letterSpacing: 1, textAnchor: 'middle' };
+
 function ElevationDrawing() {
   return (
-    <svg viewBox="0 0 460 360" className="w-full text-paper/90" aria-hidden="true">
+    <svg viewBox="0 0 460 350" className="w-full text-paper/90" aria-hidden="true">
       <g fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M40 260 L40 140 L230 40 L420 140 L420 260" />
         <path d="M40 260 L420 260" />
@@ -383,24 +396,30 @@ function ElevationDrawing() {
         <path d="M230 40 L230 260" strokeDasharray="3 4" opacity="0.4" />
       </g>
       <g stroke="#9B773D" strokeWidth="1">
-        <line x1="40" y1="290" x2="420" y2="290" />
-        <line x1="40" y1="284" x2="40" y2="296" />
-        <line x1="420" y1="284" x2="420" y2="296" />
+        {/* Leaders from each door down to its label */}
+        <line x1="120" y1="264" x2="120" y2="276" />
+        <line x1="335" y1="264" x2="335" y2="276" />
+        {/* Dimension line, broken in the middle for its label */}
+        <line x1="40" y1="322" x2="114" y2="322" />
+        <line x1="346" y1="322" x2="420" y2="322" />
+        <line x1="40" y1="316" x2="40" y2="328" />
+        <line x1="420" y1="316" x2="420" y2="328" />
         <line x1="40" y1="140" x2="20" y2="140" strokeDasharray="2 3" opacity="0.5" />
         <line x1="40" y1="40" x2="10" y2="40" />
         <line x1="10" y1="34" x2="10" y2="46" />
       </g>
-      <text x="230" y="308" textAnchor="middle" fill="#9B773D" fontFamily="IBM Plex Mono" fontSize="10" letterSpacing="1">
-        38&apos;-0&quot;
+      <text x="120" y="293" fill="#EDE7DA" {...LABEL}>
+        AGING IN PLACE
       </text>
-      <text x="120" y="215" textAnchor="middle" fill="currentColor" opacity="0.6" fontFamily="IBM Plex Mono" fontSize="9" letterSpacing="1">
-        WIDER DOORWAY
+      <text x="335" y="293" fill="#EDE7DA" {...LABEL}>
+        UNIT RENOVATIONS
       </text>
-      <text x="335" y="205" textAnchor="middle" fill="currentColor" opacity="0.6" fontFamily="IBM Plex Mono" fontSize="9" letterSpacing="1">
-        CURBLESS SHOWER
+      <text x="230" y="326" fill="#9B773D" {...LABEL}>
+        KITCHEN · BATH · BASEMENT
       </text>
-      <text x="230" y="30" textAnchor="middle" fill="#A8471F" fontFamily="IBM Plex Mono" fontSize="9" letterSpacing="1">
-        BUILT RIGHT. TOLD STRAIGHT.
+      <text x="230" y="0" fontFamily="IBM Plex Mono" fontSize="12" letterSpacing="1" textAnchor="middle">
+        <tspan x="230" dy="15" fill="#EDE7DA">BUILT RIGHT.</tspan>
+        <tspan x="230" dy="15" fill="#9B773D">TOLD STRAIGHT.</tspan>
       </text>
     </svg>
   );

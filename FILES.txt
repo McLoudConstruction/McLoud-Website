@@ -1,47 +1,9 @@
-McLoud Construction site structure build (combined: FAQ/SEO update + site restructure)
+McLoud Construction follow-up: hero graphic labels + tagline brand rule
 Apply over a fresh main. Paths are repo-relative. N = new file, M = changed file.
 
-M  app/about/page.js
-M  app/commercial/[industry]/page.js
-M  app/commercial/accessible-units/page.js
-N  app/commercial/interior-remodels/page.js
-M  app/commercial/page.js
-N  app/commercial/unit-renovations/page.js
-M  app/consultation/page.js
-M  app/faq/page.js
-M  app/financing/page.js
-M  app/layout.js
 M  app/page.js
-M  app/residential/[service]/page.js
-M  app/residential/aging-in-place/page.js
-M  app/residential/page.js
-M  app/sitemap.js
-M  components/AttributionTracker.js
-N  components/Breadcrumbs.js
-M  components/ConsultationForm.js
-M  components/CtaBanner.js
-N  components/FaqList.js
 M  components/Footer.js
-M  components/Header.js
-M  components/PageHero.js
-N  components/PropertyManagerLinks.js
-N  components/PropertyManagerServicePage.js
-M  lib/projectOptions.js
-N  lib/propertyManagerServices.js
-M  lib/residentialServices.js
-M  lib/scheduleTemplate.js
-N  lib/schema.js
-M  lib/siteConfig.js
-M  lib/verticals.js
-M  next.config.js
-M  public/llms.txt
+N  components/Tagline.js
+M  public/og-image.png
 
-Delete these files: none. The folded industry pages were served by app/commercial/[industry]/page.js,
-which now builds only multi-family; the old URLs 301 in next.config.js.
-
-Redirects (301):
-/commercial/office -> /commercial/interior-remodels
-/commercial/retail -> /commercial/interior-remodels
-/commercial/hotel-lodging -> /commercial/interior-remodels
-/commercial/churches -> /commercial
-/commercial/recreational-facilities -> /commercial
+Delete these files: none.
