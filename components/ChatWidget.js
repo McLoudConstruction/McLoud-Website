@@ -311,6 +311,10 @@ export default function ChatWidget() {
         </div>
       )}
 
+      {/* Phones: a solid layer behind the chat so nothing from the page shows around the
+          keyboard's own toolbar. */}
+      {open && phone && <div aria-hidden="true" className="fixed inset-0 z-[59] bg-paper" />}
+
       {open && (
         <section
           role="dialog"
@@ -375,6 +379,7 @@ export default function ChatWidget() {
           </div>
 
           <form
+            autoComplete="off"
             onSubmit={e => { e.preventDefault(); send(input); }}
             className="border-t border-ink/10 bg-paper px-3.5 py-3"
           >
@@ -382,6 +387,12 @@ export default function ChatWidget() {
               <label htmlFor="chat-input" className="sr-only">Your message</label>
               <textarea
                 id="chat-input"
+                name="mcloud-chat-message"
+                autoComplete="off"
+                enterKeyHint="send"
+                data-lpignore="true"
+                data-1p-ignore="true"
+                data-form-type="other"
                 ref={inputRef}
                 rows={1}
                 maxLength={MAX_INPUT}
