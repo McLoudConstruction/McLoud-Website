@@ -262,7 +262,7 @@ export default function ChatWidget() {
         <section
           role="dialog"
           aria-label="Chat with Magic, the McLoud Construction assistant"
-          className="fixed inset-x-0 bottom-0 z-[60] flex h-[85dvh] max-h-[600px] flex-col overflow-hidden rounded-t-2xl bg-paper shadow-2xl ring-1 ring-ink/10 sm:inset-x-auto sm:bottom-5 sm:right-5 sm:h-[min(540px,calc(100dvh-2.5rem))] sm:w-[350px] sm:rounded-2xl"
+          className="fixed inset-x-0 bottom-0 z-[60] flex h-[85dvh] max-h-[600px] flex-col overflow-hidden rounded-t-2xl bg-paper shadow-2xl ring-1 ring-ink/10 sm:inset-x-auto sm:bottom-0 sm:right-5 sm:h-[min(540px,calc(100dvh-1.25rem))] sm:w-[350px] sm:rounded-b-none sm:rounded-t-2xl"
         >
           <header className="flex items-center justify-between gap-3 bg-ink px-4 py-3 text-paper">
             <div className="flex items-center gap-3">
