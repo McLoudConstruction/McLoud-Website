@@ -19,7 +19,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <div>
-            <Image src="/logo.png" alt="McLoud Construction" width={185} height={80} className="h-16 w-auto" />
+            <Image src="/mcloud-logo.png" alt="McLoud Construction" width={176} height={64} className="h-16 w-auto" />
             <p className="mt-4 max-w-xs font-body text-sm leading-relaxed text-paper/70">
               Quality work, honest communication. Locally owned, serving the Kansas City metro.
             </p>

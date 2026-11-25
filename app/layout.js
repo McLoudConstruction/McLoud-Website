@@ -57,7 +57,7 @@ const organizationSchema = {
       name: SITE_NAME,
       alternateName: 'McLoud Contracting, LLC',
       url: SITE_URL,
-      logo: `${SITE_URL}/logo.png`,
+      logo: `${SITE_URL}/mcloud-logo.png`,
       image: `${SITE_URL}/og-image.png`,
       description: DEFAULT_DESCRIPTION,
       slogan: 'Built right. Told straight.',

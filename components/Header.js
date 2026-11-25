@@ -28,7 +28,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-ink text-paper">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         <Link href="/" className="block">
-          <Image src="/logo.png" alt="McLoud Construction" width={185} height={80} priority className="h-12 w-auto md:h-14" />
+          <Image src="/mcloud-logo.png" alt="McLoud Construction" width={154} height={56} priority className="h-12 w-auto md:h-14" />
         </Link>
 
         <nav className="hidden items-center gap-5 lg:flex xl:gap-8">
