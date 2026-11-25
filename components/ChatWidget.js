@@ -336,7 +336,7 @@ export default function ChatWidget() {
                 onKeyDown={onKeyDown}
                 disabled={sending}
                 placeholder="Type your question"
-                className="min-h-[36px] w-full resize-none bg-transparent py-2 font-body text-sm leading-snug text-ink placeholder:text-ink/40 focus:outline-none disabled:opacity-60"
+                className="min-h-[36px] w-full resize-none bg-transparent py-2 font-body text-sm leading-snug text-ink placeholder:text-ink/65 focus:outline-none disabled:opacity-60"
               />
               <button
                 type="submit"
