@@ -238,22 +238,22 @@ export default function ChatWidget() {
                   <path d="M6 6l12 12M18 6L6 18" />
                 </svg>
               </button>
-              <span aria-hidden="true" className="absolute -bottom-[7px] right-8 h-3 w-3 rotate-45 border-b border-r border-ink/15 bg-paper" />
+              <span aria-hidden="true" className="absolute -bottom-[7px] right-[22px] h-3 w-3 rotate-45 border-b border-r border-ink/15 bg-paper" />
             </div>
           )}
           <span className="chat-nudge relative block">
-            <span aria-hidden="true" className="chat-ring absolute inset-0 bg-brass" />
+            <span aria-hidden="true" className="chat-ring absolute inset-0 rounded-full bg-brass" />
             <button
               ref={buttonRef}
               type="button"
               onClick={() => { dismissTeaser(); setOpen(true); }}
               aria-label="Chat with Magic, the McLoud Construction assistant"
-              className="relative flex items-center gap-2 bg-brass px-5 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-ink shadow-lg transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2"
+              title="Ask Magic"
+              className="relative flex h-14 w-14 items-center justify-center rounded-full bg-brass text-ink shadow-lg ring-2 ring-paper/80 transition-transform hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-ink"
             >
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
-              Ask Magic
             </button>
           </span>
         </div>

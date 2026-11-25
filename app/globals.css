@@ -254,7 +254,7 @@ textarea:focus-visible {
 @keyframes chat-ring {
   0%, 60% { opacity: 0; transform: scale(1); }
   66% { opacity: 0.45; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.35, 1.7); }
+  100% { opacity: 0; transform: scale(1.6); }
 }
 .chat-teaser { transform-origin: bottom right; animation: chat-pop 0.45s ease-out both; }
 .chat-nudge { animation: chat-hop 7s ease-in-out 5s infinite; }
