@@ -68,7 +68,7 @@ function RichText({ parts }) {
     <p className="mt-6 max-w-2xl font-body leading-relaxed text-ink/75">
       {parts.map((part, i) =>
         part.type === 'link' ? (
-          <Link key={`${part.href}-${i}`} href={part.href} className="text-rust underline hover:text-ink">
+          <Link key={`${part.href}-${i}`} href={part.href} className="text-brass underline hover:text-ink">
             {part.label}
           </Link>
         ) : (
@@ -128,7 +128,7 @@ export default function ResidentialServicePage({ params }) {
       </section>
 
       <section className="mx-auto max-w-3xl px-6 pb-16">
-        <h2 className={`${sectionHeadingClass} text-rust`}>Who It&rsquo;s For</h2>
+        <h2 className={`${sectionHeadingClass} text-brass`}>Who It&rsquo;s For</h2>
         <div className="tick-rule mt-3 mb-8" />
         <p className="font-body leading-relaxed text-ink/75">{service.audienceIntro}</p>
         <ul className="mt-5 list-disc space-y-2 pl-5 font-body leading-relaxed text-ink/75">
@@ -141,7 +141,7 @@ export default function ResidentialServicePage({ params }) {
 
       <section className="bg-paper">
         <div className="mx-auto max-w-3xl px-6 py-16">
-          <h2 className={`${sectionHeadingClass} text-rust`}>What&rsquo;s Included</h2>
+          <h2 className={`${sectionHeadingClass} text-brass`}>What&rsquo;s Included</h2>
           <div className="tick-rule mt-3 mb-8" />
           <p className="font-body leading-relaxed text-ink/75">{service.includedIntro}</p>
           <ul className="mt-5 list-disc space-y-2 pl-5 font-body leading-relaxed text-ink/75">
@@ -158,7 +158,7 @@ export default function ResidentialServicePage({ params }) {
                 <Link
                   key={link.href}
                   href={linkHref(link.href)}
-                  className="font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
+                  className="font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
                 >
                   {link.label} →
                 </Link>
@@ -185,7 +185,7 @@ export default function ResidentialServicePage({ params }) {
 
       {photos.length > 0 && (
         <section className="mx-auto max-w-6xl px-6 py-16">
-          <h2 className={`${sectionHeadingClass} text-rust`}>Before and After</h2>
+          <h2 className={`${sectionHeadingClass} text-brass`}>Before and After</h2>
           <div className="tick-rule mt-3 mb-8" />
           <div className="grid gap-8 md:grid-cols-2">
             {photos.map(photo => (
@@ -217,19 +217,19 @@ export default function ResidentialServicePage({ params }) {
       </section>
 
       <section className="mx-auto max-w-3xl px-6 pb-16" id="faq">
-        <h2 className={`${sectionHeadingClass} text-rust`}>Frequently Asked Questions</h2>
+        <h2 className={`${sectionHeadingClass} text-brass`}>Frequently Asked Questions</h2>
         <div className="tick-rule mt-3 mb-8" />
         <FaqList items={service.faqs} linkHref={linkHref} />
       </section>
 
       <section className="bg-paper">
         <div className="mx-auto max-w-3xl px-6 py-16">
-          <h2 className={`${sectionHeadingClass} text-rust`}>Where We Work</h2>
+          <h2 className={`${sectionHeadingClass} text-brass`}>Where We Work</h2>
           <div className="tick-rule mt-3 mb-8" />
           <p className="font-body leading-relaxed text-ink/75">
             McLoud Construction serves homeowners across the Kansas City metro for {service.name.toLowerCase()}. On the
             Missouri side, that includes {MO_CITIES}. On the Kansas side, it includes {KS_CITIES}. If your community
-            is not listed, <Link href="/faq" className="text-rust underline hover:text-ink">check our service area</Link>{' '}
+            is not listed, <Link href="/faq" className="text-brass underline hover:text-ink">check our service area</Link>{' '}
             or ask when you request an estimate.
           </p>
         </div>

@@ -143,12 +143,12 @@ export default function AgingInPlacePage() {
       />
 
       <section className="mx-auto max-w-6xl px-6 py-20">
-        <h2 className={`${labelClass} text-rust`}>Who This Is For</h2>
+        <h2 className={`${labelClass} text-brass`}>Who This Is For</h2>
         <div className="tick-rule mt-3 mb-10" />
         <div className="grid gap-8 md:grid-cols-2">
           {AUDIENCES.map(item => (
             <div key={item.title} className="border border-ink/15 p-8">
-              <div className={`${labelClass} text-rust`}>{item.eyebrow}</div>
+              <div className={`${labelClass} text-brass`}>{item.eyebrow}</div>
               <h3 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight">{item.title}</h3>
               <ul className="mt-5 list-disc space-y-2 pl-5 font-body leading-relaxed text-ink/75">
                 {item.points.map(point => (
@@ -167,7 +167,7 @@ export default function AgingInPlacePage() {
           </Link>
           <Link
             href={FAMILY_ESTIMATE_HREF}
-            className="border border-rust px-8 py-4 font-mono text-xs uppercase tracking-[0.15em] text-rust transition-colors hover:bg-rust hover:text-paper"
+            className="border border-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.15em] text-brass transition-colors hover:bg-brass hover:text-paper"
           >
             Request One for a Parent
           </Link>
@@ -206,7 +206,7 @@ export default function AgingInPlacePage() {
 
       <section className="bg-paper">
         <div className="mx-auto max-w-6xl px-6 py-20">
-          <h2 className={`${labelClass} text-rust`}>Where to Start: Room by Room</h2>
+          <h2 className={`${labelClass} text-brass`}>Where to Start: Room by Room</h2>
           <div className="tick-rule mt-3 mb-10" />
           <div className="grid gap-10 md:grid-cols-2">
             {ROOMS.map(room => (
@@ -218,7 +218,7 @@ export default function AgingInPlacePage() {
                     <Link
                       key={link.label}
                       href={link.href}
-                      className="font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
+                      className="font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
                     >
                       {link.label} →
                     </Link>
@@ -231,7 +231,7 @@ export default function AgingInPlacePage() {
       </section>
 
       <section className="mx-auto max-w-3xl px-6 py-20">
-        <h2 className={`${labelClass} text-rust`}>Signs It Is Time to Plan</h2>
+        <h2 className={`${labelClass} text-brass`}>Signs It Is Time to Plan</h2>
         <div className="tick-rule mt-3 mb-8" />
         <ul className="list-disc space-y-2 pl-5 font-body leading-relaxed text-ink/75">
           {SIGNS.map(sign => (
@@ -257,7 +257,7 @@ export default function AgingInPlacePage() {
       </section>
 
       <section className="mx-auto max-w-3xl px-6 py-16" id="faq">
-        <h2 className={`${labelClass} text-rust`}>Accessibility &amp; Aging-in-Place Questions</h2>
+        <h2 className={`${labelClass} text-brass`}>Accessibility &amp; Aging-in-Place Questions</h2>
         <div className="tick-rule mt-3 mb-8" />
         <FaqList items={FAQS} />
       </section>

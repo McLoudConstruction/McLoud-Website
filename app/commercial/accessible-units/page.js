@@ -95,7 +95,7 @@ export default function AccessibleUnitsPage() {
       />
 
       <section className="mx-auto max-w-7xl px-6 py-20">
-        <h2 className={`${labelClass} text-rust`}>What We Handle</h2>
+        <h2 className={`${labelClass} text-brass`}>What We Handle</h2>
         <div className="tick-rule mt-3 mb-8" />
         <div className="grid gap-8 md:grid-cols-3">
           {PROJECTS.map(project => (
@@ -132,7 +132,7 @@ export default function AccessibleUnitsPage() {
       </section>
 
       <section className="mx-auto max-w-3xl px-6 py-16" id="faq">
-        <h2 className={`${labelClass} text-rust`}>Accessible Unit Questions</h2>
+        <h2 className={`${labelClass} text-brass`}>Accessible Unit Questions</h2>
         <div className="tick-rule mt-3 mb-8" />
         <FaqList items={FAQS} />
         <p className="mt-8 font-body text-sm text-ink/70">
@@ -141,7 +141,7 @@ export default function AccessibleUnitsPage() {
             user="info"
             domain="mcloudconstruction.com"
             label="Email us"
-            className="text-rust underline hover:text-brass"
+            className="text-brass underline hover:text-ink"
           />{' '}
           for a W-9 or certificate of insurance.
         </p>

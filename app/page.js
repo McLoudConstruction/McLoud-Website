@@ -169,7 +169,7 @@ export default function Home() {
 
       {/* Homeowners */}
       <section id="homeowners" className="mx-auto max-w-7xl scroll-mt-24 px-6 py-24">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">For Homeowners</div>
+        <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">For Homeowners</div>
         <h2 className="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight md:text-5xl">
           Home Remodeling in Kansas City
         </h2>
@@ -182,7 +182,7 @@ export default function Home() {
           {HOMEOWNER.map(item => (
             <div key={item.id}>
               <h3 className="font-display text-2xl font-bold uppercase tracking-tight">
-                <Link href={item.href} className="hover:text-rust">
+                <Link href={item.href} className="hover:text-brass">
                   {item.title}
                 </Link>
               </h3>
@@ -190,13 +190,13 @@ export default function Home() {
               <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
                 <Link
                   href={item.href}
-                  className="font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
+                  className="font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
                 >
                   {item.title} →
                 </Link>
                 <Link
                   href={estimateHref(item.id)}
-                  className="font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
+                  className="font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
                 >
                   Free estimate →
                 </Link>
@@ -206,7 +206,7 @@ export default function Home() {
         </div>
         <Link
           href="/residential"
-          className="mt-12 inline-block border border-rust px-6 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-rust transition-colors hover:bg-rust hover:text-paper"
+          className="mt-12 inline-block border border-brass px-6 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-brass transition-colors hover:bg-brass hover:text-paper"
         >
           All Homeowner Services →
         </Link>
@@ -217,7 +217,7 @@ export default function Home() {
       {/* Why McLoud Construction */}
       <section className="border-t border-ink/10 bg-paper">
         <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Why McLoud Construction</div>
+          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Why McLoud Construction</div>
           <Tagline
             tone="light"
             as="h2"
@@ -325,7 +325,7 @@ export default function Home() {
           <div className="mx-auto mt-10 grid max-w-2xl gap-8 text-left sm:grid-cols-2">
             {Object.entries(SERVICE_AREAS).map(([state, cities]) => (
               <div key={state}>
-                <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">{state}</div>
+                <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">{state}</div>
                 <div className="tick-rule my-3" />
                 <p className="font-body text-sm leading-relaxed text-ink/70">{cities.join(' · ')}</p>
               </div>

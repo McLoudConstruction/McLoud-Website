@@ -19,7 +19,7 @@ export default function CtaBanner({ heading = "Let's Talk About Your Project", b
         {phone && (
           <p className="mt-5 font-mono text-xs uppercase tracking-[0.15em] text-ink/60">
             Or call{' '}
-            <a href={phoneHref()} className="text-rust hover:underline">
+            <a href={phoneHref()} className="text-brass hover:underline">
               {phone}
             </a>
           </p>

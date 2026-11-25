@@ -37,7 +37,7 @@ export default function AboutPage() {
             </div>
           </div>
           <div>
-            <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Family Owned</div>
+            <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Family Owned</div>
             <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
               Built by People You&rsquo;ll Actually Meet
             </h2>
@@ -62,7 +62,7 @@ export default function AboutPage() {
       <section className="mx-auto max-w-4xl px-6 pb-20">
         <div className="grid gap-16 md:grid-cols-2">
           <div>
-            <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">What We Believe</div>
+            <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">What We Believe</div>
             <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight">
               Quality Work, Honest Communication
             </h2>
@@ -74,7 +74,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div>
-            <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Where We Work</div>
+            <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Where We Work</div>
             <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight">
               Kansas City, Missouri &amp; Kansas
             </h2>
@@ -103,7 +103,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div>
-              <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Unofficial Team Member</div>
+              <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Unofficial Team Member</div>
               <h3 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight">Meet Magic</h3>
               <p className="mt-4 max-w-xl font-body leading-relaxed text-ink/75">
                 No formal training in reading blueprints, but genuinely excellent at greeting

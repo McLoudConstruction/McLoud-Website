@@ -118,20 +118,20 @@ export default function CommercialPage() {
       />
 
       <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">What We Do for Property Managers</div>
+        <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">What We Do for Property Managers</div>
         <div className="tick-rule mt-3 mb-8" />
         <div className="grid gap-10 md:grid-cols-2">
           {SERVICES.map(service => (
             <div key={service.href} className="border-l-2 border-brass pl-5">
               <h2 className="font-display text-2xl font-bold uppercase tracking-tight">
-                <Link href={service.href} className="hover:text-rust">
+                <Link href={service.href} className="hover:text-brass">
                   {service.title}
                 </Link>
               </h2>
               <p className="mt-3 font-body leading-relaxed text-ink/70">{service.body}</p>
               <Link
                 href={service.href}
-                className="mt-4 inline-block font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
+                className="mt-4 inline-block font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
               >
                 {service.title} →
               </Link>
@@ -160,7 +160,7 @@ export default function CommercialPage() {
 
       <section className="border-b border-ink/10 bg-paper">
         <div className="mx-auto max-w-7xl px-6 py-14">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Properties We Work On</div>
+          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Properties We Work On</div>
           <ul className="mt-5 flex flex-wrap gap-x-8 gap-y-3">
             {PROPERTY_TYPES.map(label => (
               <li key={label} className="border-l-2 border-brass pl-3 font-display text-lg font-bold uppercase tracking-tight">
@@ -170,7 +170,7 @@ export default function CommercialPage() {
           </ul>
           <p className="mt-5 max-w-2xl font-body text-sm leading-relaxed text-ink/70">
             Offices, retail spaces, hotels, churches, and recreational facilities are covered under{' '}
-            <Link href="/commercial/interior-remodels" className="text-rust underline hover:text-ink">
+            <Link href="/commercial/interior-remodels" className="text-brass underline hover:text-ink">
               commercial interior remodels
             </Link>{' '}
             and the exterior work above.
@@ -179,7 +179,7 @@ export default function CommercialPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Working With Property Managers</div>
+        <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Working With Property Managers</div>
         <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
           What You Can Expect
         </h2>
@@ -199,19 +199,19 @@ export default function CommercialPage() {
             user="info"
             domain="mcloudconstruction.com"
             label="Email us"
-            className="text-rust underline hover:text-brass"
+            className="text-brass underline hover:text-ink"
           />
           .
         </p>
       </section>
 
       <section className="mx-auto max-w-3xl px-6 pb-20" id="faq">
-        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Property Manager Questions</h2>
+        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Property Manager Questions</h2>
         <div className="tick-rule mt-3 mb-8" />
         <FaqList items={FAQS} />
         <p className="mt-8 font-body text-sm text-ink/70">
           General questions about estimates and working with McLoud Construction are on our{' '}
-          <Link href="/faq" className="text-rust underline hover:text-ink">
+          <Link href="/faq" className="text-brass underline hover:text-ink">
             FAQ page
           </Link>
           .

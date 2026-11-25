@@ -20,7 +20,7 @@ export default function FaqList({ items, linkHref = href => href }) {
                 <Link
                   key={link.href}
                   href={linkHref(link.href)}
-                  className="font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
+                  className="font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
                 >
                   {link.label} →
                 </Link>

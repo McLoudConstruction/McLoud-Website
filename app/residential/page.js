@@ -100,7 +100,7 @@ export default function ResidentialPage() {
       />
 
       <section className="mx-auto max-w-6xl px-6 py-20">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Kitchens, Baths, Basements &amp; Whole-Home</div>
+        <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Kitchens, Baths, Basements &amp; Whole-Home</div>
         <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
           Remodels You&rsquo;ll Use Every Day
         </h2>
@@ -133,14 +133,14 @@ export default function ResidentialPage() {
                   {service.page && (
                     <Link
                       href={service.page}
-                      className="font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
+                      className="font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
                     >
                       {service.linkLabel} →
                     </Link>
                   )}
                   <Link
                     href={estimateHref(service.id)}
-                    className="font-mono text-xs uppercase tracking-[0.15em] text-rust hover:underline"
+                    className="font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
                   >
                     Request a Free Estimate →
                   </Link>
@@ -153,14 +153,14 @@ export default function ResidentialPage() {
 
       <section className="bg-paper">
         <div className="mx-auto max-w-6xl border-t border-ink/10 px-6 py-20">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Easier to Use for Years to Come</div>
+          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Easier to Use for Years to Come</div>
           <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
             Accessibility &amp; Aging-in-Place
           </h2>
           <p className="mt-4 max-w-3xl font-body leading-relaxed text-ink/75">
             Planning for yourself or for a parent? Any remodel can include features that make a room safer and easier
             to use, and some projects are built around that from the start.{' '}
-            <Link href="/residential/aging-in-place" className="text-rust underline hover:text-ink">
+            <Link href="/residential/aging-in-place" className="text-brass underline hover:text-ink">
               See our aging-in-place and accessibility planning guide
             </Link>
             .
@@ -182,12 +182,12 @@ export default function ResidentialPage() {
       </section>
 
       <section className="mx-auto max-w-3xl px-6 py-20" id="faq">
-        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Homeowner Remodeling Questions</h2>
+        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Homeowner Remodeling Questions</h2>
         <div className="tick-rule mt-3 mb-8" />
         <FaqList items={FAQS} />
         <p className="mt-8 font-body text-sm text-ink/70">
           More answers about estimates, insurance, and working with McLoud Construction are on our{' '}
-          <Link href="/faq" className="text-rust underline hover:text-ink">
+          <Link href="/faq" className="text-brass underline hover:text-ink">
             general FAQ
           </Link>
           .

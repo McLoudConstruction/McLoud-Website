@@ -92,7 +92,7 @@ export default function FaqPage() {
 
       <section className="mx-auto max-w-3xl px-6 py-20">
         <FaqList items={FAQS} />
-        <h2 className="mt-16 font-mono text-xs uppercase tracking-[0.2em] text-rust">Questions About Your Project</h2>
+        <h2 className="mt-16 font-mono text-xs uppercase tracking-[0.2em] text-brass">Questions About Your Project</h2>
         <div className="tick-rule mt-3 mb-6" />
         <div className="grid gap-8 sm:grid-cols-3">
           {AUDIENCE_FAQ_LINKS.map(group => (
@@ -101,7 +101,7 @@ export default function FaqPage() {
               <ul className="mt-3 space-y-2 font-body text-sm text-ink/75">
                 {group.links.map(link => (
                   <li key={link.href}>
-                    <Link href={link.href} className="text-rust underline hover:text-ink">
+                    <Link href={link.href} className="text-brass underline hover:text-ink">
                       {link.label}
                     </Link>
                   </li>

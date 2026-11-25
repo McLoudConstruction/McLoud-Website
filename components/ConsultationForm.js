@@ -198,7 +198,7 @@ export default function ConsultationForm() {
   const inputClass =
     'mt-1.5 w-full border border-ink/20 bg-transparent px-4 py-3 font-body text-ink placeholder:text-ink/30 focus:border-brass focus:outline-none';
   const labelClass = 'block font-mono text-xs uppercase tracking-[0.15em] text-concrete';
-  const errorClass = 'mt-1.5 font-body text-xs text-rust';
+  const errorClass = 'mt-1.5 font-body text-xs text-brass';
   const isCommercial = form.projectType === 'Commercial';
   const phone = phoneDisplay();
 
@@ -385,13 +385,13 @@ export default function ConsultationForm() {
       </div>
 
       {status === 'invalid' && (
-        <p className="mt-4 font-body text-sm text-rust">
+        <p className="mt-4 font-body text-sm text-brass">
           Please fix the highlighted fields above before sending.
         </p>
       )}
 
       {status === 'error' && (
-        <p className="mt-4 font-body text-sm text-rust">
+        <p className="mt-4 font-body text-sm text-brass">
           Something went wrong sending your request. Please try again
           {phone ? (
             <>

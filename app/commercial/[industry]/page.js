@@ -56,7 +56,7 @@ export default function IndustryPage({ params }) {
       />
 
       <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">What We Handle</div>
+        <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">What We Handle</div>
         <div className="tick-rule mt-3 mb-8" />
         <div className="grid gap-8 md:grid-cols-3">
           {v.projects.map(project => (
@@ -86,7 +86,7 @@ export default function IndustryPage({ params }) {
 
       {v.faqs?.length > 0 && (
         <section className="mx-auto max-w-4xl px-6 py-20">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-rust">Questions</div>
+          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Questions</div>
           <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
             {v.label} FAQ
           </h2>
