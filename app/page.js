@@ -95,7 +95,7 @@ export default function Home() {
           accessibility pages (homes and rental units). */}
       <section id="accessibility" className="hh-layer scroll-mt-24 bg-blueprint text-paper">
         <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Accessibility &amp; Aging-in-Place</div>
+          <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">Accessibility &amp; Aging-in-Place</div>
           <h2 className="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight md:text-5xl">
             Safer, Easier Homes for Every Stage of Life
           </h2>
@@ -118,13 +118,13 @@ export default function Home() {
           <div className="mt-12 flex flex-wrap gap-3">
             <Link
               href="/residential/aging-in-place"
-              className="border border-brass px-6 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-brass transition-colors hover:bg-brass hover:text-ink"
+              className="border border-brass px-6 py-3.5 font-mono text-xs uppercase tracking-[0.1em] text-brass transition-colors hover:bg-brass hover:text-ink"
             >
               Aging-in-Place &amp; Accessibility Planning →
             </Link>
             <Link
               href="/commercial/accessible-units"
-              className="border border-paper/30 px-6 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:border-brass hover:text-brass"
+              className="border border-paper/30 px-6 py-3.5 font-mono text-xs uppercase tracking-[0.1em] text-paper transition-colors hover:border-brass hover:text-brass"
             >
               Accessible Units for Property Managers →
             </Link>
@@ -134,7 +134,7 @@ export default function Home() {
 
       {/* Homeowners */}
       <section id="homeowners" className="mx-auto max-w-7xl scroll-mt-24 px-6 py-24">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">For Homeowners</div>
+        <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">For Homeowners</div>
         <h2 className="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight md:text-5xl">
           Home Remodeling in Kansas City
         </h2>
@@ -155,13 +155,13 @@ export default function Home() {
               <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
                 <Link
                   href={item.href}
-                  className="font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
+                  className="font-mono text-xs uppercase tracking-[0.1em] text-brass hover:underline"
                 >
                   {item.title} →
                 </Link>
                 <Link
                   href={estimateHref(item.id)}
-                  className="font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
+                  className="font-mono text-xs uppercase tracking-[0.1em] text-brass hover:underline"
                 >
                   Free estimate →
                 </Link>
@@ -171,7 +171,7 @@ export default function Home() {
         </div>
         <Link
           href="/residential"
-          className="mt-12 inline-block border border-brass px-6 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-brass transition-colors hover:bg-brass hover:text-paper"
+          className="mt-12 inline-block border border-brass px-6 py-3.5 font-mono text-xs uppercase tracking-[0.1em] text-brass transition-colors hover:bg-brass hover:text-paper"
         >
           All Homeowner Services →
         </Link>
@@ -182,7 +182,7 @@ export default function Home() {
       {/* Why McLoud Construction */}
       <section className="border-t border-ink/10 bg-paper">
         <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Why McLoud Construction</div>
+          <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">Why McLoud Construction</div>
           <Tagline
             tone="light"
             as="h2"
@@ -204,7 +204,7 @@ export default function Home() {
       {/* Process */}
       <section className="bg-blueprint text-paper">
         <div className="mx-auto max-w-4xl px-6 py-24">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-paper/60">How a project moves</div>
+          <div className="font-mono text-xs uppercase tracking-[0.12em] text-paper/75">How a project moves</div>
           <h2 className="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight md:text-5xl">
             Our Process
           </h2>
@@ -229,7 +229,7 @@ export default function Home() {
       <section id="property-managers" className="scroll-mt-24 bg-ink text-paper">
         <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-2">
           <div>
-            <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">For Property Managers</div>
+            <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">For Property Managers</div>
             <h2 className="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight md:text-5xl">
               Renovations for Property Managers
             </h2>
@@ -240,13 +240,13 @@ export default function Home() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/commercial"
-                className="border border-brass px-6 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-brass transition-colors hover:bg-brass hover:text-ink"
+                className="border border-brass px-6 py-3.5 font-mono text-xs uppercase tracking-[0.1em] text-brass transition-colors hover:bg-brass hover:text-ink"
               >
                 Property Manager Services →
               </Link>
               <Link
                 href={estimateHref('commercial')}
-                className="border border-paper/30 px-6 py-3.5 font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:border-brass hover:text-brass"
+                className="border border-paper/30 px-6 py-3.5 font-mono text-xs uppercase tracking-[0.1em] text-paper transition-colors hover:border-brass hover:text-brass"
               >
                 Request a Property Estimate →
               </Link>
@@ -272,7 +272,7 @@ export default function Home() {
           &ldquo;We take pride in getting the details right and treating every project like our
           reputation depends on it &mdash; because it does.&rdquo;
         </p>
-        <div className="mt-6 font-mono text-xs uppercase tracking-[0.15em] text-concrete">
+        <div className="mt-6 font-mono text-xs uppercase tracking-[0.1em] text-concrete">
           Stachys &amp; Isabelle McLoud, Owners
         </div>
       </section>
@@ -280,7 +280,7 @@ export default function Home() {
       {/* Service area + final CTA */}
       <section className="grid-paper border-t border-ink/10 bg-paper">
         <div className="mx-auto max-w-7xl px-6 py-24 text-center">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-concrete">Where We Work</div>
+          <div className="font-mono text-xs uppercase tracking-[0.12em] text-concrete">Where We Work</div>
           <h2 className="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight md:text-5xl">
             Covering the Kansas City Metro
           </h2>
@@ -290,16 +290,16 @@ export default function Home() {
           <div className="mx-auto mt-10 grid max-w-2xl gap-8 text-left sm:grid-cols-2">
             {Object.entries(SERVICE_AREAS).map(([state, cities]) => (
               <div key={state}>
-                <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">{state}</div>
+                <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">{state}</div>
                 <div className="tick-rule my-3" />
                 <p className="font-body text-sm leading-relaxed text-ink/70">{cities.join(' · ')}</p>
               </div>
             ))}
           </div>
-          <p className="mt-6 font-body text-xs text-ink/50">Don&rsquo;t see your community? Ask. We work throughout the metro.</p>
+          <p className="mt-6 font-body text-xs text-ink/75">Don&rsquo;t see your community? Ask. We work throughout the metro.</p>
           <Link
             href="/consultation"
-            className="mt-9 inline-block bg-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90"
+            className="mt-9 inline-block bg-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.1em] text-ink transition-opacity hover:opacity-90"
           >
             Request a Free Estimate
           </Link>

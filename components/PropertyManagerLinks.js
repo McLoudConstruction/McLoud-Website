@@ -7,7 +7,7 @@ export default function PropertyManagerLinks({ current }) {
   const links = PROPERTY_MANAGER_NAV.filter(link => link.href !== current);
   return (
     <section className="mx-auto max-w-7xl px-6 py-16">
-      <div className="font-mono text-xs uppercase tracking-[0.2em] text-concrete">More for Property Managers</div>
+      <div className="font-mono text-xs uppercase tracking-[0.12em] text-concrete">More for Property Managers</div>
       <div className="mt-5 flex flex-wrap gap-x-8 gap-y-3">
         <Link
           href="/commercial"

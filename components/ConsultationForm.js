@@ -196,9 +196,9 @@ export default function ConsultationForm() {
   }
 
   const inputClass =
-    'mt-1.5 w-full border border-ink/20 bg-transparent px-4 py-3 font-body text-ink placeholder:text-ink/30 focus:border-brass focus:outline-none';
-  const labelClass = 'block font-mono text-xs uppercase tracking-[0.15em] text-concrete';
-  const errorClass = 'mt-1.5 font-body text-xs text-brass';
+    'mt-1.5 w-full border border-ink/50 bg-transparent px-4 py-3 font-body text-ink placeholder:text-ink/70 focus:border-brass focus:outline-none';
+  const labelClass = 'block font-body text-base font-semibold text-ink';
+  const errorClass = 'mt-1.5 font-body text-sm font-semibold text-red-800';
   const isCommercial = form.projectType === 'Commercial';
   const phone = phoneDisplay();
 
@@ -375,10 +375,10 @@ export default function ConsultationForm() {
           accept="image/*"
           multiple
           onChange={e => updatePhotos(e.target.files)}
-          className="mt-1.5 w-full border border-ink/20 bg-transparent px-4 py-3 font-body text-sm text-ink file:mr-4 file:border-0 file:bg-brass file:px-4 file:py-2 file:font-mono file:text-xs file:uppercase file:tracking-[0.15em] file:text-ink"
+          className="mt-1.5 w-full border border-ink/50 bg-transparent px-4 py-3 font-body text-sm text-ink file:mr-4 file:border-0 file:bg-brass file:px-4 file:py-2 file:font-mono file:text-xs file:uppercase file:tracking-[0.1em] file:text-ink"
         />
         {photos.length > 0 && (
-          <p className="mt-1.5 font-body text-xs text-ink/60">
+          <p className="mt-1.5 font-body text-xs text-ink/75">
             {photos.length} photo{photos.length === 1 ? '' : 's'} selected
           </p>
         )}
@@ -406,7 +406,7 @@ export default function ConsultationForm() {
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="mt-8 w-full bg-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90 disabled:opacity-60 sm:w-auto"
+        className="mt-8 w-full bg-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.1em] text-ink transition-opacity hover:opacity-90 disabled:opacity-60 sm:w-auto"
       >
         {status === 'sending' ? 'Sending…' : 'Send Request'}
       </button>

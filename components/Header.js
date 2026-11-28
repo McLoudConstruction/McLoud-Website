@@ -17,7 +17,7 @@ const NAV = [
   { href: '/faq', label: 'FAQ' },
 ];
 
-const linkClass = 'whitespace-nowrap font-mono text-xs uppercase tracking-[0.15em] text-paper/80 transition-colors hover:text-brass';
+const linkClass = 'whitespace-nowrap font-mono text-xs uppercase tracking-[0.1em] text-paper/80 transition-colors hover:text-brass';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -51,7 +51,7 @@ export default function Header() {
                       <>
                         <Link
                           href={item.href}
-                          className="block px-5 py-2.5 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-brass transition-colors hover:bg-paper/5"
+                          className="block px-5 py-2.5 font-mono text-xs uppercase tracking-[0.12em] text-brass transition-colors hover:bg-paper/5"
                         >
                           {item.menu.allLabel}
                         </Link>
@@ -62,7 +62,7 @@ export default function Header() {
                       <Link
                         key={link.href}
                         href={link.href}
-                        className="block px-5 py-2.5 font-mono text-xs uppercase tracking-[0.15em] text-paper/80 transition-colors hover:bg-paper/5 hover:text-brass"
+                        className="block px-5 py-2.5 font-mono text-xs uppercase tracking-[0.1em] text-paper/80 transition-colors hover:bg-paper/5 hover:text-brass"
                       >
                         {link.label}
                       </Link>
@@ -82,13 +82,13 @@ export default function Header() {
               the form's error message. */}
           <a
             href="https://jobs.mcloudconstruction.com/customerportal"
-            className="hidden whitespace-nowrap font-mono text-xs uppercase tracking-[0.15em] text-paper/60 transition-colors hover:text-brass xl:inline"
+            className="hidden whitespace-nowrap font-mono text-xs uppercase tracking-[0.1em] text-paper/75 transition-colors hover:text-brass xl:inline"
           >
             Client Login
           </a>
           <Link
             href="/consultation"
-            className="whitespace-nowrap border border-brass px-4 py-2 font-mono text-xs uppercase tracking-[0.15em] text-brass transition-colors hover:bg-brass hover:text-ink"
+            className="whitespace-nowrap border border-brass px-4 py-2 font-mono text-xs uppercase tracking-[0.1em] text-brass transition-colors hover:bg-brass hover:text-ink"
           >
             Get an Estimate
           </Link>

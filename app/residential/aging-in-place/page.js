@@ -127,7 +127,7 @@ const schema = graph(
   faqPageNode(FAQS)
 );
 
-const labelClass = 'font-mono text-xs uppercase tracking-[0.2em]';
+const labelClass = 'font-mono text-xs uppercase tracking-[0.12em]';
 
 export default function AgingInPlacePage() {
   return (
@@ -161,13 +161,13 @@ export default function AgingInPlacePage() {
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
             href={ESTIMATE_HREF}
-            className="bg-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90"
+            className="bg-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.1em] text-ink transition-opacity hover:opacity-90"
           >
             Request a Free Estimate
           </Link>
           <Link
             href={FAMILY_ESTIMATE_HREF}
-            className="border border-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.15em] text-brass transition-colors hover:bg-brass hover:text-paper"
+            className="border border-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.1em] text-brass transition-colors hover:bg-brass hover:text-paper"
           >
             Request One for a Parent
           </Link>
@@ -218,7 +218,7 @@ export default function AgingInPlacePage() {
                     <Link
                       key={link.label}
                       href={link.href}
-                      className="font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
+                      className="font-mono text-xs uppercase tracking-[0.1em] text-brass hover:underline"
                     >
                       {link.label} →
                     </Link>

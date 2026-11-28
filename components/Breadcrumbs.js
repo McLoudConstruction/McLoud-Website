@@ -10,7 +10,7 @@ export default function Breadcrumbs({ crumbs, className = '' }) {
     <>
       <JsonLd data={graph(breadcrumbNode(all))} />
       <nav aria-label="Breadcrumb" className={className}>
-        <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-paper/60">
+        <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs uppercase tracking-[0.1em] text-paper/75">
           {all.map((crumb, i) => {
             const last = i === all.length - 1;
             return (

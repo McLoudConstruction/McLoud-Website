@@ -32,12 +32,12 @@ export default function AboutPage() {
               height={1080}
               className="h-auto w-full object-cover"
             />
-            <div className="pt-3 pb-1 text-center font-mono text-[0.65rem] uppercase tracking-[0.15em] text-concrete">
+            <div className="pt-3 pb-1 text-center font-mono text-xs uppercase tracking-[0.1em] text-concrete">
               Stachys &amp; Isabelle McLoud, Owners
             </div>
           </div>
           <div>
-            <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Family Owned</div>
+            <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">Family Owned</div>
             <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
               Built by People You&rsquo;ll Actually Meet
             </h2>
@@ -62,7 +62,7 @@ export default function AboutPage() {
       <section className="mx-auto max-w-4xl px-6 pb-20">
         <div className="grid gap-16 md:grid-cols-2">
           <div>
-            <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">What We Believe</div>
+            <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">What We Believe</div>
             <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight">
               Quality Work, Honest Communication
             </h2>
@@ -74,7 +74,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div>
-            <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Where We Work</div>
+            <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">Where We Work</div>
             <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight">
               Kansas City, Missouri &amp; Kansas
             </h2>
@@ -98,12 +98,12 @@ export default function AboutPage() {
                 height={599}
                 className="h-auto w-full object-cover"
               />
-              <div className="pt-3 pb-1 text-center font-mono text-[0.65rem] uppercase tracking-[0.15em] text-concrete">
+              <div className="pt-3 pb-1 text-center font-mono text-xs uppercase tracking-[0.1em] text-concrete">
                 Magic, Unofficial Foreman
               </div>
             </div>
             <div>
-              <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Unofficial Team Member</div>
+              <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">Unofficial Team Member</div>
               <h3 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight">Meet Magic</h3>
               <p className="mt-4 max-w-xl font-body leading-relaxed text-ink/75">
                 No formal training in reading blueprints, but genuinely excellent at greeting

@@ -44,7 +44,7 @@ export default function PropertyManagerServicePage({ service }) {
       />
 
       <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">What We Handle</div>
+        <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">What We Handle</div>
         <div className="tick-rule mt-3 mb-8" />
         <div className="grid gap-8 md:grid-cols-3">
           {service.scope.map(item => (
@@ -66,7 +66,7 @@ export default function PropertyManagerServicePage({ service }) {
 
       <section className="bg-blueprint text-paper">
         <div className="mx-auto max-w-7xl px-6 py-20">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">How We Work</div>
+          <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">How We Work</div>
           <div className="mt-8 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             {service.how.map((c, i) => (
               <div key={c.title}>
@@ -81,7 +81,7 @@ export default function PropertyManagerServicePage({ service }) {
       </section>
 
       <section className="mx-auto max-w-4xl px-6 py-20">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Questions</div>
+        <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">Questions</div>
         <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
           {service.name} FAQ
         </h2>

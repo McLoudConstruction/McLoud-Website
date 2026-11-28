@@ -76,7 +76,7 @@ const schema = graph(
   faqPageNode(FAQS)
 );
 
-const labelClass = 'font-mono text-xs uppercase tracking-[0.2em]';
+const labelClass = 'font-mono text-xs uppercase tracking-[0.12em]';
 
 export default function AccessibleUnitsPage() {
   return (
@@ -108,7 +108,7 @@ export default function AccessibleUnitsPage() {
         <div className="mt-10">
           <Link
             href={ESTIMATE_HREF}
-            className="inline-block bg-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90"
+            className="inline-block bg-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.1em] text-ink transition-opacity hover:opacity-90"
           >
             Request a Free Estimate
           </Link>

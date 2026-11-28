@@ -32,7 +32,7 @@ const EXTRA_RELATED = {
   ],
 };
 
-const sectionHeadingClass = 'font-mono text-xs uppercase tracking-[0.2em]';
+const sectionHeadingClass = 'font-mono text-xs uppercase tracking-[0.12em]';
 
 export function generateStaticParams() {
   return RESIDENTIAL_SERVICES.map(service => ({ service: service.slug }));
@@ -54,7 +54,7 @@ function EstimateLink({ href, className }) {
       href={href}
       className={
         className ||
-        'inline-block bg-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90'
+        'inline-block bg-brass px-8 py-4 font-mono text-xs uppercase tracking-[0.1em] text-ink transition-opacity hover:opacity-90'
       }
     >
       Request a Free Estimate
@@ -158,7 +158,7 @@ export default function ResidentialServicePage({ params }) {
                 <Link
                   key={link.href}
                   href={linkHref(link.href)}
-                  className="font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
+                  className="font-mono text-xs uppercase tracking-[0.1em] text-brass hover:underline"
                 >
                   {link.label} →
                 </Link>
@@ -191,7 +191,7 @@ export default function ResidentialServicePage({ params }) {
             {photos.map(photo => (
               <figure key={photo.src}>
                 <Image src={photo.src} alt={photo.alt} width={1200} height={900} className="h-auto w-full object-cover" />
-                <figcaption className="mt-3 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-concrete">
+                <figcaption className="mt-3 font-mono text-xs uppercase tracking-[0.12em] text-concrete">
                   {photo.label}
                 </figcaption>
               </figure>

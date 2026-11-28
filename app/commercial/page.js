@@ -118,7 +118,7 @@ export default function CommercialPage() {
       />
 
       <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">What We Do for Property Managers</div>
+        <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">What We Do for Property Managers</div>
         <div className="tick-rule mt-3 mb-8" />
         <div className="grid gap-10 md:grid-cols-2">
           {SERVICES.map(service => (
@@ -131,7 +131,7 @@ export default function CommercialPage() {
               <p className="mt-3 font-body leading-relaxed text-ink/70">{service.body}</p>
               <Link
                 href={service.href}
-                className="mt-4 inline-block font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
+                className="mt-4 inline-block font-mono text-xs uppercase tracking-[0.1em] text-brass hover:underline"
               >
                 {service.title} →
               </Link>
@@ -142,7 +142,7 @@ export default function CommercialPage() {
 
       <section id="exterior-work" className="scroll-mt-24 bg-blueprint text-paper">
         <div className="mx-auto max-w-7xl px-6 py-20">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Exterior Work</div>
+          <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">Exterior Work</div>
           <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
             Exterior Repairs &amp; Repaints
           </h2>
@@ -160,7 +160,7 @@ export default function CommercialPage() {
 
       <section className="border-b border-ink/10 bg-paper">
         <div className="mx-auto max-w-7xl px-6 py-14">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Properties We Work On</div>
+          <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">Properties We Work On</div>
           <ul className="mt-5 flex flex-wrap gap-x-8 gap-y-3">
             {PROPERTY_TYPES.map(label => (
               <li key={label} className="border-l-2 border-brass pl-3 font-display text-lg font-bold uppercase tracking-tight">
@@ -179,7 +179,7 @@ export default function CommercialPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Working With Property Managers</div>
+        <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">Working With Property Managers</div>
         <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
           What You Can Expect
         </h2>
@@ -206,7 +206,7 @@ export default function CommercialPage() {
       </section>
 
       <section className="mx-auto max-w-3xl px-6 pb-20" id="faq">
-        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Property Manager Questions</h2>
+        <h2 className="font-mono text-xs uppercase tracking-[0.12em] text-brass">Property Manager Questions</h2>
         <div className="tick-rule mt-3 mb-8" />
         <FaqList items={FAQS} />
         <p className="mt-8 font-body text-sm text-ink/70">

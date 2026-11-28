@@ -77,7 +77,7 @@ function Section({ item, index, expanded, onToggle, onNavigate }) {
                 <Link
                   href={item.href}
                   onClick={onNavigate}
-                  className="block py-2.5 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-brass"
+                  className="block py-2.5 font-mono text-xs uppercase tracking-[0.12em] text-brass"
                 >
                   {item.menu.allLabel} →
                 </Link>
@@ -88,7 +88,7 @@ function Section({ item, index, expanded, onToggle, onNavigate }) {
                 <Link
                   href={link.href}
                   onClick={onNavigate}
-                  className="block py-2.5 font-mono text-[0.72rem] uppercase tracking-[0.15em] text-paper/75 transition-colors active:text-brass"
+                  className="block py-2.5 font-mono text-xs uppercase tracking-[0.1em] text-paper/75 transition-colors active:text-brass"
                 >
                   {link.label}
                 </Link>
@@ -189,7 +189,7 @@ export default function MobileMenu({ nav, open, onClose, buttonRef }) {
       >
         {/* Top bar, same height as the header; the hamburger (now an X) sits over its right side. */}
         <div className="flex h-[72px] shrink-0 items-center border-b border-brass/30 px-6">
-          <span className="font-mono text-[0.65rem] uppercase tracking-[0.3em] text-brass">Menu</span>
+          <span className="font-mono text-xs uppercase tracking-[0.12em] text-brass">Menu</span>
         </div>
 
         <nav aria-label="Mobile" className="mm-scroll flex-1 overflow-y-auto overscroll-contain px-6 pb-6 pt-2">
@@ -223,21 +223,21 @@ export default function MobileMenu({ nav, open, onClose, buttonRef }) {
           <Link
             href="/consultation"
             onClick={close}
-            className="block bg-brass px-4 py-3.5 text-center font-mono text-xs uppercase tracking-[0.18em] text-ink"
+            className="block bg-brass px-4 py-3.5 text-center font-mono text-xs uppercase tracking-[0.12em] text-ink"
           >
             Get an Estimate
           </Link>
           {phone && (
             <a
               href={tel}
-              className="mt-2.5 block border border-paper/25 px-4 py-3 text-center font-mono text-xs uppercase tracking-[0.18em] text-paper"
+              className="mt-2.5 block border border-paper/25 px-4 py-3 text-center font-mono text-xs uppercase tracking-[0.12em] text-paper"
             >
               Call {phone}
             </a>
           )}
           <a
             href={PORTAL_URL}
-            className="mt-2.5 block border border-brass px-4 py-3 text-center font-mono text-xs uppercase tracking-[0.18em] text-brass transition-colors active:bg-brass active:text-ink"
+            className="mt-2.5 block border border-brass px-4 py-3 text-center font-mono text-xs uppercase tracking-[0.12em] text-brass transition-colors active:bg-brass active:text-ink"
           >
             Client Login
           </a>

@@ -122,7 +122,7 @@ function ContactForm({ fields, onSubmit, onSkip }) {
     onSubmit(['Here are my details.', ...keys.map(k => `${line[k]}: ${(values[k] || '').trim()}`)].join('\n'));
   }
 
-  const inputClass = 'w-full rounded-xl border bg-white px-3 py-2.5 font-body text-base leading-snug text-ink placeholder:text-ink/45 focus:border-brass focus:outline-none';
+  const inputClass = 'w-full rounded-xl border bg-white px-3 py-2.5 font-body text-base leading-snug text-ink placeholder:text-ink/70 focus:border-brass focus:outline-none';
 
   return (
     <form onSubmit={submit} noValidate className="rounded-2xl border border-ink/10 bg-white p-3.5 shadow-sm">
@@ -142,7 +142,7 @@ function ContactForm({ fields, onSubmit, onSkip }) {
           };
           return (
             <div key={k}>
-              <label htmlFor={`cf-${k}`} className="mb-1 block font-mono text-[10px] uppercase tracking-[0.15em] text-ink/70">{f.label}</label>
+              <label htmlFor={`cf-${k}`} className="mb-1 block font-body text-sm font-semibold text-ink">{f.label}</label>
               {f.type === 'textarea' ? (
                 <textarea {...common} rows={3} className={`${common.className} resize-none`} />
               ) : (
@@ -153,10 +153,10 @@ function ContactForm({ fields, onSubmit, onSkip }) {
           );
         })}
       </div>
-      <button type="submit" className="mt-3.5 w-full rounded-full bg-brass px-4 py-3 font-mono text-xs uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink">
+      <button type="submit" className="mt-3.5 w-full rounded-full bg-brass px-4 py-3 font-mono text-xs uppercase tracking-[0.1em] text-ink transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink">
         Send details
       </button>
-      <button type="button" onClick={onSkip} className="mt-2 block w-full py-1 text-center font-body text-xs text-ink/60 underline underline-offset-2 hover:text-ink">
+      <button type="button" onClick={onSkip} className="mt-2 block w-full py-1 text-center font-body text-xs text-ink/75 underline underline-offset-2 hover:text-ink">
         I would rather type it
       </button>
     </form>
@@ -422,7 +422,7 @@ export default function ChatWidget() {
                 type="button"
                 onClick={dismissTeaser}
                 aria-label="Dismiss"
-                className="absolute right-1.5 top-1.5 p-1 text-ink/50 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-brass"
+                className="absolute right-1.5 top-1.5 p-1 text-ink/75 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-brass"
               >
                 <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <path d="M6 6l12 12M18 6L6 18" />
@@ -461,7 +461,7 @@ export default function ChatWidget() {
               <span aria-hidden="true" className={`flex items-center justify-center rounded-full bg-ink font-display font-extrabold leading-none text-paper ${keyboardUp ? 'h-7 w-7 text-sm' : 'h-9 w-9 text-lg'}`}>M</span>
               <div>
                 <div className="font-display text-base font-extrabold uppercase leading-tight tracking-tight">Magic</div>
-                {!keyboardUp && <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink/75">McLoud Construction</div>}
+                {!keyboardUp && <div className="font-mono text-xs uppercase tracking-[0.1em] text-ink">McLoud Construction</div>}
               </div>
             </div>
             <button type="button" onClick={close} aria-label="Close chat" className="-mr-1 rounded-full p-1.5 text-ink/75 hover:bg-ink/10 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-ink">

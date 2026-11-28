@@ -47,11 +47,11 @@ export default function FinancingPage() {
           href={ACORN_APPLY_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block bg-brass px-10 py-5 font-mono text-sm uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90"
+          className="inline-block bg-brass px-10 py-5 font-mono text-sm uppercase tracking-[0.1em] text-ink transition-opacity hover:opacity-90"
         >
           Check Your Rate
         </a>
-        <p className="mt-4 font-mono text-xs uppercase tracking-[0.15em] text-ink/50">
+        <p className="mt-4 font-mono text-xs uppercase tracking-[0.1em] text-ink/75">
           Takes about 60 seconds · No impact to your credit score
         </p>
       </section>
@@ -70,7 +70,7 @@ export default function FinancingPage() {
 
       <section className="bg-blueprint text-paper">
         <div className="mx-auto max-w-4xl px-6 py-16 text-center">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">How It Works</div>
+          <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">How It Works</div>
           <h2 className="mt-3 font-display text-2xl font-extrabold uppercase tracking-tight md:text-3xl">
             Three Steps to Get Funded
           </h2>
@@ -87,7 +87,7 @@ export default function FinancingPage() {
       </section>
 
       <section className="mx-auto max-w-3xl px-6 py-12 text-center">
-        <p className="font-body text-xs leading-relaxed text-ink/50">
+        <p className="font-body text-xs leading-relaxed text-ink/75">
           McLoud Construction is not a lender and does not make credit decisions. Financing options are offered
           through Acorn Finance&rsquo;s network of third-party lenders. Checking your rate uses a soft credit
           inquiry and will not affect your credit score; a hard inquiry may occur later if you accept a loan

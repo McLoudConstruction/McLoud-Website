@@ -11,9 +11,11 @@
 // version in the homepage hero (components/HomeHero.js) uses TAGLINE_COLORS to
 // follow the same rule. Plain-text copies that cannot carry a line break or
 // color (structured data, image alt text, llms.txt) keep the words only.
+// Exact brand tan, not the adjusted text-brass: the tagline is always set large
+// enough to read in it.
 export const TAGLINE_COLORS = {
-  dark: { first: 'text-paper', second: 'text-brass' },
-  light: { first: 'text-brass', second: 'text-ink' },
+  dark: { first: 'text-paper', second: 'text-[#9B773D]' },
+  light: { first: 'text-[#9B773D]', second: 'text-ink' },
 };
 
 export default function Tagline({ tone = 'dark', as: Tag = 'p', className = '' }) {

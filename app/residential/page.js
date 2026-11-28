@@ -100,7 +100,7 @@ export default function ResidentialPage() {
       />
 
       <section className="mx-auto max-w-6xl px-6 py-20">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Kitchens, Baths, Basements &amp; Whole-Home</div>
+        <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">Kitchens, Baths, Basements &amp; Whole-Home</div>
         <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
           Remodels You&rsquo;ll Use Every Day
         </h2>
@@ -133,14 +133,14 @@ export default function ResidentialPage() {
                   {service.page && (
                     <Link
                       href={service.page}
-                      className="font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
+                      className="font-mono text-xs uppercase tracking-[0.1em] text-brass hover:underline"
                     >
                       {service.linkLabel} →
                     </Link>
                   )}
                   <Link
                     href={estimateHref(service.id)}
-                    className="font-mono text-xs uppercase tracking-[0.15em] text-brass hover:underline"
+                    className="font-mono text-xs uppercase tracking-[0.1em] text-brass hover:underline"
                   >
                     Request a Free Estimate →
                   </Link>
@@ -153,7 +153,7 @@ export default function ResidentialPage() {
 
       <section className="bg-paper">
         <div className="mx-auto max-w-6xl border-t border-ink/10 px-6 py-20">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Easier to Use for Years to Come</div>
+          <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">Easier to Use for Years to Come</div>
           <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
             Accessibility &amp; Aging-in-Place
           </h2>
@@ -182,7 +182,7 @@ export default function ResidentialPage() {
       </section>
 
       <section className="mx-auto max-w-3xl px-6 py-20" id="faq">
-        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Homeowner Remodeling Questions</h2>
+        <h2 className="font-mono text-xs uppercase tracking-[0.12em] text-brass">Homeowner Remodeling Questions</h2>
         <div className="tick-rule mt-3 mb-8" />
         <FaqList items={FAQS} />
         <p className="mt-8 font-body text-sm text-ink/70">
@@ -198,7 +198,7 @@ export default function ResidentialPage() {
 
       <section className="bg-blueprint text-paper">
         <div className="mx-auto max-w-5xl px-6 py-20 text-center">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">One Process, Every Time</div>
+          <div className="font-mono text-xs uppercase tracking-[0.12em] text-brass">One Process, Every Time</div>
           <h2 className="mt-3 font-display text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
             Six Steps, Start to Finish
           </h2>
