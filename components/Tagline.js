@@ -7,9 +7,9 @@
 //      On dark backgrounds:  "Built Right." paper #EDE7DA (white),  "Told Straight." brass #9B773D (tan)
 //      On light backgrounds: "Built Right." brass #9B773D (tan),    "Told Straight." ink #1C1B19 (black)
 //
-// Use this component anywhere the tagline appears on the page. The SVG version
-// in the homepage hero drawing (app/page.js, ElevationDrawing) follows the same
-// rule with the same hexes. Plain-text copies that cannot carry a line break or
+// Use this component anywhere the tagline appears on the page. The animated
+// version in the homepage hero (components/HomeHero.js) uses TAGLINE_COLORS to
+// follow the same rule. Plain-text copies that cannot carry a line break or
 // color (structured data, image alt text, llms.txt) keep the words only.
 export const TAGLINE_COLORS = {
   dark: { first: 'text-paper', second: 'text-brass' },

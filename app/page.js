@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import FinancingBanner from '@/components/FinancingBanner';
+import HomeHero from '@/components/HomeHero';
 import Tagline from '@/components/Tagline';
 import { CREDENTIALS, SERVICE_AREAS } from '@/lib/siteConfig';
 import { ACCESSIBILITY_SERVICES } from '@/lib/residentialServices';
@@ -71,48 +72,12 @@ const WHY = [
 export default function Home() {
   return (
     <>
-      {/* HERO: the H1 is the main keyword; the subhead names the services and
-          carries the brand line. */}
-      <section className="relative overflow-hidden bg-ink text-paper">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-20 md:grid-cols-2 md:py-28 lg:grid-cols-[1.15fr_0.85fr]">
-          <div>
-            <div className="field-stamp text-brass">Kansas City Metro · MO &amp; KS</div>
-            <h1 className="mt-6 font-display text-[3rem] font-extrabold uppercase leading-[0.95] tracking-tight md:text-[4rem]">
-              Kansas City Remodeling Contractor
-            </h1>
-            <p className="mt-6 max-w-lg font-body text-lg leading-relaxed text-paper/85 md:text-xl">
-              Kitchens, bathrooms, basements and accessibility remodels for homes across the KC metro.
-            </p>
-            <Tagline
-              tone="dark"
-              className="mt-4 font-display text-2xl font-bold uppercase leading-tight tracking-tight md:text-3xl"
-            />
-            <div className="mt-9 flex flex-wrap gap-3">
-              <Link
-                href="/consultation?vertical=residential"
-                className="bg-brass px-6 py-3.5 text-center font-mono text-xs uppercase tracking-[0.15em] text-ink transition-opacity hover:opacity-90"
-              >
-                Request a Free Estimate
-              </Link>
-              <a
-                href="#homeowners"
-                className="border border-paper/30 px-6 py-3.5 text-center font-mono text-xs uppercase tracking-[0.15em] text-paper transition-colors hover:border-brass hover:text-brass"
-              >
-                See Our Services
-              </a>
-            </div>
-            <p className="mt-6 font-body text-sm text-paper/70">
-              Property manager?{' '}
-              <Link href="/commercial" className="text-brass underline hover:text-paper">
-                Unit renovations, interior remodels, and accessible units
-              </Link>
-            </p>
-          </div>
+      {/* HERO: the H1 is the main keyword. First visits and search engines get
+          "Remodeling Contractor"; later loads rotate (lib/heroScenes.js). */}
+      <HomeHero />
 
-          <ElevationDrawing />
-        </div>
-      </section>
-
+      {/* Everything below slides up over the hero */}
+      <div className="hh-sheet">
       {/* Trust stamps */}
       <section className="border-b border-ink/10 bg-paper">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-4 px-6 py-8 md:justify-between">
@@ -128,7 +93,7 @@ export default function Home() {
 
       {/* Accessibility: its own section right under the hero, linking to both
           accessibility pages (homes and rental units). */}
-      <section id="accessibility" className="scroll-mt-24 bg-blueprint text-paper">
+      <section id="accessibility" className="hh-layer scroll-mt-24 bg-blueprint text-paper">
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="font-mono text-xs uppercase tracking-[0.2em] text-brass">Accessibility &amp; Aging-in-Place</div>
           <h2 className="mt-3 font-display text-4xl font-extrabold uppercase tracking-tight md:text-5xl">
@@ -140,7 +105,7 @@ export default function Home() {
           </p>
           <div className="mt-12 grid gap-10 md:grid-cols-3">
             {ACCESSIBILITY_SERVICES.map(service => (
-              <div key={service.slug} className="border-l-2 border-brass pl-5">
+              <div key={service.slug} data-reveal className="border-l-2 border-brass pl-5">
                 <h3 className="font-display text-2xl font-bold uppercase tracking-tight">
                   <Link href={`/residential/${service.slug}`} className="hover:text-brass">
                     {service.name}
@@ -359,6 +324,7 @@ export default function Home() {
           </p>
         </div>
       </section>
+      </div>
     </>
   );
 }
@@ -374,53 +340,4 @@ const PROCESS = [
 
 function TrustStamp({ children }) {
   return <div className="field-stamp text-ink/70">{children}</div>;
-}
-
-// Original elevation-style line drawing, the hero's signature visual,
-// standing in for photography we don't have and won't fake. The three labels
-// sit below the ground line (not on the drawing) so they stay readable, and
-// each speaks to one kind of customer: the left door to accessibility, the
-// right door to property managers, and the full-width dimension to homeowners.
-// The top label follows the tagline rule in components/Tagline.js (dark
-// background: "Built Right." paper #EDE7DA, "Told Straight." brass #9B773D).
-const LABEL = { fontFamily: 'IBM Plex Mono', fontSize: 13, letterSpacing: 1, textAnchor: 'middle' };
-
-function ElevationDrawing() {
-  return (
-    <svg viewBox="0 0 460 350" className="w-full text-paper/90" aria-hidden="true">
-      <g fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M40 260 L40 140 L230 40 L420 140 L420 260" />
-        <path d="M40 260 L420 260" />
-        <path d="M90 260 L90 170 L150 170 L150 260" />
-        <path d="M300 260 L300 150 L370 150 L370 260" />
-        <path d="M230 40 L230 260" strokeDasharray="3 4" opacity="0.4" />
-      </g>
-      <g stroke="#9B773D" strokeWidth="1">
-        {/* Leaders from each door down to its label */}
-        <line x1="120" y1="264" x2="120" y2="276" />
-        <line x1="335" y1="264" x2="335" y2="276" />
-        {/* Dimension line, broken in the middle for its label */}
-        <line x1="40" y1="322" x2="114" y2="322" />
-        <line x1="346" y1="322" x2="420" y2="322" />
-        <line x1="40" y1="316" x2="40" y2="328" />
-        <line x1="420" y1="316" x2="420" y2="328" />
-        <line x1="40" y1="140" x2="20" y2="140" strokeDasharray="2 3" opacity="0.5" />
-        <line x1="40" y1="40" x2="10" y2="40" />
-        <line x1="10" y1="34" x2="10" y2="46" />
-      </g>
-      <text x="120" y="293" fill="#EDE7DA" {...LABEL}>
-        AGING IN PLACE
-      </text>
-      <text x="335" y="293" fill="#EDE7DA" {...LABEL}>
-        UNIT RENOVATIONS
-      </text>
-      <text x="230" y="326" fill="#9B773D" {...LABEL}>
-        KITCHEN · BATH · BASEMENT
-      </text>
-      <text x="230" y="0" fontFamily="IBM Plex Mono" fontSize="12" letterSpacing="1" textAnchor="middle">
-        <tspan x="230" dy="15" fill="#EDE7DA">BUILT RIGHT.</tspan>
-        <tspan x="230" dy="15" fill="#9B773D">TOLD STRAIGHT.</tspan>
-      </text>
-    </svg>
-  );
 }

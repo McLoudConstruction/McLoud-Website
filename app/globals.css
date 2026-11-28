@@ -278,3 +278,134 @@ html[data-menu-open] .chat-launcher { display: none; }
 /* Phones: while the full screen chat is open, hide the page behind it so nothing dark shows
    around the keyboard's toolbar. The body color is already the chat's cream. */
 html[data-chat-open] body > *:not(.chat-root) { visibility: hidden; }
+
+/* ------------------------------------------------------------------
+   Home page hero (components/HomeHero.js)
+   ------------------------------------------------------------------ */
+.hh-track {
+  --hh-header: 72px;
+  --hh-h: calc(100vh - var(--hh-header));
+  position: relative;
+  height: calc(var(--hh-h) * 2.6);
+}
+@supports (height: 100svh) {
+  .hh-track, .hh-sheet { --hh-h: calc(100svh - var(--hh-header)); }
+}
+@media (min-width: 768px) {
+  .hh-track { --hh-header: 80px; }
+}
+.hh-stage {
+  position: sticky;
+  top: var(--hh-header);
+  height: var(--hh-h);
+  overflow: hidden;
+  background-image: radial-gradient(120% 70% at 50% 75%, #2b2822 0%, #1c1b19 70%);
+}
+.hh-grid {
+  position: absolute;
+  inset: -10% 0;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(rgba(237, 231, 218, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(237, 231, 218, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.hh-copy { position: absolute; left: 24px; right: 24px; top: clamp(16px, 3svh, 48px); z-index: 3; max-width: 620px; }
+.hh-title { margin-top: 12px; font-size: clamp(2.5rem, min(12vw, 6.7svh), 5.2rem); line-height: 0.92; }
+.hh-sub { margin-top: 12px; max-width: 27em; font-size: 15px; line-height: 1.5; }
+.hh-tag {
+  position: absolute; left: 24px; right: 24px; top: clamp(20px, 5svh, 80px); z-index: 3;
+  font-size: clamp(2.8rem, min(16vw, 9svh), 7rem); line-height: 0.92; pointer-events: none;
+  text-shadow: 0 2px 18px #1c1b19, 0 0 8px #1c1b19;
+}
+.hh-tag span { display: block; opacity: 0; }
+.hh-room { position: absolute; left: 0; right: 0; top: 52%; bottom: 82px; z-index: 2; transform-origin: 50% 100%; }
+.hh-room svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.hh-line {
+  fill: none; stroke: #b48c4d; stroke-width: 1.4; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; animation: hh-draw 1.3s ease-out forwards;
+}
+.hh-fill { opacity: 0; }
+@keyframes hh-draw { to { stroke-dashoffset: 0; } }
+/* Words wait until the script has chosen which headline to show. If the script
+   never runs, they appear on their own. */
+.hh-rise { opacity: 0; animation: hh-appear 0.01s 3s forwards; }
+.hh-track[data-ready='true'] .hh-rise { transform: translateY(24px); animation: hh-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+@keyframes hh-appear { to { opacity: 1; } }
+@keyframes hh-rise { to { opacity: 1; transform: none; } }
+.hh-actions {
+  position: absolute; left: 24px; right: 24px; z-index: 4; display: flex; gap: 10px;
+  bottom: calc(18px + env(safe-area-inset-bottom));
+}
+.hh-btn { display: block; padding: 17px 14px; text-align: center; font-size: 11px; line-height: 1.3; letter-spacing: 0.14em; }
+.hh-btn-main { flex: 1; max-width: 340px; }
+.hh-cue {
+  position: absolute; bottom: 66px; left: 50%; z-index: 4; width: 1px; height: 28px; opacity: 0;
+  background: linear-gradient(transparent, #ede7da); animation: hh-cue 1.6s ease-in-out 2s infinite;
+}
+@keyframes hh-cue { 0% { transform: translateY(-8px); opacity: 0; } 50% { opacity: 0.9; } 100% { transform: translateY(8px); opacity: 0; } }
+/* The rest of the home page slides up over the hero */
+.hh-sheet {
+  --hh-header: 72px;
+  --hh-h: calc(100vh - var(--hh-header));
+  position: relative; z-index: 10; margin-top: calc(var(--hh-h) * -1);
+  overflow: clip; border-radius: 28px 28px 0 0; background: #ede7da; box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.55);
+}
+@media (min-width: 768px) {
+  .hh-sheet { --hh-header: 80px; }
+}
+.hh-layer { position: relative; border-radius: 28px 28px 0 0; box-shadow: 0 -18px 40px rgba(0, 0, 0, 0.25); }
+.hh-reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.7s, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+.hh-reveal.hh-in { opacity: 1; transform: none; }
+
+@media (min-width: 900px) {
+  .hh-copy { left: 6vw; right: auto; width: 46vw; top: 11svh; }
+  .hh-title { font-size: clamp(3.4rem, min(6.2vw, 11svh), 6.5rem); }
+  .hh-sub { margin-top: 20px; font-size: 18px; }
+  .hh-tag { left: 6vw; top: 12svh; font-size: clamp(4rem, min(8vw, 14svh), 9rem); }
+  .hh-room { left: 46vw; top: 4svh; bottom: 30px; }
+  .hh-actions { left: 6vw; bottom: 8svh; }
+  .hh-btn { padding: 20px 22px; font-size: 12px; }
+  .hh-btn-main { width: 340px; }
+  .hh-cue { display: none; }
+}
+
+/* Small phones: tighter words so the drawing keeps some room */
+@media (max-height: 620px) and (max-width: 559px) {
+  .hh-copy { top: 10px; }
+  .hh-title { font-size: 2.2rem; }
+  .hh-sub { margin-top: 8px; font-size: 14px; line-height: 1.4; }
+  .hh-actions { bottom: calc(10px + env(safe-area-inset-bottom)); }
+  .hh-room { bottom: 68px; }
+  .hh-cue { display: none; }
+}
+
+/* Still version: reduced motion, or a screen too short to pin (phone held sideways) */
+@media (prefers-reduced-motion: reduce), (max-height: 500px) {
+  .hh-track { height: auto; }
+  .hh-stage { position: relative; top: 0; height: var(--hh-h); min-height: 440px; }
+  .hh-sheet { margin-top: 0; box-shadow: none; }
+  .hh-cue, .hh-tag { display: none; }
+  .hh-fill { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hh-track .hh-rise, .hh-line, .hh-reveal {
+    animation: none !important; transition: none; opacity: 1 !important; transform: none !important; stroke-dashoffset: 0;
+  }
+}
+
+/* Short and wide (phone held sideways): words and buttons left, drawing right */
+@media (max-height: 500px) and (min-width: 560px) {
+  .hh-stage { min-height: 230px; }
+  .hh-copy { left: 24px; right: auto; width: 52%; top: 10px; }
+  .hh-title { margin-top: 8px; font-size: clamp(1.8rem, 10svh, 3.2rem); }
+  .hh-sub { margin-top: 8px; font-size: 13px; line-height: 1.4; }
+  .hh-room { left: 56%; right: 12px; top: 8px !important; bottom: 12px; }
+  .hh-actions { left: 24px; right: auto; bottom: 12px; }
+  .hh-btn { padding: 12px 16px; }
+  .hh-btn-main { width: auto; }
+}
+
+/* Chat button waits until the hero's buttons are out of the way */
+.chat-launcher { transition: opacity 0.3s, visibility 0.3s; }
+html[data-hero-actions] .chat-launcher { opacity: 0; visibility: hidden; }

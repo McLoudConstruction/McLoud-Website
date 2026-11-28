@@ -245,17 +245,29 @@ export default function ChatWidget() {
     };
   }, [open, phone]);
 
+  // The home page hides the button while its hero buttons are on screen. Hold the
+  // greeting until the button is showing, so it isn't used up unseen.
+  const [held, setHeld] = useState(false);
+  useEffect(() => {
+    const root = document.documentElement;
+    const sync = () => setHeld(root.hasAttribute('data-hero-actions'));
+    sync();
+    const watch = new MutationObserver(sync);
+    watch.observe(root, { attributes: true, attributeFilter: ['data-hero-actions'] });
+    return () => watch.disconnect();
+  }, []);
+
   // A small speech bubble pops up next to the button once per visit to say hello.
   // It never shows again after it is dismissed, clicked, or the chat has been used.
   useEffect(() => {
-    if (!enabled || open) return undefined;
+    if (!enabled || open || held) return undefined;
     let seen = false;
     try { seen = window.sessionStorage.getItem(TEASER_KEY) === '1'; } catch { /* storage blocked */ }
     if (seen || messages.length > 0) return undefined;
     const show = setTimeout(() => setTeaser(true), 3500);
     const hide = setTimeout(() => setTeaser(false), 3500 + 14000);
     return () => { clearTimeout(show); clearTimeout(hide); };
-  }, [enabled, open, messages.length]);
+  }, [enabled, open, held, messages.length]);
 
   function dismissTeaser() {
     setTeaser(false);
